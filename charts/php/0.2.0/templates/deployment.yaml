@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "php.fullname" . }}
+  name: "{{ .Values.git.repoName }}-{{ .Values.git.branch }}"
   labels:
     {{- include "php.labels" . | nindent 4 }}
 spec:
