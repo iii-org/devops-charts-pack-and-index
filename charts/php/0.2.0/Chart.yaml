@@ -1,6 +1,6 @@
 apiVersion: v2
 name: php
-description: A Helm chart for Kubernetes
+description: for iii devops template use
 
 # A chart can be either an 'application' or a 'library' chart.
 #
