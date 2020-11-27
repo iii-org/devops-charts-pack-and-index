@@ -13,6 +13,15 @@ web:
   name: "web"
   image: ""
   tag: ""
+extraEnv: []
+#  - name: GIT_URL
+#    value: ${CICD_GIT_URL}
+#  - name: GIT_REPO
+#    value: ${CICD_GIT_REPO_NAME}
+#  - name: GIT_BRANCH
+#    value: ${CICD_GIT_BRANCH}
+#  - name: DB_HOST
+#    value: ${CICD_GIT_REPO_NAME}-${CICD_GIT_BRANCH}-db-service
 
 replicaCount: 1
 
