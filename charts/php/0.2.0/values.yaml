@@ -11,6 +11,8 @@ git:
 # about the service deployname
 web:
   name: "web"
+  image: ""
+  tag: ""
 
 replicaCount: 1
 
