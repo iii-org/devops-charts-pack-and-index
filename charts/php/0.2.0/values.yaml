@@ -20,7 +20,9 @@ image:
   repository: nginx
   pullPolicy: IfNotPresent
 
-imagePullSecrets: []
+imagePullSecrets:
+  - name: pipeline-docker-registry
+  - name: 63-harbor
 nameOverride: ""
 fullnameOverride: ""
 
