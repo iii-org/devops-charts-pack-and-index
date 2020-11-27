@@ -2,13 +2,35 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# iii-devops-param(necessary)
+######################################################
+# aboout git repo info
+git:
+  repoName: ""
+  branch: ""
+# about the service deployname
+web:
+  name: "web"
+  image: ""
+  tag: ""
+extraEnv: []
+#  - name: GIT_URL
+#    value: ${CICD_GIT_URL}
+#  - name: GIT_REPO
+#    value: ${CICD_GIT_REPO_NAME}
+#  - name: GIT_BRANCH
+#    value: ${CICD_GIT_BRANCH}
+#  - name: DB_HOST
+#    value: ${CICD_GIT_REPO_NAME}-${CICD_GIT_BRANCH}-db-service
+
 replicaCount: 1
 
 image:
   repository: nginx
   pullPolicy: IfNotPresent
 
-imagePullSecrets: []
+imagePullSecrets: 
+  - name: pipeline-docker-registry
 nameOverride: ""
 fullnameOverride: ""
 
@@ -33,7 +55,7 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: ClusterIP
+  type: NodePort
   port: 80
 
 ingress:
