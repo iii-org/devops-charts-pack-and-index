@@ -7,10 +7,10 @@
 > 主要用於測試在pipeline上進行直接的部屬，因為rancher在部屬上仍有嚴重的issue，需註記為v1才可編譯
 
 ## 統合計畫
-web: 整合flask、php、spring、custom
-db: 整合mysql、mariadb、monodb
-dbadmin: adminer、mongoadmin
+web: 整合flask、php、spring、custom  
+db: 整合mysql、mariadb、monodb  
+dbadmin: adminer、mongoadmin  
 
 ## 需申請測試
-ingress controler
-coredns
+ingress controler  
+coredns  
