@@ -10,3 +10,7 @@
 web: 整合flask、php、spring、custom
 db: 整合mysql、mariadb、monodb
 dbadmin: adminer、mongoadmin
+
+## 需申請測試
+ingress controler
+coredns
