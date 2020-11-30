@@ -14,3 +14,9 @@ dbadmin: adminer、mongoadmin
 ## 需申請測試
 ingress controler  
 coredns  
+
+## 資料庫統一採用bitnami
+* [mysql](https://hub.docker.com/r/bitnami/mysql/)
+* [mariadb](https://hub.docker.com/r/bitnami/mariadb)
+* [postgresql](https://hub.docker.com/r/bitnami/postgresql)
+* [mongodb](https://hub.docker.com/r/bitnami/mongodb)

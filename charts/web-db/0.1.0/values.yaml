@@ -2,6 +2,31 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# iii-devops-param(necessary)
+######################################################
+# aboout git repo info
+git:
+  repoName: ""
+  branch: ""
+# about the service deployname
+web:
+  name: "web"
+  image: ""
+  tag: ""
+db:
+  name: "db"
+  image: ""
+  tag: ""
+extraEnv: []
+#  - name: GIT_URL
+#    value: ${CICD_GIT_URL}
+#  - name: GIT_REPO
+#    value: ${CICD_GIT_REPO_NAME}
+#  - name: GIT_BRANCH
+#    value: ${CICD_GIT_BRANCH}
+#  - name: DB_HOST
+#    value: ${CICD_GIT_REPO_NAME}-${CICD_GIT_BRANCH}-db-service
+
 replicaCount: 1
 
 image:
@@ -32,9 +57,18 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
+# iii-devops-param(internal)
+# 資料庫型態dbType
+# 按照資料庫型態自動判斷Port的使用
+# 並將root與密碼輸入到系統內(資料庫鏡像主要採用bitnami)
+######################################################
 service:
-  type: ClusterIP
+  type: NodePort
   port: 80
+  db:
+    enabled: false
+    type: "mysql"
+    rootpassword: "password"
 
 ingress:
   enabled: false
