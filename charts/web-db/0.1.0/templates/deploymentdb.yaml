@@ -39,7 +39,7 @@ spec:
               containerPort: 5432
             {{- else if eq .Values.service.db.type "mongodb" -}}
               containerPort: 27017
-            {{- end}}
+            {{- end }}
               protocol: TCP
           env:
         {{- if eq .Values.service.db.type "mysql" -}}
@@ -56,7 +56,7 @@ spec:
         {{- else if eq .Values.service.db.type "mongodb" -}}
           - name: MONGODB_ROOT_PASSWORD
             value: {{ .Values.service.db.rootpassword }}
-        {{- end}}
+        {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
