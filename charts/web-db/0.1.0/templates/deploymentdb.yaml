@@ -31,32 +31,32 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: db
-            {{ if eq .Values.service.db.type "mysql" }}
+            {{- if eq .Values.service.db.type "mysql" }}
               containerPort: 3306
-            #{{- else if eq .Values.service.db.type "mariadb" }}
-            #  containerPort: 3306
-            #{{- else if eq .Values.service.db.type "postgresql" }}
-            #  containerPort: 5432
-            #{{- else if eq .Values.service.db.type "mongodb" }}
-            #  containerPort: 27017
-            {{ end }}
+            {{- else if eq .Values.service.db.type "mariadb" }}
+              containerPort: 3306
+            {{- else if eq .Values.service.db.type "postgresql" }}
+              containerPort: 5432
+            {{- else if eq .Values.service.db.type "mongodb" }}
+              containerPort: 27017
+            {{- end }}
               protocol: TCP
-        #  env:
-        #{{- if eq .Values.service.db.type "mysql" -}}
-        #  - name: MYSQL_ROOT_PASSWORD
-        #    value: {{ .Values.service.db.rootpassword }}
-        #{{- else if eq .Values.service.db.type "mariadb" -}}
-        #  - name: MARIADB_ROOT_PASSWORD
-        #    value: {{ .Values.service.db.rootpassword }}
-        #{{- else if eq .Values.service.db.type "postgresql" -}}
-        #  - name: POSTGRESQL_USERNAME
-        #    value: root
-        #  - name: POSTGRESQL_PASSWORD
-        #    value: {{ .Values.service.db.rootpassword }}
-        #{{- else if eq .Values.service.db.type "mongodb" -}}
-        #  - name: MONGODB_ROOT_PASSWORD
-        #    value: {{ .Values.service.db.rootpassword }}
-        #{{- end }}
+          env:
+        {{- if eq .Values.service.db.type "mysql" }}
+          - name: MYSQL_ROOT_PASSWORD
+            value: {{ .Values.service.db.rootpassword }}
+        {{- else if eq .Values.service.db.type "mariadb" }}
+          - name: MARIADB_ROOT_PASSWORD
+            value: {{ .Values.service.db.rootpassword }}
+        {{- else if eq .Values.service.db.type "postgresql" }}
+          - name: POSTGRESQL_USERNAME
+            value: root
+          - name: POSTGRESQL_PASSWORD
+            value: {{ .Values.service.db.rootpassword }}
+        {{- else if eq .Values.service.db.type "mongodb" }}
+          - name: MONGODB_ROOT_PASSWORD
+            value: {{ .Values.service.db.rootpassword }}
+        {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
