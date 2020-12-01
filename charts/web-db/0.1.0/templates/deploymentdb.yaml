@@ -1,5 +1,5 @@
 # 部屬資料庫(如果使用者有說明需要的話)
-{{- if .Values.service.db.enabled -}}
+{{ if .Values.service.db.enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
