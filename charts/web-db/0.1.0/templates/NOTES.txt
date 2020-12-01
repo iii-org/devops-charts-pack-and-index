@@ -1,4 +1,10 @@
-1. Get the application URL by running these commands:
+Welcome to use iii devops deploy app
+1. Here is the info about your git repo
+git: http://10.50.1.53/root/{{- .Values.git.repoName }}.git
+image name for your web application: "{{ .Values.web.image }}:{{ .Values.web.tag }}"
+image name for your database: "{{ .Values.db.image }}:{{ .Values.db.tag }}" 
+
+2. Get the application URL by running these commands:
 {{- if .Values.ingress.enabled }}
 {{- range $host := .Values.ingress.hosts }}
   {{- range .paths }}
@@ -18,4 +24,8 @@
   export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "web-db.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
   echo "Visit http://127.0.0.1:8080 to use your application"
   kubectl --namespace {{ .Release.Namespace }} port-forward $POD_NAME 8080:80
+{{- end }}
+
+{{- if eq .Values.service.db.enabled "true" }}
+3. your database connection info
 {{- end }}
