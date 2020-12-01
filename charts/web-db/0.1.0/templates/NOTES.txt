@@ -28,4 +28,8 @@ image name for your database: "{{ .Values.db.image }}:{{ .Values.db.tag }}"
 
 {{- if eq .Values.service.db.enabled "true" }}
 3. your database connection info
+database.type: {{ .Values.service.db.type }}
+database user: root
+database password: {{ .Values.service.db.rootpassword }}
+
 {{- end }}
