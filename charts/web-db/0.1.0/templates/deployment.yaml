@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "web-db.fullname" . }}
+  name: "{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.web.name }}"
   labels:
     {{- include "web-db.labels" . | nindent 4 }}
 spec:
@@ -22,10 +22,10 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ .Values.web.name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          image: "{{ .Values.web.image }}:{{ .Values.web.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
