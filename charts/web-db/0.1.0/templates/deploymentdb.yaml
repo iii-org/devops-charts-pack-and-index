@@ -33,12 +33,12 @@ spec:
             - name: db
             {{- if eq .Values.service.db.type "mysql" }}
               containerPort: 3306
-            {{- else if eq .Values.service.db.type "mariadb" }}
-              containerPort: 3306
-            {{- else if eq .Values.service.db.type "postgresql" }}
-              containerPort: 5432
-            {{- else if eq .Values.service.db.type "mongodb" }}
-              containerPort: 27017
+            #{{- else if eq .Values.service.db.type "mariadb" }}
+            #  containerPort: 3306
+            #{{- else if eq .Values.service.db.type "postgresql" }}
+            #  containerPort: 5432
+            #{{- else if eq .Values.service.db.type "mongodb" }}
+            #  containerPort: 27017
             {{- end }}
               protocol: TCP
           env:
