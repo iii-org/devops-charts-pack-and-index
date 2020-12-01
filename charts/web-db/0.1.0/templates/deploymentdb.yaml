@@ -41,22 +41,22 @@ spec:
             #  containerPort: 27017
             {{ end }}
               protocol: TCP
-          env:
-        {{- if eq .Values.service.db.type "mysql" -}}
-          - name: MYSQL_ROOT_PASSWORD
-            value: {{ .Values.service.db.rootpassword }}
-        {{- else if eq .Values.service.db.type "mariadb" -}}
-          - name: MARIADB_ROOT_PASSWORD
-            value: {{ .Values.service.db.rootpassword }}
-        {{- else if eq .Values.service.db.type "postgresql" -}}
-          - name: POSTGRESQL_USERNAME
-            value: root
-          - name: POSTGRESQL_PASSWORD
-            value: {{ .Values.service.db.rootpassword }}
-        {{- else if eq .Values.service.db.type "mongodb" -}}
-          - name: MONGODB_ROOT_PASSWORD
-            value: {{ .Values.service.db.rootpassword }}
-        {{- end }}
+        #  env:
+        #{{- if eq .Values.service.db.type "mysql" -}}
+        #  - name: MYSQL_ROOT_PASSWORD
+        #    value: {{ .Values.service.db.rootpassword }}
+        #{{- else if eq .Values.service.db.type "mariadb" -}}
+        #  - name: MARIADB_ROOT_PASSWORD
+        #    value: {{ .Values.service.db.rootpassword }}
+        #{{- else if eq .Values.service.db.type "postgresql" -}}
+        #  - name: POSTGRESQL_USERNAME
+        #    value: root
+        #  - name: POSTGRESQL_PASSWORD
+        #    value: {{ .Values.service.db.rootpassword }}
+        #{{- else if eq .Values.service.db.type "mongodb" -}}
+        #  - name: MONGODB_ROOT_PASSWORD
+        #    value: {{ .Values.service.db.rootpassword }}
+        #{{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
