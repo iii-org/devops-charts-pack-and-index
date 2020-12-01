@@ -31,15 +31,15 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: db
-            {{ if eq .Values.service.db.type "mysql" }}
+            {{- if eq .Values.service.db.type "mysql" }}
               containerPort: 3306
-            {{ else if eq .Values.service.db.type "mariadb" }}
+            {{- else if eq .Values.service.db.type "mariadb" }}
               containerPort: 3306
-            {{ else if eq .Values.service.db.type "postgresql" }}
+            {{- else if eq .Values.service.db.type "postgresql" }}
               containerPort: 5432
-            {{ else if eq .Values.service.db.type "mongodb" }}
+            {{- else if eq .Values.service.db.type "mongodb" }}
               containerPort: 27017
-            {{ end }}
+            {{- end }}
               protocol: TCP
           env:
         {{- if eq .Values.service.db.type "mysql" -}}
