@@ -1,6 +1,5 @@
 # 部屬資料庫管理網頁(如果使用者有說明需要的話)
-{{ if eq .Values.service.db.enabled "true" -}}
-{{ if eq .Values.service.db.gui "true" -}}
+{{ if eq .Values.service.db.enabled "true" and eq .Values.service.db.gui "true" -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -78,5 +77,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-{{- end }}
 {{- end }}
