@@ -68,8 +68,8 @@ service:
   web:
     type: "php"
   db:
-    enabled: "true"
-    gui: "true"
+    enabled: "false"
+    gui: "false"
     type: "mysql"
     rootpassword: "password"
 
