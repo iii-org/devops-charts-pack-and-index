@@ -12,5 +12,6 @@ db:
 service: 
   db: 
     enabled: "true"
+    gui: "true"
     type: "mysql"
     rootpassword: "bearflask"
