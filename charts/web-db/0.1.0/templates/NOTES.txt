@@ -1,4 +1,7 @@
 Welcome to use iii devops deploy app
+
+{{ eq .Values.service.db.gui "true" }}
+
 1. Here is the info about your git repo
 git: http://10.50.1.53/root/{{- .Values.git.repoName }}.git
 image name for your web application: "{{ .Values.web.image }}:{{ .Values.web.tag }}"

@@ -1,5 +1,5 @@
-{{ if and (eq .Values.service.db.enabled "true") (eq .Values.service.db.gui "true") -}}
 # 部屬資料庫管理網頁(如果使用者有說明需要的話)
+{{ if and (eq .Values.service.db.enabled "true") (eq .Values.service.db.gui "true") -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:

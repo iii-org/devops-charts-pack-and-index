@@ -7,11 +7,11 @@ web:
   image: "127.0.0.1:34957/flask-app-pipeline-template-web"
   tag: "latest"
 db: 
-  image: "127.0.0.1:34957/flask-app-pipeline-template-db:latest"
+  image: "127.0.0.1:34957/flask-app-pipeline-template-db"
   tag: "latest"
 service: 
   db: 
-    enabled: "false"
+    enabled: "true"
     gui: "false"
     type: "mysql"
     rootpassword: "bearflask"
