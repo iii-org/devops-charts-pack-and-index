@@ -12,10 +12,12 @@
 ## 目前已完成整合(模擬通過)
 * `service.db.enabled`: 選擇您是否希望部屬資料庫，可選型態`true`、`false`
 * `service.db.type`: 選擇您的希望部屬的後端伺服器服務，可選型態`mysql`、`mariadb`、`postgresql`、`mongodb`
-* 
+* ``
 
 ## 處理中的整合方案(模擬通過)
-* `service.db.gui`: 是否要額外啟動資料庫網頁管理介面
+* `service.db.gui`: (service.db.enabled為true的前提下)是否要額外啟動資料庫網頁管理介面，可選型態`true`、`false`
+* `service.web.type`: 選擇希望部屬的前端伺服器服務，可選型態`php`、`flask`、`uwsgi-nginx-flask`、`spring`
+* `在前端與後端可自由定義對外port`: 
 
 ## 統合計畫
 web: 整合flask、php、spring、custom  

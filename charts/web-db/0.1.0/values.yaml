@@ -65,6 +65,8 @@ securityContext: {}
 service:
   type: NodePort
   port: 80
+  web:
+    type: "php"
   db:
     enabled: "true"
     gui: "true"
