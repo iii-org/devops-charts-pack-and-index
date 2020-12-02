@@ -6,16 +6,15 @@
 * `0.2.0`: 測試版本
 > 主要用於測試在pipeline上進行直接的部屬，因為rancher在部屬上仍有嚴重的issue，需註記為v1才可編譯
 
-## 基礎設定
-* 
+## 基礎固定設定
+* 資源限制管理
 
 ## 目前已完成整合(模擬通過)
 * `service.db.enabled`: 選擇您是否希望部屬資料庫，可選型態`true`、`false`
 * `service.db.type`: 選擇您的希望部屬的後端伺服器服務，可選型態`mysql`、`mariadb`、`postgresql`、`mongodb`
-* ``
-
-## 處理中的整合方案(模擬通過)
 * `service.db.gui`: (service.db.enabled為true的前提下)是否要額外啟動資料庫網頁管理介面，可選型態`true`、`false`
+
+## 處理中的整合方案(模擬測試)
 * `service.web.type`: 選擇希望部屬的前端伺服器服務，可選型態`php`、`flask`、`uwsgi-nginx-flask`、`spring`
 * `service.web.port`: 在前端與後端可自由定義對外port，新增`custom`型態
 * `image.registry`: 使用者簡易說明鏡像的儲存位置，可選型態`harbor-63`、`pipeline`
