@@ -31,9 +31,9 @@ spec:
         # 按照使用者要求的資料庫去配置對應的網頁管理鏡像，基本上除了mongodb獨特，其他都可以用adminer
         {{- if eq .Values.service.db.type "mongodb" }}
           image: "mongo-express"
-        {{- else -}}
+        {{- else }}
           image: "adminer"
-        {{- end -}}
+        {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: dbgui
