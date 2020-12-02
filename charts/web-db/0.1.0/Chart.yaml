@@ -1,6 +1,6 @@
 apiVersion: v2
 name: web-db
-description: A Helm chart for Kubernetes
+description: iii-devops fast deploy system
 
 # A chart can be either an 'application' or a 'library' chart.
 #

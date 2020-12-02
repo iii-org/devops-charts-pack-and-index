@@ -1,15 +1,26 @@
 ###
 
 ## 版本說明
-* `0.1.0`: 初始版本
+* `0.1.0`: 初始版本(非web-db)
 > 主要用於測試在Rancher圖形介面上直接的部屬
 * `0.2.0`: 測試版本
 > 主要用於測試在pipeline上進行直接的部屬，因為rancher在部屬上仍有嚴重的issue，需註記為v1才可編譯
 
+## 基礎設定
+* 
+
+## 目前已完成整合(模擬通過)
+* `service.db.enabled`: 選擇您是否希望部屬資料庫，可選型態`true`、`false`
+* `service.db.type`: 選擇您的希望部屬的後端伺服器服務，可選型態`mysql`、`mariadb`、`postgresql`、`mongodb`
+* 
+
+## 處理中的整合方案(模擬通過)
+* `service.db.gui`: 是否要額外啟動資料庫網頁管理介面
+
 ## 統合計畫
 web: 整合flask、php、spring、custom  
 db: 整合mysql、mariadb、monodb  
-dbadmin: adminer、mongoadmin  
+dbadmin: adminer、mongoadmin
 
 ## 需申請測試
 ingress controler  
