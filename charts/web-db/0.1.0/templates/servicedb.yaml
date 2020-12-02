@@ -1,0 +1,27 @@
+# 資料庫的服務Service(如果使用者有說明需要資料庫的話)
+{{ if eq .Values.service.db.enabled "true" -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.db.name }}-svc"
+  labels:
+    {{- include "web-db.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+  # 判斷使用者要求使用甚麼資料庫，並以此決定要讓哪一個PORT透過Service對外
+  {{- if eq .Values.service.db.type "mysql" }}
+    - port: 3306
+  {{- else if eq .Values.service.db.type "mariadb" }}
+    - port: 3306
+  {{- else if eq .Values.service.db.type "postgresql" }}
+    - port: 5432
+  {{- else if eq .Values.service.db.type "mongodb" }}
+    - port: 27017
+  {{- end }}
+      targetPort: db
+      protocol: TCP
+      name: db
+  selector:
+    {{- include "web-db.selectorLabels" . | nindent 4 }}
+{{- end }}
