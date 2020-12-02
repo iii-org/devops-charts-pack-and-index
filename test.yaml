@@ -11,7 +11,7 @@ db:
   tag: "latest"
 service: 
   db: 
-    enabled: "true"
-    gui: "true"
+    enabled: "false"
+    gui: "false"
     type: "mysql"
     rootpassword: "bearflask"
