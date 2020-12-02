@@ -17,7 +17,8 @@
 ## 處理中的整合方案(模擬通過)
 * `service.db.gui`: (service.db.enabled為true的前提下)是否要額外啟動資料庫網頁管理介面，可選型態`true`、`false`
 * `service.web.type`: 選擇希望部屬的前端伺服器服務，可選型態`php`、`flask`、`uwsgi-nginx-flask`、`spring`
-* `在前端與後端可自由定義對外port`: 新增`custom`型態
+* `service.web.port`: 在前端與後端可自由定義對外port，新增`custom`型態
+* `image.registry`: 使用者簡易說明鏡像的儲存位置，可選型態`harbor-63`、`pipeline`
 
 ## 統合計畫
 web: 整合flask、php、spring、custom  
@@ -33,5 +34,5 @@ coredns
 * [mariadb](https://hub.docker.com/r/bitnami/mariadb)
 * [postgresql](https://hub.docker.com/r/bitnami/postgresql)
 * [mongodb](https://hub.docker.com/r/bitnami/mongodb)
-* []()
+* [adminer](https://hub.docker.com/_/adminer)
 * [mongo-express](https://hub.docker.com/_/mongo-express)
