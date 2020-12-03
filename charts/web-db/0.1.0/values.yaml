@@ -12,11 +12,11 @@ git:
 web:
   name: "web"
   image: ""
-  tag: ""
+  tag: "latest"
 db:
   name: "db"
   image: ""
-  tag: ""
+  tag: "latest"
 extraEnv: []
 #  - name: GIT_URL
 #    value: ${CICD_GIT_URL}
