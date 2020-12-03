@@ -25,6 +25,8 @@
 * 精簡化冗餘參數: 例如RELEASE NAME與GIT整合
 * 說明資料庫連線的帳號與密碼(HOST尚須處理)
 * `mysql`與`mariadb`使用者若選擇要後端網頁管理時可以選擇要哪一種網頁管理介面是xampp或wampp的`phpmyadmin`或是`adminer`
+* `判斷db enable image是否為空`->用bitnami
+* ``
 
 ## 注意
 * 方案選擇處理: 目前設計為使用者僅可使用最多一個資料庫，例如使用者要開發智慧物聯網服務，可能會需要非關聯的mongodb儲存原始感測器數據+mariadb儲存關聯性資料。
