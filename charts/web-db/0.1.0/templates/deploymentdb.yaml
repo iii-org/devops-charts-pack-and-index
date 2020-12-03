@@ -3,7 +3,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.db.name }}"
+  name: "{{ .Release.Name }}-{{ .Values.db.name }}"
   labels:
     {{- include "web-db.labels" . | nindent 4 }}
 spec:

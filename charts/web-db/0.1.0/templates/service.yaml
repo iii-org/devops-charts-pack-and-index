@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: "{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.web.name }}-svc"
+  name: "{{ .Release.Name }}-{{ .Values.web.name }}-svc"
   labels:
     {{- include "web-db.labels" . | nindent 4 }}
 spec:
