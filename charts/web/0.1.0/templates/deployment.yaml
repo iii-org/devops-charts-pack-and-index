@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.web.name }}"
+  name: "{{ .Release.Name }}-{{ .Values.web.type }}"
   labels:
     {{- include "web.labels" . | nindent 4 }}
 spec:
@@ -22,7 +22,7 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ .Values.web.type }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.web.image }}:{{ .Values.web.tag }}"
