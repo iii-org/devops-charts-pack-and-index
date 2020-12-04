@@ -10,9 +10,11 @@ git:
   branch: ""
 # About the service deployname
 # web可選型態
-# "php"、"flask"、"uwsgi-nginx-flask"、"spring"、"custom"
+# "php"、"flask"、"uwsgi-flask"、"spring"、"custom"
+# web.port 僅 custom時候使用
 web:
   type: "php"
+  port: 80
   image: ""
   tag: "latest"
 extraEnv: []
@@ -33,6 +35,7 @@ image:
 
 imagePullSecrets: 
   - name: pipeline-docker-registry
+  - name: harbor-63
 nameOverride: ""
 fullnameOverride: ""
 

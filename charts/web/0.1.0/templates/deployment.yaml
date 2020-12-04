@@ -29,7 +29,17 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.service.port }}
+            {{- if eq .Values.web.type "php" }}
+              containerPort: 80
+            {{- else if eq .Values.web.type "flask" }}
+              containerPort: 5000
+            {{- else if eq .Values.web.type "uwsgi-flask" }}
+              containerPort: 80
+            {{- else if eq .Values.web.type "spring" }}
+              containerPort: 5000
+            {{- else if eq .Values.web.type "custom" }}
+              containerPort: {{ .Values.web.port }}
+            {{- end }}
               protocol: TCP
           livenessProbe:
             httpGet:
