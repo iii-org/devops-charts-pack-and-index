@@ -38,4 +38,3 @@ database password: {{ .Values.service.db.rootpassword }}
 {{- end }}
 
 #4. k8s info for debug if facing any problem please report info below to iii devops group:
-#ns: {{ (lookup "v1" "Namespace" "" "") }}
