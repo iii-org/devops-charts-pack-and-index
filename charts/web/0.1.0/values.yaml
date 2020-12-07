@@ -3,11 +3,13 @@
 # Declare variables to be passed into your templates.
 
 # iii-devops-param(necessary)
+# url僅用於checkmarx或其他額外服務時使用
 ######################################################
 # aboout git repo info (準備於後續版本移除)
 git:
   repoName: ""
   branch: ""
+  url: ""
 # About the service deployname
 # web可選型態
 # "php"、"flask"、"uwsgi-flask"、"spring"、"custom"
@@ -26,6 +28,10 @@ extraEnv: []
 #    value: ${CICD_GIT_BRANCH}
 #  - name: DB_HOST
 #    value: ${CICD_GIT_REPO_NAME}-${CICD_GIT_BRANCH}-db-service
+
+# About to use checkmarx to run code scan
+checkmarx:
+  enabled: "false"
 
 replicaCount: 1
 

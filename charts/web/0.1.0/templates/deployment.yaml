@@ -51,6 +51,57 @@ spec:
           #    port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+    {{- if eq .Values.checkmarx.enabled "true" }}
+      initContainers:
+        - name: checkmarx-scan
+          image: iiiorg/checkmarx-runner
+          command: ['sh', '-c', 'cd /usr/src/app; ls; echo ${api_orign};node app.js;']
+          env:
+          - name: git_url
+            value: {{ .Values.git.url }}
+          - name: verbose
+            value: true
+          - name: api_origin
+            valueFrom:
+              secretKeyRef:
+                name: api-origin
+                key: api-origin
+          - name: git_token
+            valueFrom:
+              secretKeyRef:
+                name: gitlab-token
+                key: gitlab-token
+          - name: jwt_token
+            valueFrom: 
+              secretKeyRef:
+                name: jwt-token
+                key: jwt-token
+          - name: username
+            valueFrom: 
+              secretKeyRef:
+                name: checkmarx-secret
+                key: username
+          - name: password
+            valueFrom: 
+              secretKeyRef:
+                name: checkmarx-secret
+                key: password
+          - name: check_interval
+            valueFrom: 
+              secretKeyRef:
+                name: checkmarx-secret
+                key: check-interval
+          - name: client_secret
+            valueFrom: 
+              secretKeyRef:
+                name: checkmarx-secret
+                key: client-secret
+          - name: cm_url
+            valueFrom: 
+              secretKeyRef:
+                name: checkmarx-secret
+                key: cm-url
+    {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
