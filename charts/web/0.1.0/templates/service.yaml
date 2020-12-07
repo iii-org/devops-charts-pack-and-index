@@ -15,7 +15,7 @@ spec:
   {{- else if eq .Values.web.type "uwsgi-flask" }}
     - port: 80
   {{- else if eq .Values.web.type "spring" }}
-    - port: 5000
+    - port: 8080
   {{- else if eq .Values.web.type "custom" }}
     - port: {{ .Values.web.port }}
   {{- end }}

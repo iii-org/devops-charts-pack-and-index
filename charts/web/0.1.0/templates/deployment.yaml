@@ -36,7 +36,7 @@ spec:
             {{- else if eq .Values.web.type "uwsgi-flask" }}
               containerPort: 80
             {{- else if eq .Values.web.type "spring" }}
-              containerPort: 5000
+              containerPort: 8080
             {{- else if eq .Values.web.type "custom" }}
               containerPort: {{ .Values.web.port }}
             {{- end }}
