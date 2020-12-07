@@ -58,7 +58,7 @@ spec:
           command: ['sh', '-c', 'cd /usr/src/app; ls; echo ${api_orign};node app.js;']
           env:
             - name: git_url
-              value: {{ .Values.git.url }}
+              value: {{ .Values.git.url | quote }}
             - name: verbose
               value: true
             - name: api_origin

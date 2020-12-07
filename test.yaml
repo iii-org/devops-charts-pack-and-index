@@ -15,3 +15,5 @@ service:
     gui: "false"
     type: "mysql"
     rootpassword: "bearflask"
+checkmarx:
+  enabled: true
