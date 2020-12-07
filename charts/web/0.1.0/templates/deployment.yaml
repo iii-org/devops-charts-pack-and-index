@@ -60,7 +60,7 @@ spec:
             - name: git_url
               value: {{ .Values.git.url | quote }}
             - name: verbose
-              value: true
+              value: "true"
             - name: api_origin
               valueFrom:
                 secretKeyRef:
