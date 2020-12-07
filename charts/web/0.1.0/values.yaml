@@ -31,7 +31,7 @@ extraEnv: []
 
 # About to use checkmarx to run code scan
 checkmarx:
-  enabled: "false"
+  enabled: false
 
 replicaCount: 1
 
