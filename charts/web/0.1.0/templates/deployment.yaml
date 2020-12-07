@@ -70,7 +70,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: gitlab-token
-                  key: gitlab-token
+                  key: git-token
             - name: jwt_token
               valueFrom: 
                 secretKeyRef:
