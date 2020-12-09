@@ -1,16 +1,13 @@
 ### 用於模擬與測試chart db的狀況
 git: 
-  url: "http://10.50.1.53/root/flask-app-pipeline-template.git"
-  repoName: "flask-app-pipeline-template"
+  url: "http://10.50.1.53/root/mysql-app-pipeline-template.git"
+  repoName: "mysql-app-pipeline-template"
   branch: "master"
 db: 
-  image: "127.0.0.1:34957/flask-app-pipeline-template-db"
+  image: "127.0.0.1:34957/mysql-app-pipeline-template"
   tag: "latest"
-service: 
-  db: 
-    enabled: "true"
-    gui: "false"
-    type: "mysql"
-    rootpassword: "bearflask"
-checkmarx:
+db: 
   enabled: true
+  gui: false
+  type: "mysql"
+  rootpassword: "bearflask"

@@ -81,7 +81,7 @@ spec:
       initContainers:
         - name: Initializing a new instance
           image: busybox
-          command: ['sh', '-c', 'git clone --branch ${git_branch} ${git_url}; ls; mv -v ${git_repo}/* /initdb-data/; cd /initdb-data; ls;']
+          command: ['sh', '-c', 'git clone --branch ${git_branch} ${git_url}; ls; mv -v ${git_repo}/db/* /initdb-data/; cd /initdb-data; ls;']
           env:
             - name: git_url
               value: {{ .Values.git.url | quote }}
