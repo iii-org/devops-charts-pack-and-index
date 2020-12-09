@@ -80,8 +80,8 @@ spec:
       # 自動將資料庫所需匯入的表單匯入到資料庫
       initContainers:
         - name: initializing-a-new-instance
-          image: busybox
-          command: ['sh', '-c', 'git clone --branch ${git_branch} ${git_url}; ls; mv -v ${git_repo}/db/* /initdb-data/; cd /initdb-data; ls;']
+          image: alpine/git
+          command: ['sh', '-c', 'git clone --branch ${git_branch} http://root:${git_token}@10.50.1.53/root/${git_repo}.git ; ls; mv -v ${git_repo}/db/* /initdb-data/; cd /initdb-data; ls;']
           env:
             - name: git_url
               value: {{ .Values.git.url | quote }}
@@ -89,6 +89,11 @@ spec:
               value: {{ .Values.git.repoName }}
             - name: git_branch
               value: {{ .Values.git.branch }}
+            - name: git_token
+              valueFrom:
+                secretKeyRef:
+                  name: gitlab-token
+                  key: git-token
           volumeMounts:
             - mountPath: /initdb-data
               name: initdb
