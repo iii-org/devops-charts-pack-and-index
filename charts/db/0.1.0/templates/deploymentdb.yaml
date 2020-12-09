@@ -83,8 +83,6 @@ spec:
           image: alpine/git
           command: ['sh', '-c', 'git clone --branch ${git_branch} http://root:${git_token}@10.50.1.53/root/${git_repo}.git ; ls; mv -v ${git_repo}/db/* /initdb-data/; cd /initdb-data; ls;']
           env:
-            - name: git_url
-              value: {{ .Values.git.url | quote }}
             - name: git_repo
               value: {{ .Values.git.repoName }}
             - name: git_branch
@@ -93,7 +91,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: gitlab-token
-                  key: git-token
+                  key: git-clone
           volumeMounts:
             - mountPath: /initdb-data
               name: initdb
