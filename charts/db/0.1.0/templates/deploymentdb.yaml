@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: "{{ .Release.Name }}-{{ .Values.db.type }}-db"
   labels:
-    {{- include "db.labels" . | nindent 4 }}
+    #{{- include "db.labels" . | nindent 4 }}
     app: "{{ .Release.Name }}-{{ .Values.db.type }}-db"
 spec:
   {{- if not .Values.autoscaling.enabled }}
@@ -11,7 +11,7 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "db.selectorLabels" . | nindent 6 }}
+      #{{- include "db.selectorLabels" . | nindent 6 }}
       app: "{{ .Release.Name }}-{{ .Values.db.type }}-db"
   template:
     metadata:

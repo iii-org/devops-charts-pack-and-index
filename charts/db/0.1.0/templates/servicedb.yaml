@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: "{{ .Release.Name }}-{{ .Values.db.type }}-db-svc"
   labels:
-    {{- include "db.labels" . | nindent 4 }}
+    #{{- include "db.labels" . | nindent 4 }}
     app: "{{ .Release.Name }}-{{ .Values.db.type }}-db"
 spec:
   type: {{ .Values.service.type }}
@@ -22,5 +22,5 @@ spec:
       protocol: TCP
       name: db
   selector:
-    {{- include "db.selectorLabels" . | nindent 4 }}
+    #{{- include "db.selectorLabels" . | nindent 4 }}
     app: "{{ .Release.Name }}-{{ .Values.db.type }}-db"
