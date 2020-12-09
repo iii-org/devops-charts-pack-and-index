@@ -12,6 +12,7 @@ spec:
   selector:
     matchLabels:
       {{- include "db.selectorLabels" . | nindent 6 }}
+      app: "{{ .Release.Name }}-{{ .Values.db.type }}-gui"
   template:
     metadata:
       labels:

@@ -21,6 +21,7 @@ spec:
       {{- end }}
       labels:
         {{- include "db.selectorLabels" . | nindent 8 }}
+        app: "{{ .Release.Name }}-{{ .Values.db.type }}-db"
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
