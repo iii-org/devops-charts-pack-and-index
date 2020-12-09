@@ -1,9 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: "{{ .Release.Name }}-{{ .Values.db.type }}-svc"
+  name: "{{ .Release.Name }}-{{ .Values.db.type }}-db-svc"
   labels:
     {{- include "db.labels" . | nindent 4 }}
+    app: "{{ .Release.Name }}-{{ .Values.db.type }}-db"
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -22,3 +23,4 @@ spec:
       name: db
   selector:
     {{- include "db.selectorLabels" . | nindent 4 }}
+    app: "{{ .Release.Name }}-{{ .Values.db.type }}-db"

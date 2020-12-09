@@ -6,6 +6,7 @@ metadata:
   name: "{{ .Release.Name }}-{{ .Values.db.type }}-gui-svc"
   labels:
     {{- include "db.labels" . | nindent 4 }}
+    app: "{{ .Release.Name }}-{{ .Values.db.type }}-gui"
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -24,4 +25,5 @@ spec:
       name: dbgui
   selector:
     {{- include "db.selectorLabels" . | nindent 4 }}
+    app: "{{ .Release.Name }}-{{ .Values.db.type }}-gui"
 {{- end }}

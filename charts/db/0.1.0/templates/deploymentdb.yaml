@@ -1,9 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .Release.Name }}-{{ .Values.db.type }}"
+  name: "{{ .Release.Name }}-{{ .Values.db.type }}-db"
   labels:
     {{- include "db.labels" . | nindent 4 }}
+    app: "{{ .Release.Name }}-{{ .Values.db.type }}-db"
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -11,6 +12,7 @@ spec:
   selector:
     matchLabels:
       {{- include "db.selectorLabels" . | nindent 6 }}
+      app: "{{ .Release.Name }}-{{ .Values.db.type }}-db"
   template:
     metadata:
       {{- with .Values.podAnnotations }}

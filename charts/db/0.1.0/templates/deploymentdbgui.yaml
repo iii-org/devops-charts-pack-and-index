@@ -6,6 +6,7 @@ metadata:
   name: "{{ .Release.Name }}-{{ .Values.db.type }}-gui"
   labels:
     {{- include "db.labels" . | nindent 4 }}
+    app: "{{ .Release.Name }}-{{ .Values.db.type }}-gui"
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -15,6 +16,7 @@ spec:
     metadata:
       labels:
         {{- include "db.selectorLabels" . | nindent 8 }}
+        app: "{{ .Release.Name }}-{{ .Values.db.type }}-gui"
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
