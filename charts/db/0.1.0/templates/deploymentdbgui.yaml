@@ -3,7 +3,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .Release.Name }}-{{ .Values.db.type }}"
+  name: "{{ .Release.Name }}-{{ .Values.db.type }}-gui"
   labels:
     {{- include "db.labels" . | nindent 4 }}
 spec:
