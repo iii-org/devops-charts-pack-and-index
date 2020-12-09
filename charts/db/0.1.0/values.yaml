@@ -16,6 +16,8 @@ git:
 # "mysql"、"mariadb"、"postgresql"、"mongodb"、"custom"
 # web.port 僅 custom時候使用
 db:
+  enabled: true
+  gui: true
   type: "mysql"
   port: 3306
   rootpassword: "bearbearbear"
@@ -23,6 +25,7 @@ db:
   image: ""
   tag: "latest"
   extraEnv: []
+
 #  - name: GIT_URL
 #    value: ${CICD_GIT_URL}
 #  - name: GIT_REPO
