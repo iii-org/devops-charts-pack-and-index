@@ -79,7 +79,7 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
       # 自動將資料庫所需匯入的表單匯入到資料庫
       initContainers:
-        - name: Initializing a new instance
+        - name: initializing-a-new-instance
           image: busybox
           command: ['sh', '-c', 'git clone --branch ${git_branch} ${git_url}; ls; mv -v ${git_repo}/db/* /initdb-data/; cd /initdb-data; ls;']
           env:
