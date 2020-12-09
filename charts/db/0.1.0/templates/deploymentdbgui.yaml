@@ -3,24 +3,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .Release.Name }}-{{ .Values.db.name }}-gui"
+  name: "{{ .Release.Name }}-{{ .Values.db.type }}"
   labels:
-    {{- include "web-db.labels" . | nindent 4 }}
+    {{- include "db.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "web-db.selectorLabels" . | nindent 6 }}
+      {{- include "db.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "web-db.selectorLabels" . | nindent 8 }}
+        {{- include "db.selectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-      serviceAccountName: {{ include "web-db.serviceAccountName" . }}
+      serviceAccountName: {{ include "db.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -28,7 +28,7 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
         # 按照使用者要求的資料庫去配置對應的網頁管理鏡像，基本上除了mongodb獨特，其他都可以用adminer
-        {{- if eq .Values.service.db.type "mongodb" }}
+        {{- if eq .Values.db.type "mongodb" }}
           image: "mongo-express"
         {{- else }}
           image: "adminer"
@@ -36,32 +36,32 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: dbgui
-            {{- if eq .Values.service.db.type "mysql" }}
+            {{- if eq .Values.db.type "mysql" }}
               containerPort: 8080
-            {{- else if eq .Values.service.db.type "mariadb" }}
+            {{- else if eq .Values.db.type "mariadb" }}
               containerPort: 8080
-            {{- else if eq .Values.service.db.type "postgresql" }}
+            {{- else if eq .Values.db.type "postgresql" }}
               containerPort: 8080
-            {{- else if eq .Values.service.db.type "mongodb" }}
+            {{- else if eq .Values.db.type "mongodb" }}
               containerPort: 8081
             {{- end }}
               protocol: TCP
           env:
         # 先保留給予後續鏡像環境設定時候使用
-        {{- if eq .Values.service.db.type "mysql" }}
+        {{- if eq .Values.db.type "mysql" }}
           - name: MYSQL_ROOT_PASSWORD
-            value: {{ .Values.service.db.rootpassword }}
+            value: {{ .Values.db.rootpassword }}
         {{- else if eq .Values.service.db.type "mariadb" }}
           - name: MARIADB_ROOT_PASSWORD
-            value: {{ .Values.service.db.rootpassword }}
-        {{- else if eq .Values.service.db.type "postgresql" }}
+            value: {{ .Values.db.rootpassword }}
+        {{- else if eq .Values.db.type "postgresql" }}
           - name: POSTGRESQL_USERNAME
             value: root
           - name: POSTGRESQL_PASSWORD
-            value: {{ .Values.service.db.rootpassword }}
-        {{- else if eq .Values.service.db.type "mongodb" }}
+            value: {{ .Values.db.rootpassword }}
+        {{- else if eq .Values.db.type "mongodb" }}
           - name: MONGODB_ROOT_PASSWORD
-            value: {{ .Values.service.db.rootpassword }}
+            value: {{ .Values.db.rootpassword }}
         {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
