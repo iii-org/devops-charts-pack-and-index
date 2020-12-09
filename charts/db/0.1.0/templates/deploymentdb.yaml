@@ -1,0 +1,109 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-{{ .Values.db.type }}"
+  labels:
+    {{- include "db.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "db.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "db.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "db.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Values.db.type }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          #image: "{{ .Values.db.image }}:{{ .Values.db.tag }}"
+          image: "bitnami/mysql"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: db
+            {{- if eq .Values.db.type "mysql" }}
+              containerPort: 3306
+            {{- else if eq .Values.db.type "mariadb" }}
+              containerPort: 3306
+            {{- else if eq .Values.db.type "postgresql" }}
+              containerPort: 5432
+            {{- else if eq .Values.db.type "mongodb" }}
+              containerPort: 27017
+            {{- end }}
+              protocol: TCP
+          #livenessProbe:
+          #  httpGet:
+          #    path: /
+          #    port: httproot
+          #readinessProbe:
+          #  httpGet:
+          #    path: /
+          #    port: http
+          env:
+        {{- if eq .Values.db.type "mysql" }}
+          - name: MYSQL_ROOT_PASSWORD
+            value: {{ .Values.db.rootpassword }}
+          - name: MYSQL_DATABASE
+            value: {{ .Values.db.name }}
+        {{- else if eq .Values.db.type "mariadb" }}
+          - name: MARIADB_ROOT_PASSWORD
+            value: {{ .Values.db.rootpassword }}
+        {{- else if eq .Values.db.type "postgresql" }}
+          - name: POSTGRESQL_USERNAME
+            value: root
+          - name: POSTGRESQL_PASSWORD
+            value: {{ .Values.db.rootpassword }}
+        {{- else if eq .Values.db.type "mongodb" }}
+          - name: MONGODB_ROOT_PASSWORD
+            value: {{ .Values.db.rootpassword }}
+        {{- end }}
+          volumeMounts:
+            - mountPath: /docker-entrypoint-initdb.d
+              name: initdb
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      # 自動將資料庫所需匯入的表單匯入到資料庫
+      initContainers:
+        - name: Initializing a new instance
+          image: busybox
+          command: ['sh', '-c', 'git clone --branch ${git_branch} ${git_url}; ls; mv -v ${git_repo}/* /initdb-data/; cd /initdb-data; ls;']
+          env:
+            - name: git_url
+              value: {{ .Values.git.url | quote }}
+            - name: git_repo
+              value: {{ .Values.git.repoName }}
+            - name: git_branch
+              value: {{ .Values.git.branch }}
+          volumeMounts:
+            - mountPath: /initdb-data
+              name: initdb
+      volumes:
+        - name: initdb
+          emptyDir: {}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

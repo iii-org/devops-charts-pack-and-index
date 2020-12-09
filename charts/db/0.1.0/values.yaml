@@ -18,6 +18,8 @@ git:
 db:
   type: "mysql"
   port: 3306
+  rootpassword: "bearbearbear"
+  name: "bearDB"
   image: ""
   tag: "latest"
   extraEnv: []
