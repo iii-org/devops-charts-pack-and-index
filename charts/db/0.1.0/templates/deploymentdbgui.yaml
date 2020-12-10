@@ -31,6 +31,8 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
         # 按照使用者要求的資料庫去配置對應的網頁管理鏡像，基本上除了mongodb獨特，其他都可以用adminer
+        {{- if eq .Values.db.type "mariadb" }}
+          image: "bitnami/phpmyadmin"
         {{- if eq .Values.db.type "mongodb" }}
           image: "mongo-express"
         {{- else }}
@@ -57,10 +59,10 @@ spec:
           - name: MYSQL_ROOT_PASSWORD
             value: {{ .Values.db.rootpassword }}
         {{- else if eq .Values.service.db.type "mariadb" }}
-          - name: ADMINER_DEFAULT_SERVER
+          - name: DATABASE_HOST
             value: "{{ .Release.Name }}-{{ .Values.db.type }}-svc"
-          - name: MARIADB_ROOT_PASSWORD
-            value: {{ .Values.db.rootpassword }}
+          - name: DATABASE_ALLOW_NO_PASSWORD
+            value: "no"
         {{- else if eq .Values.db.type "postgresql" }}
           - name: ADMINER_DEFAULT_SERVER
             value: "{{ .Release.Name }}-{{ .Values.db.type }}-svc"
