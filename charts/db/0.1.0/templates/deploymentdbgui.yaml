@@ -60,12 +60,12 @@ spec:
             value: {{ .Values.db.rootpassword }}
         {{- else if eq .Values.db.type "mariadb" }}
           - name: DATABASE_HOST
-            value: "{{ .Release.Name }}-{{ .Values.db.type }}-svc"
+            value: "{{ .Release.Name }}-{{ .Values.db.type }}-db-svc"
           - name: DATABASE_ALLOW_NO_PASSWORD
             value: "no"
         {{- else if eq .Values.db.type "postgresql" }}
           - name: ADMINER_DEFAULT_SERVER
-            value: "{{ .Release.Name }}-{{ .Values.db.type }}-svc"
+            value: "{{ .Release.Name }}-{{ .Values.db.type }}-db-svc"
           - name: POSTGRESQL_USERNAME
             value: root
           - name: POSTGRESQL_PASSWORD
