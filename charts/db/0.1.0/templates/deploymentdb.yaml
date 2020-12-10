@@ -35,7 +35,15 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           #image: "{{ .Values.db.image }}:{{ .Values.db.tag }}"
-          image: "bitnami/mysql"
+        {{- if eq .Values.db.type "mysql" }}
+          image: "bitnami/mysql:{{ .Values.db.tag }}"
+        {{- else if eq .Values.db.type "mariadb" }}
+          image: "bitnami/mariadb:{{ .Values.db.tag }}"
+        {{- else if eq .Values.db.type "postgresql" }}
+          image: "bitnami/postgresql:{{ .Values.db.tag }}"
+        {{- else if eq .Values.db.type "mongodb" }}
+          image: "bitnami/mongodb:{{ .Values.db.tag }}"
+        {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: db
