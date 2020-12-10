@@ -77,7 +77,7 @@ spec:
           - name: MARIADB_ROOT_USER
             value: {{ .Values.db.username }}
           - name: MARIADB_ROOT_PASSWORD
-            value: {{ .Values.db.rootpassword }}
+            value: {{ .Values.db.password }}
           - name: MARIADB_DATABASE
             value: {{ .Values.db.name }}
         {{- else if eq .Values.db.type "postgresql" }}
