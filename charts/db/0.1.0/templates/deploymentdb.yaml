@@ -63,8 +63,8 @@ spec:
             value: {{ .Values.db.username }}
           - name: MYSQL_PASSWORD
             value: {{ .Values.db.password }}
-          #- name: MYSQL_ROOT_PASSWORD
-          #  value: {{ .Values.db.rootpassword }}
+          - name: MYSQL_ROOT_PASSWORD
+            value: {{ .Values.db.password }}
           - name: MYSQL_DATABASE
             value: {{ .Values.db.name }}
         {{- else if eq .Values.db.type "mariadb" }}
