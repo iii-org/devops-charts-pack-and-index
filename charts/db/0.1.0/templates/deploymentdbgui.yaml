@@ -53,7 +53,7 @@ spec:
         # 先保留給予後續鏡像環境設定時候使用
         {{- if eq .Values.db.type "mysql" }}
           - name: ADMINER_DEFAULT_SERVER
-            value: "{{ .Release.Name }}-{{ .Values.db.type }}-svc"
+            value: "{{ .Release.Name }}-{{ .Values.db.type }}-db-svc"
           - name: MYSQL_ROOT_PASSWORD
             value: {{ .Values.db.rootpassword }}
         {{- else if eq .Values.service.db.type "mariadb" }}
