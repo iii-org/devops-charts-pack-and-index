@@ -67,22 +67,18 @@ spec:
           #    port: http
           env:
         {{- if eq .Values.db.type "mysql" }}
-          - name: MYSQL_USER
+          - name: MYSQL_ROOT_USER
             value: {{ .Values.db.username }}
-          - name: MYSQL_PASSWORD
-            value: {{ .Values.db.password }}
           - name: MYSQL_ROOT_PASSWORD
             value: {{ .Values.db.password }}
           - name: MYSQL_DATABASE
             value: {{ .Values.db.name }}
         {{- else if eq .Values.db.type "mariadb" }}
-          - name: MYSQL_USER
+          - name: MARIADB_ROOT_USER
             value: {{ .Values.db.username }}
-          - name: MYSQL_PASSWORD
-            value: {{ .Values.db.password }}
           - name: MARIADB_ROOT_PASSWORD
             value: {{ .Values.db.rootpassword }}
-          - name: MYSQL_DATABASE
+          - name: MARIADB_DATABASE
             value: {{ .Values.db.name }}
         {{- else if eq .Values.db.type "postgresql" }}
           - name: POSTGRESQL_USERNAME
