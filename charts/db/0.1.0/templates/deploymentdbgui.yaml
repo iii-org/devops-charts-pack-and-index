@@ -58,7 +58,7 @@ spec:
             value: "{{ .Release.Name }}-{{ .Values.db.type }}-db-svc"
           - name: MYSQL_ROOT_PASSWORD
             value: {{ .Values.db.rootpassword }}
-        {{- else if eq .Values.service.db.type "mariadb" }}
+        {{- else if eq .Values.db.type "mariadb" }}
           - name: DATABASE_HOST
             value: "{{ .Release.Name }}-{{ .Values.db.type }}-svc"
           - name: DATABASE_ALLOW_NO_PASSWORD
