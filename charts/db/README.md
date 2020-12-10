@@ -9,6 +9,7 @@
 
 ## `db.tag` 可用的版本選擇，若不選擇則預設`latest`
 * `db.type=mysql`: `8.0`、`5.7`
+* `db.type=mariadb`: `10.5`、`10.4`、`10.3`、`10.2`
 
 ## 資料庫統一採用bitnami
 * [mysql](https://hub.docker.com/r/bitnami/mysql/)
