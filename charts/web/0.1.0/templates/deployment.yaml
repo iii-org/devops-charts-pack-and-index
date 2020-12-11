@@ -110,7 +110,7 @@ spec:
       {{- end }}
       # 如果使用者要求進行newman
       {{- if eq .Values.newman.enabled true }}
-        - name: checkmarx-scan
+        - name: newman-runner
           image: 10.50.1.63:5443/iii-org/newman-runner:devops-system
           command: ['sh', '-c', 'ln -s $(pwd) /usr/src/app/repo; cd /usr/src/app; ls; echo ${api_orign};node app.js;']
           env:
