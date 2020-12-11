@@ -4,7 +4,7 @@ git:
   branch: "master"
 web: 
   type: flask
-  image: 10.50.1.63:5443/app/flask-app-pipeline-template-web"
+  image: "10.50.1.63:5443/app/flask-app-pipeline-template-web"
   tag: latest
 checkmarx:
   enabled: true
