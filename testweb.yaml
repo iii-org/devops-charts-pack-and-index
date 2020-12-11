@@ -1,0 +1,10 @@
+git: 
+  url: "http://10.50.1.53/root/flask-app-pipeline-template.git"
+  repoName: "flask-app-pipeline-template"
+  branch: "master"
+web: 
+  name: flask
+  image: 10.50.1.63:5443/app/flask-app-pipeline-template-web"
+  tag: latest
+checkmarx:
+  enabled: true

@@ -9,7 +9,9 @@ Charts for iii-devops
 # 測試前端與資料庫
 * `helm install --dry-run --debug ./charts/web-db/0.1.0 -f ./test.yaml  --generate-name`
 # 快速測試前端整合
-* `helm install --dry-run --debug ./charts/web/0.1.0 -f ./test.yaml  --generate-name`
+* `helm install --dry-run --debug ./charts/web/0.1.0 -f ./testweb.yaml  --generate-name`
+# 快速測試部屬資料庫
+* `helm install --dry-run --debug ./charts/db/0.1.0 -f ./testdb.yaml  --generate-name`
 
 ## 專案進度
 * [php AppVersion:0.2.0] -> 測試正常
