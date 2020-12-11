@@ -3,21 +3,6 @@
 * 備份資料庫若含獨立的`database`則需登入root帳戶才可看到
 * 若僅含`database`內的資料，將會預設匯入到使用者要求建立的資料庫名稱內
 
-## 全部iiidevops-web變數(包含預設值)
-`git.host`: "10.50.1.53"
-`git.repoName`: ""
-`git.branch`: ""
-`git.commitID`: ""
-`git.url`: ""
-`web.type`: "php"
-`web.port`: 80
-`web.image`: ""
-`web.tag`: "latest"
-`web.extraEnv`: []
-`checkmarx.enabled`: false
-`newman.enabled`: false
-`replicaCount`: 1
-`service.type`: NodePort
 
 ## 資料庫帳號與密碼設定
 * `db.username`: 使用者帳號
@@ -28,14 +13,7 @@
 * `db.type=mariadb`: `10.5`、`10.4`、`10.3`、`10.2`
 * `db.type=postgresql`: `13`、`12`、`11`、`10`、`9.6`
 
-## (0.1.0)chart用checkmarx必須參數
-git.url: ${CICD_GIT_URL}
 
-## 啟用newman必須參數 
-git.url: ${CICD_GIT_URL}
-git.branch: ${CICD_GIT_BRANCH}
-git.commitID: ${CICD_GIT_COMMIT}
-git.repoName: ${CICD_GIT_REPO_NAME}
 
 ## 資料庫統一採用bitnami
 * [mysql](https://hub.docker.com/r/bitnami/mysql/)

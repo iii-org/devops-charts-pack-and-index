@@ -6,6 +6,31 @@
 * `0.2.0`: 測試版本
 > 主要用於測試在pipeline上進行直接的部屬，因為rancher在部屬上仍有嚴重的issue，需註記為v1才可編譯
 
+## 全部iiidevops-web變數(包含預設值)
+`git.host`: "10.50.1.53"
+`git.repoName`: ""
+`git.branch`: ""
+`git.commitID`: ""
+`git.url`: ""
+`web.type`: "php"
+`web.port`: 80
+`web.image`: ""
+`web.tag`: "latest"
+`web.extraEnv`: []
+`checkmarx.enabled`: false
+`newman.enabled`: false
+`replicaCount`: 1
+`service.type`: NodePort
+
+## (0.1.0)chart用checkmarx必須參數
+git.url: ${CICD_GIT_URL}
+
+## 啟用newman必須參數 
+git.url: ${CICD_GIT_URL}
+git.branch: ${CICD_GIT_BRANCH}
+git.commitID: ${CICD_GIT_COMMIT}
+git.repoName: ${CICD_GIT_REPO_NAME}
+
 ## 基礎固定設定
 * 資源限制管理
 
