@@ -20,7 +20,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "db.selectorLabels" . | nindent 8 }}
+        #{{- include "db.selectorLabels" . | nindent 8 }}
         app: "{{ .Release.Name }}-{{ .Values.db.type }}-db"
     spec:
       {{- with .Values.imagePullSecrets }}

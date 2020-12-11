@@ -3,16 +3,19 @@ kind: Deployment
 metadata:
   name: "{{ .Release.Name }}-{{ .Values.web.type }}"
   labels:
-    {{- include "web.labels" . | nindent 4 }}
+    #{{- include "web.labels" . | nindent 4 }}
+    app: "{{ .Release.Name }}-{{ .Values.db.type }}"
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "web.selectorLabels" . | nindent 6 }}
+      #{{- include "web.selectorLabels" . | nindent 6 }}
+      app: "{{ .Release.Name }}-{{ .Values.db.type }}"
   template:
     metadata:
       labels:
-        {{- include "web.selectorLabels" . | nindent 8 }}
+        #{{- include "web.selectorLabels" . | nindent 8 }}
+        app: "{{ .Release.Name }}-{{ .Values.db.type }}"
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
