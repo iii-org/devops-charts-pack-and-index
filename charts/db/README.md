@@ -11,6 +11,15 @@
 * `db.type=mysql`: `8.0`、`5.7`
 * `db.type=mariadb`: `10.5`、`10.4`、`10.3`、`10.2`
 
+## (0.1.0)chart用checkmarx必須參數
+git.url: ${CICD_GIT_URL}
+
+## 啟用newman必須參數 
+git.url: ${CICD_GIT_URL}
+git.branch: ${CICD_GIT_BRANCH}
+git.commitID: ${CICD_GIT_COMMIT}
+git.repoName: ${CICD_GIT_REPO_NAME}
+
 ## 資料庫統一採用bitnami
 * [mysql](https://hub.docker.com/r/bitnami/mysql/)
 * [mariadb](https://hub.docker.com/r/bitnami/mariadb)

@@ -7,8 +7,10 @@
 ######################################################
 # aboout git repo info (準備於後續版本移除)
 git:
+  host: "10.50.1.53"
   repoName: ""
   branch: ""
+  commitID: ""
   url: ""
 # About the service deployname
 # web可選型態
@@ -31,6 +33,9 @@ extraEnv: []
 
 # About to use checkmarx to run code scan
 checkmarx:
+  enabled: false
+# About to use newman to run code scan
+newman:
   enabled: false
 
 replicaCount: 1

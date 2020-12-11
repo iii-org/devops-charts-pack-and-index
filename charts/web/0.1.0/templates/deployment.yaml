@@ -54,8 +54,11 @@ spec:
           #    port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-    {{- if eq .Values.checkmarx.enabled true }}
+    {{- if or (eq .Values.checkmarx.enabled true) (eq .Values.newman.enabled true) }}
+      # 如果使用者有任意個額外需求啟動
       initContainers:
+      # 如果使用者要求進行checkmarx
+      {{- if eq .Values.checkmarx.enabled true }}
         - name: checkmarx-scan
           image: iiiorg/checkmarx-runner:0.9.2
           command: ['sh', '-c', 'cd /usr/src/app; ls; echo ${api_orign};node app.js;']
@@ -104,6 +107,39 @@ spec:
                 secretKeyRef:
                   name: checkmarx-secret
                   key: cm-url
+      {{- end }}
+      # 如果使用者要求進行newman
+      {{- if eq .Values.newman.enabled true }}
+        - name: checkmarx-scan
+          image: 10.50.1.63:5443/iii-org/newman-runner:devops-system
+          command: ['sh', '-c', 'ln -s $(pwd) /usr/src/app/repo; cd /usr/src/app; ls; echo ${api_orign};node app.js;']
+          env:
+            - name: git_url
+              value: {{ .Values.git.url | quote }}
+            - name: git_branch
+              value: {{ .Values.git.branch }}
+            - name: git_commit_id
+              value: {{ .Value.git.commitID }}
+            - name: test_origin
+              value: "http://{{ .Values.git.repoName }}-${.Values.git.branch}:10009"
+            - name: verbose
+              value: "true"
+            - name: api_origin
+              valueFrom:
+                secretKeyRef:
+                  name: newman
+                  key: api-origin
+            - name: username
+              valueFrom: 
+                secretKeyRef:
+                  name: newman
+                  key: username
+            - name: password
+              valueFrom: 
+                secretKeyRef:
+                  name: newman
+                  key: password
+      {{- end }}
     {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
