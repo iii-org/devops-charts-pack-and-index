@@ -40,7 +40,7 @@ spec:
               containerPort: 80
             {{- else if eq .Values.web.type "spring" }}
               containerPort: 8080
-            {{- else if eq .Values.web.type "custom" }}
+            {{- else }} # custom
               containerPort: {{ .Values.web.port }}
             {{- end }}
               protocol: TCP
