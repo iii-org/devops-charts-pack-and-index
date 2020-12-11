@@ -4,18 +4,18 @@ metadata:
   name: "{{ .Release.Name }}-{{ .Values.web.type }}"
   labels:
     #{{- include "web.labels" . | nindent 4 }}
-    app: "{{ .Release.Name }}-{{ .Values.db.type }}"
+    app: "{{ .Release.Name }}-{{ .Values.web.type }}"
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       #{{- include "web.selectorLabels" . | nindent 6 }}
-      app: "{{ .Release.Name }}-{{ .Values.db.type }}"
+      app: "{{ .Release.Name }}-{{ .Values.web.type }}"
   template:
     metadata:
       labels:
         #{{- include "web.selectorLabels" . | nindent 8 }}
-        app: "{{ .Release.Name }}-{{ .Values.db.type }}"
+        app: "{{ .Release.Name }}-{{ .Values.web.type }}"
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:

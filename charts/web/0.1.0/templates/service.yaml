@@ -4,7 +4,7 @@ metadata:
   name: "{{ .Release.Name }}-{{ .Values.web.type }}-svc"
   labels:
     #{{- include "web.labels" . | nindent 4 }}
-    app: "{{ .Release.Name }}-{{ .Values.db.type }}"
+    app: "{{ .Release.Name }}-{{ .Values.web.type }}"
 spec:
   type: {{ .Values.service.type }}
   ports:
