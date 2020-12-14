@@ -35,12 +35,19 @@ git.repoName: ${CICD_GIT_REPO_NAME}
 * 資源限制管理
 
 ## 目前已完成整合(模擬通過)
-* `service.db.enabled`: 選擇您是否希望部屬資料庫，可選型態`true`、`false`
-說明: 若選擇`true`則會將所選的資料庫鏡像進行部屬，若`false`則僅部屬使用者前端使用
-* `service.db.type`: 選擇您的希望部屬的後端伺服器服務，可選型態`mysql`、`mariadb`、`postgresql`、`mongodb`
-說明: 若選擇`mysql`則自動部屬`mysql`所需要的3306 port在deployment與service
-* `service.db.gui`: (service.db.enabled為true的前提下)是否要額外啟動資料庫網頁管理介面，可選型態`true`、`false`
-* ` `: 使用者可選擇網路部屬形式，可選型態`NodePort`、`ClusterIP`、`LoadBalancer`
+* `service.db.enabled`: 選擇您是否希望部屬資料庫
+  * 可選型態`true`、`false`
+  * 預設: `false`
+  > 說明: 若選擇`true`則會將所選的資料庫鏡像進行部屬，若`false`則僅部屬使用者前端使用
+* `service.db.type`: 選擇您的希望部屬的後端伺服器服務
+  * 可選型態: `mysql`、`mariadb`、`postgresql`、`mongodb`
+  * 預設: `mysql`
+  > 說明: 若選擇`mysql`則自動部屬`mysql`所需要的3306 port在deployment與service
+* `service.db.gui`: (service.db.enabled為true的前提下)是否要額外啟動資料庫網頁管理介面
+  * 可選型態: `true`、`false`
+  * 預設: `false` 
+## (入侵檢測系統和入侵防禦系統下使用-整合防火牆管理)
+* `service.type`: 使用者可選擇網路部屬形式，可選型態`NodePort`、`ClusterIP`、`LoadBalancer`
 
 ## 處理中的整合方案(模擬測試)
 * `service.web.type`: 選擇希望部屬的前端伺服器服務，可選型態`php`、`flask`、`uwsgi-nginx-flask`、`spring`
