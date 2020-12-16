@@ -5,6 +5,7 @@
 ## devops環境使用資料
 rancher:
   # 自動建置Serect資料
+  # sudo docker run -it --rm curlimages/curl curl -k -u token-hd7k4:f2w2r6cn747zdlkrgwr55fdh9hwrlf2tk4hjfwglmdrsqvsssj2xf9 -X POST -H 'Accept: application/json' -H 'Content-Type: application/json' 'https://10.20.0.70/v3/catalogs/iii-dev-charts3?action=refresh'
   AccessKey: "token-hd7k4"
   SecretKey: "f2w2r6cn747zdlkrgwr55fdh9hwrlf2tk4hjfwglmdrsqvsssj2xf9"
   BearerToken: "token-hd7k4:f2w2r6cn747zdlkrgwr55fdh9hwrlf2tk4hjfwglmdrsqvsssj2xf9" 
