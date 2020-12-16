@@ -23,6 +23,11 @@ spec:
         #{{- include "db.selectorLabels" . | nindent 8 }}
         app: "{{ .Release.Name }}-{{ .Values.db.type }}-db"
     spec:
+      # 單一時間僅可單一容器存在，非Production作法
+      strategy:
+        type: Recreate
+      # 限制失敗重啟次數(避免因工作執行序不足而造成的額外負擔延緩效能)
+      maxRetries: 3
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
