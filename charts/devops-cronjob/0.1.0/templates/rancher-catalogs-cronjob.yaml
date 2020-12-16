@@ -1,7 +1,7 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: rancher-catalogs-cronjob.yaml
+  name: rancher-catalogs-cronjob
 spec:
   schedule: "*/1 * * * *"
   jobTemplate:
@@ -12,7 +12,7 @@ spec:
           - name: rancher-catalogs-refresh
             image: curlimages/curl
             imagePullPolicy: IfNotPresent
-            command: ['curl', '-u ${CATTLE_ACCESS_KEY}:${CATTLE_SECRET_KEY}', '-X POST -H Accept: application/json', '-H Content-Type: application/json', 'https://{{ .Values.rancher.host }}/v3/catalogs/iii-dev-charts3?action=refresh']
+            command: ['curl', '--insecure', '-u ${CATTLE_ACCESS_KEY}:${CATTLE_SECRET_KEY}', '-X POST -H Accept: application/json', '-H Content-Type: application/json', 'https://{{ .Values.rancher.host }}/v3/catalogs/iii-dev-charts3?action=refresh']
             env:
             - name: CATTLE_ACCESS_KEY
               valueFrom:
