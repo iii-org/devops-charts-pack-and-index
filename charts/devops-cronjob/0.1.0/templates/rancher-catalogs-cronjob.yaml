@@ -12,7 +12,7 @@ spec:
           - name: rancher-catalogs-refresh
             image: curlimages/curl
             imagePullPolicy: IfNotPresent
-            command: [curl -u "${CATTLE_ACCESS_KEY}:${CATTLE_SECRET_KEY}" -X POST -H 'Accept: application/json' -H 'Content-Type: application/json' 'https://{{ .Values.rancher.host }}/v3/catalogs/iii-dev-charts3?action=refresh']
+            command: ['curl', '-u ${CATTLE_ACCESS_KEY}:${CATTLE_SECRET_KEY}', '-X POST -H Accept: application/json', '-H Content-Type: application/json', 'https://{{ .Values.rancher.host }}/v3/catalogs/iii-dev-charts3?action=refresh']
             env:
             - name: CATTLE_ACCESS_KEY
               valueFrom:
@@ -20,7 +20,7 @@ spec:
                   name: rancher-api-secret
                   key: CATTLE_ACCESS_KEY
             - name: CATTLE_SECRET_KEY
-              valueForm:
+              valueFrom:
                 secretKeyRef:
                   name: rancher-api-secret
                   key: CATTLE_SECRET_KEY
