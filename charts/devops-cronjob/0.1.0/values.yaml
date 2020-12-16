@@ -7,8 +7,7 @@ rancher:
   # 自動建置Serect資料
   AccessKey: "token-hd7k4"
   SecretKey: "f2w2r6cn747zdlkrgwr55fdh9hwrlf2tk4hjfwglmdrsqvsssj2xf9"
-  BearerToken: "token-hd7k4:f2w2r6cn747zdlkrgwr55fdh9hwrlf2tk4hjfwglmdrsqvsssj2xf9"
-  # 
+  BearerToken: "token-hd7k4:f2w2r6cn747zdlkrgwr55fdh9hwrlf2tk4hjfwglmdrsqvsssj2xf9" 
   host: "10.20.0.70"
 
 replicaCount: 1
