@@ -7,7 +7,7 @@ questions:
 ## about rancher
 - variable: rancher.host
   label: rancher ip or domain name
-  description: "bearbearbear0325"
+  description: "rancher網頁的IP或是網域名稱"
   type: string
   required: true
   default: "10.20.50.70"
