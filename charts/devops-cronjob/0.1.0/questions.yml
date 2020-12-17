@@ -6,7 +6,7 @@ categories:
 questions:
 ## about rancher
 - variable: rancher.host
-  label: rancher ip or domain name
+  label: 您安裝Rancher的IP或網域名稱
   description: "rancher網頁的IP或是網域名稱"
   type: string
   required: true
