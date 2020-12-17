@@ -1,0 +1,19 @@
+questions:
+- variable: rancher.host
+label: "rancher的IP或網域名稱"
+description: "告知iii-org服務所需管理的rancher IP或網域名稱"
+type: string
+required: true
+default: "10.20.50.70"
+group: "rancher devops service"
+subquestions:
+- variable: rancher.AccessKey
+label: "rancher API的AccessKey"
+description: "授權服務管理rancher的存取key"
+type: string
+required: true
+- variable: rancher.SecretKey
+label: "rancher API的SecretKey"
+description: "授權服務管理rancher的Secretkey"
+type: string
+required: true
