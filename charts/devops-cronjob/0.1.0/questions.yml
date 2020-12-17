@@ -4,6 +4,7 @@ categories:
   - Blog
   - CMS
 questions:
+## about rancher
 - variable: rancher.host
   label: rancher ip or domain name
   description: "bearbearbear0325"
@@ -11,18 +12,17 @@ questions:
   required: true
   default: "10.20.50.70"
   group: "rancher devops service"
-  subquestions:
-  - variable: rancher.AccessKey
-    label: rancher API AccessKey
-    description: "rancher key"
-    type: string
-    required: true
-    default: ""
-    group: "rancher devops service"
-  - variable: rancher.SecretKey
-    label: rancher API SecretKey
-    description: "rancher key"
-    type: string
-    required: true
-    default: ""
-    group: "rancher devops service"
+- variable: rancher.AccessKey
+  label: rancher API AccessKey
+  description: "rancher key"
+  type: string
+  required: true
+  default: ""
+  group: "rancher devops service"
+- variable: rancher.SecretKey
+  label: rancher API SecretKey
+  description: "rancher key"
+  type: string
+  required: true
+  default: ""
+  group: "rancher devops service"
