@@ -32,3 +32,10 @@ questions:
     - test
     - fire
     - static
+- variable: git.commitID
+  label: 專案commit名稱
+  description: "請輸入您專案的commit名稱 這個主要用於提供checkmarx掃描時需要"
+  type: string
+  required: true
+  default: "I am bear"
+  group: "專案Git相關設定"
