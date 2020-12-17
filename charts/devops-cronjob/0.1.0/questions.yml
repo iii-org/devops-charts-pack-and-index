@@ -5,7 +5,7 @@ categories:
   - CMS
 questions:
 - variable: rancher.host
-  label: "rancher ip or domain name"
+  label: rancher ip or domain name
   description: "bearbearbear0325"
   type: string
   required: true
@@ -13,14 +13,14 @@ questions:
   group: "rancher devops service"
   subquestions:
   - variable: rancher.AccessKey
-    label: "rancher API AccessKey"
+    label: rancher API AccessKey
     description: "rancher key"
     type: string
     required: true
     default: ""
     group: "rancher devops service"
   - variable: rancher.SecretKey
-    label: "rancher API SecretKey"
+    label: rancher API SecretKey
     description: "rancher key"
     type: string
     required: true
