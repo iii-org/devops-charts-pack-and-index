@@ -1,6 +1,3 @@
-categories:
-- Blog
-- CMS
 questions:
 - variable: rancher.host
 label: "rancher ip or domain name"
@@ -11,12 +8,12 @@ default: "10.20.50.70"
 group: "rancher devops service"
 subquestions:
 - variable: rancher.AccessKey
-    label: "rancher API AccessKey"
-    description: "rancher key"
-    type: string
-    required: true
+label: "rancher API的AccessKey"
+description: "rancher key"
+type: string
+required: true
 - variable: rancher.SecretKey
-    label: "rancher API SecretKey"
-    description: "rancher key"
-    type: string
-    required: true
+label: "rancher API的SecretKey"
+description: "rancher key"
+type: string
+required: true
