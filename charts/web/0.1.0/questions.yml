@@ -32,6 +32,7 @@ questions:
     - test
     - fire
     - static
+  group: "專案Git相關設定"
 - variable: git.commitID
   label: 專案commit名稱
   description: "請輸入您專案的commit名稱 這個主要用於提供checkmarx掃描時需要"
@@ -39,3 +40,18 @@ questions:
   required: true
   default: "I am bear"
   group: "專案Git相關設定"
+## about web
+- variable: web.type
+  default: "php"
+  description: "選擇您應用網站類型，主要影響您網站的對外連線"
+  label: 請輸入要部屬的應用網站類型
+  type: enum
+  options:
+    - test3
+    - test2
+    - test1
+    - spring
+    - uwsgi-flask
+    - php
+    - flask
+  group: "應用程式部屬設定"
