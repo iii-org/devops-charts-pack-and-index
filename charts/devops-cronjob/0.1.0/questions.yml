@@ -17,10 +17,12 @@ questions:
     description: "rancher key"
     type: string
     required: true
+    default: ""
     group: "rancher devops service"
   - variable: rancher.SecretKey
     label: "rancher API SecretKey"
     description: "rancher key"
     type: string
     required: true
+    default: ""
     group: "rancher devops service"
