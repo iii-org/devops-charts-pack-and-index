@@ -19,3 +19,16 @@ questions:
   required: true
   default: "flask-app-tempalte"
   group: "專案Git相關設定"
+- variable: git.branch
+  default: "master"
+  description: "選擇您專案的分支，預設採用master"
+  label: 請輸入要部屬的專案分支
+  type: enum
+  options:
+    - master
+    - main
+    - developer
+    - bear
+    - test
+    - fire
+    - static
