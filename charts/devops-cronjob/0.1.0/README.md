@@ -1,4 +1,7 @@
 
+## 申請rancher API 說明
+![image](img/rancher_api_1.PNG)
+
 ## cronjob排程號碼說明
 
 ```
