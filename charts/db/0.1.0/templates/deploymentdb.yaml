@@ -27,7 +27,7 @@ spec:
       strategy:
         type: Recreate
       # 限制失敗重啟次數(避免因工作執行序不足而造成的額外負擔延緩效能)
-      maxRetries: 3
+      # maxRetries: 3 known value 
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
