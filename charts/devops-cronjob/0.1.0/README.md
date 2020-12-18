@@ -1,6 +1,7 @@
 
 ## 申請rancher API 說明
 ![image](https://github.com/iii-org/devops-charts/blob/main/charts/devops-cronjob/0.1.0/img/rancher_api_1.PNG)
+![image](https://github.com/iii-org/devops-charts/blob/main/charts/devops-cronjob/0.1.0/img/rancher_api_2.PNG)
 
 ## cronjob排程號碼說明
 
