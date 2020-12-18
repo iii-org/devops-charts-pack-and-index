@@ -7,8 +7,8 @@ api:
   origin: ""
 checkmarx:
   url:
-  check-interval: 3000
-  client-secret: ""
+  checkInterval: 3000
+  clientSecret: ""
   username: ""
   password: ""
 gitlabToken:
@@ -17,7 +17,7 @@ gitlabToken:
   token: ""
 jwt:
   token: ""
-publish-keys:
+publish:
   username: ""
   password: ''
 
