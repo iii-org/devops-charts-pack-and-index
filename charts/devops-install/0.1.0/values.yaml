@@ -6,13 +6,13 @@
 api:
   origin: "bearapiorigin"
 checkmarx:
-  url:
+  url: "checkmarx bear"
   checkInterval: 3000
-  clientSecret: ""
+  clientSecret: "checkmarx client bear"
   username: "bear"
   password: "bearisbear"
 gitlabToken:
-  clone:
+  clone: "clone bear"
   # 受限制的我忘了(原始的)
   token: "beartoken"
 jwt:
