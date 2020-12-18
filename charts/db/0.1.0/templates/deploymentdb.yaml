@@ -14,8 +14,8 @@ spec:
       #{{- include "db.selectorLabels" . | nindent 6 }}
       app: "{{ .Release.Name }}-{{ .Values.db.type }}-db"
   # 單一時間僅可單一容器存在，非Production作法
-  strategy:
-    type: Recreate
+  #strategy:
+    #type: Recreate
     # 限制失敗重啟次數(避免因工作執行序不足而造成的額外負擔延緩效能)
     #maxRetries: 3 
   template:
