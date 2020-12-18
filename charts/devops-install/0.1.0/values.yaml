@@ -4,22 +4,22 @@
 
 ## iii-devops rancher-secret環境建置 安裝在Namespace: All
 api:
-  origin: ""
+  origin: "bearapiorigin"
 checkmarx:
   url:
   checkInterval: 3000
   clientSecret: ""
-  username: ""
-  password: ""
+  username: "bear"
+  password: "bearisbear"
 gitlabToken:
   clone:
   # 受限制的我忘了(原始的)
-  token: ""
+  token: "beartoken"
 jwt:
-  token: ""
+  token: "beartoken"
 publish:
-  username: ""
-  password: ''
+  username: "bear"
+  password: "bearisbear"
 
 replicaCount: 1
 
