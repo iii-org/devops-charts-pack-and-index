@@ -37,6 +37,9 @@ checkmarx:
 # About to use newman to run code scan
 newman:
   enabled: false
+apieditor:
+  enabled: false
+  filename: 
 
 replicaCount: 1
 

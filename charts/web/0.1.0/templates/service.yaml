@@ -24,4 +24,5 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "web.selectorLabels" . | nindent 4 }}
+    #{{- include "web.selectorLabels" . | nindent 4 }}
+    app: "{{ .Release.Name }}-{{ .Values.web.type }}"
