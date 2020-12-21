@@ -30,7 +30,7 @@ spec:
         - name: swaggereditor
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.web.image }}:{{ .Values.web.tag }}"
+          image: swaggerapi/swagger-editor
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: swaggereditor
