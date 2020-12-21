@@ -38,9 +38,9 @@ spec:
               protocol: TCP
           env:
             - name: PUID
-              value: {{ .Values.codeServer.PUID | quote }}
+              value: "{{ .Values.codeServer.PUID }}"
             - name: PGID
-              value: {{ .Values.codeServer.PGID | quote }}
+              value: "{{ .Values.codeServer.PGID }}"
             - name: TZ
               value: {{ .Values.codeServer.TZ }}
             - name: PASSWORD
