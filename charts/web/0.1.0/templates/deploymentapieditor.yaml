@@ -1,3 +1,5 @@
+# 線上API編寫的部屬(如果使用者有說明需要API線上部屬服務的話)
+{{ if eq .Values.apieditor.enabled true -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -34,6 +36,9 @@ spec:
             - name: swaggereditor
               containerPort: 8080
               protocol: TCP
+          env:
+            - name: SWAGGER_FILE
+              value: "/tmp/{{ .Values.apieditor.filename }}"
           #livenessProbe:
           #  httpGet:
           #    path: /
@@ -42,8 +47,34 @@ spec:
           #  httpGet:
           #    path: /
           #    port: http
+          volumeMounts:
+            - mountPath: /tmp
+              name: initswagger
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      # 自動將資料庫所需匯入的表單匯入到資料庫
+      initContainers:
+        - name: initializing-a-new-instance
+          image: alpine/git
+          command: ['sh', '-c', 'git clone --branch ${git_branch} http://root:${git_token}@${git_host}/root/${git_repo}.git ; ls; mv -v ${git_repo}/restful/* /init-data/; cd /init-data; ls; chmod -R 777 /init-data']
+          env:
+            - name: git_host
+              value: {{ .Values.git.host }}
+            - name: git_repo
+              value: {{ .Values.git.repoName }}
+            - name: git_branch
+              value: {{ .Values.git.branch }}
+            - name: git_token
+              valueFrom:
+                secretKeyRef:
+                  name: gitlab-token
+                  key: git-clone
+          volumeMounts:
+            - mountPath: /init-data
+              name: initswagger
+      volumes:
+        - name: initswagger
+          emptyDir: {}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -56,3 +87,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+{{- end }}

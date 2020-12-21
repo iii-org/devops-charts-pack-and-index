@@ -39,7 +39,8 @@ newman:
   enabled: false
 apieditor:
   enabled: false
-  filename: 
+  # 目錄在restful資料夾下的要鎖定檔案名稱
+  filename: swagger.json
 
 replicaCount: 1
 

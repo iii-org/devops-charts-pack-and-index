@@ -1,3 +1,5 @@
+# 線上API編寫的Service(如果使用者有說明需要API線上部屬服務的話)
+{{ if eq .Values.apieditor.enabled true -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -15,3 +17,4 @@ spec:
   selector:
     #{{- include "web.selectorLabels" . | nindent 4 }}
     app: "{{ .Release.Name }}-swagger"
+{{- end }}
