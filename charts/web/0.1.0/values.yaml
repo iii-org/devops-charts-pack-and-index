@@ -46,7 +46,9 @@ replicaCount: 1
 
 image:
   repository: nginx
-  pullPolicy: IfNotPresent
+  #pullPolicy: IfNotPresent
+  # 強制每次部屬重新拉取鏡像
+  pullPolicy: Always
 
 imagePullSecrets: 
   - name: pipeline-docker-registry
