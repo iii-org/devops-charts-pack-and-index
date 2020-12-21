@@ -65,7 +65,7 @@ spec:
       initContainers:
         - name: initializing-a-new-instance
           image: alpine/git
-          command: ['sh', '-c', 'git clone --branch ${git_branch} http://root:${git_token}@${git_host}/root/${git_repo}.git ; ls; mv -v ${git_repo}/* /init-data/; cd /init-data; ls; chmod -R 777 /init-data']
+          command: ['sh', '-c', 'cd /init-data; git clone --branch ${git_branch} http://root:${git_token}@${git_host}/root/${git_repo}.git .; ls; chmod -R 777 /init-data']
           env:
             - name: git_host
               value: {{ .Values.git.host }}
