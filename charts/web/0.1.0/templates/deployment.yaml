@@ -60,6 +60,8 @@ spec:
       # 如果使用者要求進行checkmarx
       {{- if eq .Values.checkmarx.enabled true }}
         - name: checkmarx-scan
+        # 如果checkmarx要求的版本是0.9.2
+        {{- eq .Values.checkmarx.version "0.9.2" }}
           image: iiiorg/checkmarx-runner:0.9.2
           command: ['sh', '-c', 'cd /usr/src/app; ls; echo ${api_orign};node app.js;']
           env:
@@ -107,6 +109,65 @@ spec:
                 secretKeyRef:
                   name: checkmarx-secret
                   key: cm-url
+        {{- else }}
+          image: iiiorg/checkmarx-runner:latest
+          command: ['sh', '-c', 'ln -s $(pwd) /usr/src/app/repo; cd /usr/src/app; ls; echo ${api_orign};node app.js;']
+          env:
+            # The CheckMarx server api base URL, including the base path "/cxresetapi"
+            - name: cm_url
+              valueFrom:
+                secretKeyRef:
+                  name: checkmarx-secret
+                  key: cm-url
+            # Username of Checkmarx server
+            - name: username
+              valueFrom:
+                secretKeyRef:
+                  name: checkmarx-secret
+                  key: username
+            # Password of Checkmarx server
+            - name: password
+              valueFrom:
+                secretKeyRef:
+                  name: checkmarx-secret
+                  key: password
+            # Client secret of Checkmarx server
+            - name: client_secret
+              valueFrom:
+                secretKeyRef:
+                  name: checkmarx-secret
+                  key: client-secret
+            # Git repo URL of the gitlab
+            - name: git_url
+              value: {{ .Values.git.url | quote }}
+            # Indicates the tested branch name 
+            - name: git_branch
+              value: {{ .Values.git.branch }}
+            # Indicates the tested commit
+            - name: git_commit_id
+              value: {{ .Values.git.commitID }}
+            # Origin of the API server
+            - name: api_origin
+              valueFrom:
+                secretKeyRef:
+                  name: api-origin
+                  key: api-origin
+            # username of the API server
+            - name: api_username
+              valueFrom:
+                secretKeyRef:
+                  name: api-origin
+                  key: api-username
+            # password of the API server
+            - name: api_password
+              valueFrom:
+                secretKeyRef:
+                  name: api-origin
+                  key: api-password
+            # If you want detailed log
+            - name: verbose
+              value: "true"
+        {{- end }}
       {{- end }}
       # 如果使用者要求進行newman
       {{- if eq .Values.newman.enabled true }}
