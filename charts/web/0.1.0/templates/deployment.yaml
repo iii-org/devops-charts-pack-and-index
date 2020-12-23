@@ -61,7 +61,7 @@ spec:
       {{- if eq .Values.checkmarx.enabled true }}
         - name: checkmarx-scan
         # 如果checkmarx要求的版本是0.9.2
-        {{- eq .Values.checkmarx.version "0.9.2" }}
+        {{- if (eq .Values.checkmarx.version "0.9.2") }}
           image: iiiorg/checkmarx-runner:0.9.2
           command: ['sh', '-c', 'cd /usr/src/app; ls; echo ${api_orign};node app.js;']
           env:
@@ -109,6 +109,7 @@ spec:
                 secretKeyRef:
                   name: checkmarx-secret
                   key: cm-url
+        # 非0.9.2則使用最新版本的checkmarx
         {{- else }}
           image: iiiorg/checkmarx-runner:latest
           command: ['sh', '-c', 'ln -s $(pwd) /usr/src/app/repo; cd /usr/src/app; ls; echo ${api_orign};node app.js;']
