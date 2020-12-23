@@ -91,17 +91,16 @@ questions:
 ## about codeServer
 - variable: codeServer.enabled
   default: "false"
-  description: "是否要使用個人專屬的線上開發平台(vscode)，具執行環境"
+  description: "是否要使用個人專屬的線上開發平台(vscode) 具執行環境"
   label: 個人線上程式開發平台
   type: boolean
   # 如果使用者要求要進行checkmarx掃描的話就進入到進階問題的詢問部分
   show_subquestion_if: true
-  group: "個人線上程式開發平台(vscode))"
+  group: "個人線上程式開發平台(vscode)"
   subquestions:
   - variable: codeServer.PASSWORD
     default: ""
     description: "此密碼除了用作登入以外，在裡面的terminal sudo等密碼均為您的個人密碼"
     label: 在這裡輸入您想要的個人的線上開發平台登入密碼
     type: string
-    required: true
     
