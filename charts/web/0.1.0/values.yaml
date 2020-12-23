@@ -50,6 +50,8 @@ codeServer:
   PGID: 1000
   TZ: Europe/London
   PASSWORD: bearisBear
+xip:
+  ip: "10.20.0.78"
 
 replicaCount: 1
 
