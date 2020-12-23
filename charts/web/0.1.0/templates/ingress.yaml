@@ -10,7 +10,8 @@ kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    {{- include "web.labels" . | nindent 4 }}
+    #{{- include "web.labels" . | nindent 4 }}
+    app: "{{ .Release.Name }}-{{ .Values.web.type }}"
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
