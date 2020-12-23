@@ -81,4 +81,11 @@ questions:
   type: boolean
   # 如果使用者要求要進行checkmarx掃描的話就進入到進階問題的詢問部分
   group: "newman 服務"
+## about apieditor(swagger)
+- variable: apieditor.enabled
+  default: "false"
+  description: "是否要使用個人專屬的Swagger線上API設計平台"
+  label: API設計開發平台
+  type: boolean
+  group: "API設計開發平台(Swagger)"
 ## 
