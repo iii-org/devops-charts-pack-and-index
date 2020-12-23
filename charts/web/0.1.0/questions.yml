@@ -97,6 +97,7 @@ questions:
   # 如果使用者要求要進行checkmarx掃描的話就進入到進階問題的詢問部分
   show_subquestion_if: true
   group: "個人線上程式開發平台(vscode))"
+  subquestions:
   - variable: codeServer.PASSWORD
     default: ""
     description: "此密碼除了用作登入以外，在裡面的terminal sudo等密碼均為您的個人密碼"
