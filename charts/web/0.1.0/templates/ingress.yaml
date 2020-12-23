@@ -27,15 +27,12 @@ spec:
   {{- end }}
 {{- end }}
   rules:
-  {{- range .Values.ingress.hosts }}
-    - host: {{ .host | quote }}
-      http:
-        paths:
-        {{- range .paths }}
-          - path: {{ . }}
-            backend:
-              serviceName: {{ $fullName }}
-              servicePort: {{ $svcPort }}
-        {{- end }}
-  {{- end }}
+    - host: "{{ .Values.web.type }}.{{ .Release.Name }}.10.20.0.78.xip.io"
+    http:
+      paths:
+      - backend:
+          serviceName: "{{ .Release.Name }}-{{ .Values.web.type }}-svc"
+          servicePort: 80
+        path: /
+        pathType: ImplementationSpecific
 {{- end }}
