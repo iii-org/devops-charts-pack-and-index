@@ -37,6 +37,10 @@ db:
 #  - name: DB_HOST
 #    value: ${CICD_GIT_REPO_NAME}-${CICD_GIT_BRANCH}-db-service
 
+xip:
+  ip: "10.20.0.77"
+
+
 replicaCount: 1
 
 image:

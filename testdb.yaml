@@ -11,3 +11,5 @@ db:
   gui: false
   type: "mysql"
   rootpassword: "bearflask"
+ingress:
+  enabled: true
