@@ -51,7 +51,8 @@ codeServer:
   TZ: Europe/London
   PASSWORD: bearisBear
 xip:
-  ip: "10.20.0.78"
+  # 因為rancher採用SingleNode因此需要避開此Node作為連線點
+  ip: "10.20.0.77"
 
 replicaCount: 1
 
