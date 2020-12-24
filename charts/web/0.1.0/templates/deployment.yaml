@@ -30,6 +30,13 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.web.image }}:{{ .Values.web.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: repoName
+              value: {{ .Values.git.repoName }}
+            - name: branch
+              value: {{ .Values.git.branch }}
+            - name: commitID
+              value: {{ .Values.git.commitID }}
           ports:
             - name: http
             {{- if eq .Values.web.type "php" }}
