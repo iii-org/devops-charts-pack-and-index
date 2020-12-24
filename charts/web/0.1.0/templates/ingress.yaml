@@ -34,7 +34,17 @@ spec:
       paths:
       - backend:
           serviceName: "{{ .Release.Name }}-{{ .Values.web.type }}-svc"
+        {{- if eq .Values.web.type "php" }}
           servicePort: 80
+        {{- else if eq .Values.web.type "flask" }}
+          servicePort: 5000
+        {{- else if eq .Values.web.type "uwsgi-flask" }}
+          servicePort: 80
+        {{- else if eq .Values.web.type "spring" }}
+          servicePort: 8080
+        {{- else if eq .Values.web.type "custom" }}
+          servicePort: {{ .Values.web.port }}
+        {{- end }}
         path: "/"
         pathType: "ImplementationSpecific"
 {{- end }}
