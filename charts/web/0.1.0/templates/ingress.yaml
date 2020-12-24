@@ -29,7 +29,7 @@ spec:
 #  {{- end }}
 #{{- end }}
   rules:
-    - host: "{{ .Values.web.type }}.{{ .Release.Name }}.10.20.0.78.xip.io"
+  - host: "{{ .Values.web.type }}.{{ .Values.git.branch}}.{{ .Values.git.repoName }}.10.20.0.78.xip.io"
     http:
       paths:
       - backend:
