@@ -1,0 +1,345 @@
+NAME: io-network-db
+LAST DEPLOYED: Thu Dec 24 08:02:07 2020
+NAMESPACE: default
+STATUS: pending-install
+REVISION: 1
+USER-SUPPLIED VALUES:
+db:
+  enabled: true
+  gui: true
+  name: databasename
+  password: dbpassword
+  type: postgresql
+  username: dbuser
+git:
+  branch: master
+  repoName: io-networks
+  url: http://140.92.4.3/root/io-networks.git
+ingress:
+  enabled: true
+
+COMPUTED VALUES:
+affinity: {}
+autoscaling:
+  enabled: false
+  maxReplicas: 100
+  minReplicas: 1
+  targetCPUUtilizationPercentage: 80
+db:
+  enabled: true
+  extraEnv: []
+  gui: true
+  image: ""
+  name: databasename
+  password: dbpassword
+  port: 3306
+  tag: latest
+  type: postgresql
+  username: dbuser
+fullnameOverride: ""
+git:
+  branch: master
+  host: 10.50.1.53
+  repoName: io-networks
+  url: http://140.92.4.3/root/io-networks.git
+image:
+  pullPolicy: Always
+  repository: nginx
+  tag: ""
+imagePullSecrets:
+- name: pipeline-docker-registry
+- name: harbor-63
+ingress:
+  annotations: {}
+  enabled: true
+  hosts:
+  - host: chart-example.local
+    paths: []
+  tls: []
+nameOverride: ""
+nodeSelector: {}
+podAnnotations: {}
+podSecurityContext: {}
+replicaCount: 1
+resources: {}
+securityContext: {}
+service:
+  port: 80
+  type: NodePort
+serviceAccount:
+  annotations: {}
+  create: true
+  name: ""
+tolerations: []
+xip:
+  ip: 10.20.0.77
+
+HOOKS:
+---
+# Source: db/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "io-network-db-test-connection"
+  labels:
+    helm.sh/chart: db-0.1.0
+    app.kubernetes.io/name: db
+    app.kubernetes.io/instance: io-network-db
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['io-network-db:80']
+  restartPolicy: Never
+MANIFEST:
+---
+# Source: db/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: io-network-db
+  labels:
+    helm.sh/chart: db-0.1.0
+    app.kubernetes.io/name: db
+    app.kubernetes.io/instance: io-network-db
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: db/templates/servicedb.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: "io-network-db-postgresql-db-svc"
+  labels:
+    #
+    helm.sh/chart: db-0.1.0
+    app.kubernetes.io/name: db
+    app.kubernetes.io/instance: io-network-db
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+    app: "io-network-db-postgresql-db"
+spec:
+  type: NodePort
+  ports:
+  # 判斷使用者要求使用甚麼資料庫，並以此決定要讓哪一個PORT透過Service對外
+    - port: 5432
+      targetPort: db
+      protocol: TCP
+      name: db
+  selector:
+    #
+    app.kubernetes.io/name: db
+    app.kubernetes.io/instance: io-network-db
+    app: "io-network-db-postgresql-db"
+---
+# Source: db/templates/servicedbgui.yaml
+# 資料庫的服務Service(如果使用者有說明需要資料庫的話)
+apiVersion: v1
+kind: Service
+metadata:
+  name: "io-network-db-postgresql-gui-svc"
+  labels:
+    #
+    helm.sh/chart: db-0.1.0
+    app.kubernetes.io/name: db
+    app.kubernetes.io/instance: io-network-db
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+    app: "io-network-db-postgresql-gui"
+spec:
+  type: NodePort
+  ports:
+  # 判斷使用者要求使用甚麼資料庫，並以此決定要讓哪一個PORT透過Service對外
+    - port: 8080
+      targetPort: dbgui
+      protocol: TCP
+      name: dbgui
+  selector:
+    #
+    app.kubernetes.io/name: db
+    app.kubernetes.io/instance: io-network-db
+    app: "io-network-db-postgresql-gui"
+---
+# Source: db/templates/deploymentdb.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "io-network-db-postgresql-db"
+  labels:
+    #
+    helm.sh/chart: db-0.1.0
+    app.kubernetes.io/name: db
+    app.kubernetes.io/instance: io-network-db
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+    app: "io-network-db-postgresql-db"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      #
+      app.kubernetes.io/name: db
+      app.kubernetes.io/instance: io-network-db
+      app: "io-network-db-postgresql-db"
+  # 單一時間僅可單一容器存在，非Production作法
+  #strategy:
+    #type: Recreate
+    # 限制失敗重啟次數(避免因工作執行序不足而造成的額外負擔延緩效能)
+    #maxRetries: 3 
+  template:
+    metadata:
+      labels:
+        #
+        app.kubernetes.io/name: db
+        app.kubernetes.io/instance: io-network-db
+        app: "io-network-db-postgresql-db"
+    spec:
+      imagePullSecrets:
+        - name: pipeline-docker-registry
+        - name: harbor-63
+      serviceAccountName: io-network-db
+      securityContext:
+        {}
+      containers:
+        - name: postgresql
+          securityContext:
+            {}
+          #image: ":latest"
+          image: "bitnami/postgresql:latest"
+          imagePullPolicy: Always
+          ports:
+            - name: db
+              containerPort: 5432
+              protocol: TCP
+          #livenessProbe:
+          #  httpGet:
+          #    path: /
+          #    port: httproot
+          #readinessProbe:
+          #  httpGet:
+          #    path: /
+          #    port: http
+          env:
+          - name: POSTGRESQL_USERNAME
+            value: dbuser
+          - name: POSTGRESQL_PASSWORD
+            value: dbpassword
+          - name: POSTGRESQL_DATABASE
+            value: databasename
+          volumeMounts:
+            - mountPath: /docker-entrypoint-initdb.d
+              name: initdb
+          resources:
+            {}
+      # 自動將資料庫所需匯入的表單匯入到資料庫
+      initContainers:
+        - name: initializing-a-new-instance
+          image: alpine/git
+          command: ['sh', '-c', 'git clone --branch ${git_branch} http://root:${git_token}@${git_host}/root/${git_repo}.git ; ls; mv -v ${git_repo}/db/* /initdb-data/; cd /initdb-data; ls; chmod -R 777 /initdb-data']
+          env:
+            - name: git_host
+              value: 10.50.1.53
+            - name: git_repo
+              value: io-networks
+            - name: git_branch
+              value: master
+            - name: git_token
+              valueFrom:
+                secretKeyRef:
+                  name: gitlab-token
+                  key: git-clone
+          volumeMounts:
+            - mountPath: /initdb-data
+              name: initdb
+      volumes:
+        - name: initdb
+          emptyDir: {}
+---
+# Source: db/templates/deploymentdbgui.yaml
+# 部屬資料庫管理網頁(如果使用者有說明需要的話)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "io-network-db-postgresql-gui"
+  labels:
+    #
+    helm.sh/chart: db-0.1.0
+    app.kubernetes.io/name: db
+    app.kubernetes.io/instance: io-network-db
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+    app: "io-network-db-postgresql-gui"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      #
+      app.kubernetes.io/name: db
+      app.kubernetes.io/instance: io-network-db
+      app: "io-network-db-postgresql-gui"
+  template:
+    metadata:
+      labels:
+        #
+        app.kubernetes.io/name: db
+        app.kubernetes.io/instance: io-network-db
+        app: "io-network-db-postgresql-gui"
+    spec:
+      imagePullSecrets:
+        - name: pipeline-docker-registry
+        - name: harbor-63
+      serviceAccountName: io-network-db
+      securityContext:
+        {}
+      containers:
+        - name: databasename
+          securityContext:
+            {}
+        # 按照使用者要求的資料庫去配置對應的網頁管理鏡像，基本上除了mongodb獨特，其他都可以用adminer
+          image: "adminer"
+          imagePullPolicy: Always
+          ports:
+            - name: dbgui
+              containerPort: 8080
+              protocol: TCP
+          env:
+        # 先保留給予後續鏡像環境設定時候使用
+          - name: ADMINER_DEFAULT_SERVER
+            value: "io-network-db-postgresql-db-svc"
+          - name: POSTGRESQL_USERNAME
+            value: root
+          - name: POSTGRESQL_PASSWORD
+            value: 
+          resources:
+            {}
+---
+# Source: db/templates/ingressdbgui.yaml
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: io-network-db
+  labels:
+    helm.sh/chart: db-0.1.0
+    app.kubernetes.io/name: db
+    app.kubernetes.io/instance: io-network-db
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+#
+  rules:
+  - host: "postgresql.master.io-networks.10.20.0.77.xip.io"
+    http:
+      paths:
+      - backend:
+          serviceName: "io-network-db-postgresql-gui-svc"
+          servicePort: 8080
+        path: "/"
+        pathType: "ImplementationSpecific"
+
+NOTES:
+1. Get the application URL by running these commands:
