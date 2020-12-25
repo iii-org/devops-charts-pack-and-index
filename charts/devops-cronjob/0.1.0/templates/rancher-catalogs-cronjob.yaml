@@ -10,7 +10,7 @@ spec:
         spec:
           containers:
           - name: rancher-catalogs-refresh
-            image: "{{ Values.registry.ip }}/{{ .Values.registry.hub }}/curlimages/curl"
+            image: "{{ Values.registry.url }}/{{ .Values.registry.hub }}/curlimages/curl"
             imagePullPolicy: IfNotPresent
             args: ['curl', '--insecure', '-v', '-u', '$(CATTLE_ACCESS_KEY):$(CATTLE_SECRET_KEY)', '-X', 'POST', '-H', 'Accept: application/json', '-H', 'Content-Type: application/json', 'https://{{ .Values.rancher.host }}/v3/catalogs/iii-dev-charts3?action=refresh']
             env:
