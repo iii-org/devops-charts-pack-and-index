@@ -10,6 +10,11 @@ rancher:
   SecretKey: "lhv2phk852vsgh2jb2m2q8rf28pvlvhtw487tmkmkq9k6xskcx76cr"
   BearerToken: "token-thzvx:lhv2phk852vsgh2jb2m2q8rf28pvlvhtw487tmkmkq9k6xskcx76cr" 
   host: "10.20.0.70"
+registry:
+  "要存取鏡像的來源"
+  url: "10.50.1.63:5443"
+  # harbor作為docker hub的快取，在Harbor上的專案名稱
+  hub: hub
 
 replicaCount: 1
 
@@ -18,6 +23,7 @@ image:
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
+  
 
 imagePullSecrets: []
 nameOverride: ""
