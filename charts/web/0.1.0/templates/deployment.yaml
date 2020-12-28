@@ -25,7 +25,7 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: "{{ .Values.web.type }}-{{ .Values.git.commitID | quote }}"
+        - name: "{{ .Values.web.type }}-{{ .Values.git.commitID }}"
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.web.image }}:{{ .Values.web.tag }}"
