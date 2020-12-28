@@ -15,5 +15,8 @@ newman:
 apieditor:
   enabled: true
   filename: "rancher-service-swagger.yml"
+codeServer:
+  enabled: true
+  PASSWORD: openstack
 ingress:
   enabled: true
