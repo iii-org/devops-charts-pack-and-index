@@ -2,7 +2,7 @@ git:
   url: "http://10.50.1.53/root/flask-app-pipeline-template.git"
   repoName: "flask-app-pipeline-template"
   branch: "master"
-  commitID: "f999b13d"
+  commitID: f999b13d
 web: 
   type: flask
   image: "10.50.1.63:5443/app/flask-app-pipeline-template-web"

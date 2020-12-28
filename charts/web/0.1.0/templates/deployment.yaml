@@ -25,7 +25,7 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: "{{ .Values.web.type }}-{{ .Values.git.commitID }}"
+        - name: "{{ .Values.web.type }}-{{ .Values.git.commitID | quote }}"
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.web.image }}:{{ .Values.web.tag }}"
@@ -36,7 +36,7 @@ spec:
             - name: branch
               value: {{ .Values.git.branch }}
             - name: commitID
-              value: {{ .Values.git.commitID }}
+              value: {{ .Values.git.commitID | quote }}
           ports:
             - name: http
             {{- if eq .Values.web.type "php" }}
@@ -153,7 +153,7 @@ spec:
               value: {{ .Values.git.branch }}
             # Indicates the tested commit
             - name: git_commit_id
-              value: {{ .Values.git.commitID }}
+              value: {{ .Values.git.commitID | quote }}
             # Origin of the API server
             - name: api_origin
               valueFrom:
@@ -188,7 +188,7 @@ spec:
             - name: git_branch
               value: {{ .Values.git.branch }}
             - name: git_commit_id
-              value: {{ .Values.git.commitID }}
+              value: {{ .Values.git.commitID | quote }}
             - name: test_origin
               value: "http://{{ .Values.git.repoName }}-${.Values.git.branch}:10009"
             - name: verbose
