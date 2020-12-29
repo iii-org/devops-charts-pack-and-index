@@ -14,7 +14,7 @@ registry:
   # 要存取鏡像的來源
   url: "10.50.1.63:5443"
   # harbor作為docker hub的快取，在Harbor上的專案名稱
-  hub: hub
+  hub: dockerhub
 
 replicaCount: 1
 
