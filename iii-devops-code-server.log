@@ -1,0 +1,513 @@
+NAME: iii-devops-code-server
+LAST DEPLOYED: Wed Dec 30 04:33:31 2020
+NAMESPACE: default
+STATUS: pending-install
+REVISION: 1
+USER-SUPPLIED VALUES:
+apieditor:
+  enabled: false
+checkmarx:
+  enabled: true
+  version: latest
+codeServer:
+  PASSWORD: openstack
+  enabled: true
+git:
+  branch: master
+  commitID: e2a73cd9
+  repoName: iii-devops-code-server
+  url: http://10.20.0.71/root/iii-devops-code-server.git
+ingress:
+  enabled: true
+newman:
+  enabled: true
+web:
+  image: 10.20.0.71:5443/iii-devops-code-server/code-server
+  tag: latest
+  type: flask
+
+COMPUTED VALUES:
+affinity: {}
+apieditor:
+  enabled: false
+  filename: swagger.json
+checkmarx:
+  enabled: true
+  version: latest
+codeServer:
+  PASSWORD: openstack
+  PGID: 1000
+  PUID: 1000
+  TZ: Europe/London
+  enabled: true
+extraEnv: []
+fullnameOverride: ""
+git:
+  branch: master
+  commitID: e2a73cd9
+  host: 10.50.1.53
+  repoName: iii-devops-code-server
+  url: http://10.20.0.71/root/iii-devops-code-server.git
+image:
+  pullPolicy: Always
+  repository: nginx
+imagePullSecrets:
+- name: pipeline-docker-registry
+- name: harbor-63
+ingress:
+  annotations: {}
+  enabled: true
+  hosts:
+  - host: chart-example.local
+    paths: []
+  tls: []
+nameOverride: ""
+newman:
+  enabled: true
+nodeSelector: {}
+podSecurityContext: {}
+replicaCount: 1
+resources: {}
+securityContext: {}
+service:
+  port: 80
+  type: NodePort
+serviceAccount:
+  annotations: {}
+  create: true
+  name: null
+tolerations: []
+web:
+  image: 10.20.0.71:5443/iii-devops-code-server/code-server
+  port: 80
+  tag: latest
+  type: flask
+xip:
+  ip: 10.20.0.77
+
+HOOKS:
+---
+# Source: web/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "iii-devops-code-server-web-test-connection"
+  labels:
+    helm.sh/chart: web-0.1.0
+    app.kubernetes.io/name: web
+    app.kubernetes.io/instance: iii-devops-code-server
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['iii-devops-code-server-web:80']
+  restartPolicy: Never
+MANIFEST:
+---
+# Source: web/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: iii-devops-code-server-web
+  labels:
+    helm.sh/chart: web-0.1.0
+    app.kubernetes.io/name: web
+    app.kubernetes.io/instance: iii-devops-code-server
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: web/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: "iii-devops-code-server-flask-svc"
+  labels:
+    #
+    helm.sh/chart: web-0.1.0
+    app.kubernetes.io/name: web
+    app.kubernetes.io/instance: iii-devops-code-server
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+    app: "iii-devops-code-server-flask"
+spec:
+  type: NodePort
+  ports:
+  # 判斷使用者要求使用甚麼資料庫，並以此決定要讓哪一個PORT透過Service對外
+    - port: 5000
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    #
+    app.kubernetes.io/name: web
+    app.kubernetes.io/instance: iii-devops-code-server
+    app: "iii-devops-code-server-flask"
+---
+# Source: web/templates/servicevscodeserver.yaml
+# 線上API編寫的Service(如果使用者有說明需要API線上部屬服務的話)
+apiVersion: v1
+kind: Service
+metadata:
+  name: "iii-devops-code-server-codeserver-svc"
+  labels:
+    #
+    helm.sh/chart: web-0.1.0
+    app.kubernetes.io/name: web
+    app.kubernetes.io/instance: iii-devops-code-server
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+    app: "iii-devops-code-server-codeserver"
+spec:
+  type: NodePort
+  ports:
+    - port: 8443
+      targetPort: codeserver
+      protocol: TCP
+      name: codeserver
+  selector:
+    #
+    app.kubernetes.io/name: web
+    app.kubernetes.io/instance: iii-devops-code-server
+    app: "iii-devops-code-server-codeserver"
+---
+# Source: web/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "iii-devops-code-server-flask"
+  labels:
+    #
+    helm.sh/chart: web-0.1.0
+    app.kubernetes.io/name: web
+    app.kubernetes.io/instance: iii-devops-code-server
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+    app: "iii-devops-code-server-flask"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      #
+      app.kubernetes.io/name: web
+      app.kubernetes.io/instance: iii-devops-code-server
+      app: "iii-devops-code-server-flask"
+  template:
+    metadata:
+      labels:
+        #
+        app.kubernetes.io/name: web
+        app.kubernetes.io/instance: iii-devops-code-server
+        app: "iii-devops-code-server-flask"
+    spec:
+      imagePullSecrets:
+        - name: pipeline-docker-registry
+        - name: harbor-63
+      serviceAccountName: iii-devops-code-server-web
+      securityContext:
+        {}
+      containers:
+        - name: "flask-e2a73cd9"
+          securityContext:
+            {}
+          image: "10.20.0.71:5443/iii-devops-code-server/code-server:latest"
+          imagePullPolicy: Always
+          env:
+            - name: repoName
+              value: iii-devops-code-server
+            - name: branch
+              value: master
+            - name: commitID
+              value: "e2a73cd9"
+          ports:
+            - name: http
+              containerPort: 5000
+              protocol: TCP
+          #livenessProbe:
+          #  httpGet:
+          #    path: /
+          #    port: http
+          #readinessProbe:
+          #  httpGet:
+          #    path: /
+          #    port: http
+          resources:
+            {}
+      # 如果使用者有任意個額外需求啟動
+      initContainers:
+      # 如果使用者要求進行checkmarx
+        - name: checkmarx-scan
+        # 如果checkmarx要求的版本是0.9.2
+          image: iiiorg/checkmarx-runner:latest
+          command: ['sh', '-c', 'ln -s $(pwd) /usr/src/app/repo; cd /usr/src/app; ls; echo ${api_orign};node app.js;']
+          env:
+            # The CheckMarx server api base URL, including the base path "/cxresetapi"
+            - name: cm_url
+              valueFrom:
+                secretKeyRef:
+                  name: checkmarx-secret
+                  key: cm-url
+            # Username of Checkmarx server
+            - name: username
+              valueFrom:
+                secretKeyRef:
+                  name: checkmarx-secret
+                  key: username
+            # Password of Checkmarx server
+            - name: password
+              valueFrom:
+                secretKeyRef:
+                  name: checkmarx-secret
+                  key: password
+            # Client secret of Checkmarx server
+            - name: client_secret
+              valueFrom:
+                secretKeyRef:
+                  name: checkmarx-secret
+                  key: client-secret
+            # Git repo URL of the gitlab
+            - name: git_url
+              value: "http://10.20.0.71/root/iii-devops-code-server.git"
+            # Indicates the tested branch name 
+            - name: git_branch
+              value: master
+            # Indicates the tested commit
+            - name: git_commit_id
+              value: "e2a73cd9"
+            # Origin of the API server
+            - name: api_origin
+              valueFrom:
+                secretKeyRef:
+                  name: api-origin
+                  key: api-origin
+            # username of the API server
+            - name: api_username
+              valueFrom:
+                secretKeyRef:
+                  name: api-origin
+                  key: api-username
+            # password of the API server
+            - name: api_password
+              valueFrom:
+                secretKeyRef:
+                  name: api-origin
+                  key: api-password
+            # If you want detailed log
+            - name: verbose
+              value: "true"
+      # 如果使用者要求進行newman
+        - name: newman-runner
+          image: 10.50.1.63:5443/iii-org/newman-runner:devops-system
+          command: ['sh', '-c', 'ln -s $(pwd) /usr/src/app/repo; cd /usr/src/app; ls; echo ${api_orign};node app.js;']
+          env:
+            - name: git_url
+              value: "http://10.20.0.71/root/iii-devops-code-server.git"
+            - name: git_branch
+              value: master
+            - name: git_commit_id
+              value: "e2a73cd9"
+            - name: test_origin
+              value: "http://iii-devops-code-server-${.Values.git.branch}:10009"
+            - name: verbose
+              value: "true"
+            - name: api_origin
+              valueFrom:
+                secretKeyRef:
+                  name: newman
+                  key: api-origin
+            - name: username
+              valueFrom: 
+                secretKeyRef:
+                  name: newman
+                  key: username
+            - name: password
+              valueFrom: 
+                secretKeyRef:
+                  name: newman
+                  key: password
+---
+# Source: web/templates/deploymentvscodeserver.yaml
+# 線上API編寫的部屬(如果使用者有說明需要API線上部屬服務的話)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "iii-devops-code-server-codeserver"
+  labels:
+    #
+    helm.sh/chart: web-0.1.0
+    app.kubernetes.io/name: web
+    app.kubernetes.io/instance: iii-devops-code-server
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+    app: "iii-devops-code-server-codeserver"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      #
+      app.kubernetes.io/name: web
+      app.kubernetes.io/instance: iii-devops-code-server
+      app: "iii-devops-code-server-codeserver"
+  template:
+    metadata:
+      labels:
+        #
+        app.kubernetes.io/name: web
+        app.kubernetes.io/instance: iii-devops-code-server
+        app: "iii-devops-code-server-codeserver"
+    spec:
+      imagePullSecrets:
+        - name: pipeline-docker-registry
+        - name: harbor-63
+      serviceAccountName: iii-devops-code-server-web
+      securityContext:
+        {}
+      containers:
+        - name: codeserver
+          securityContext:
+            {}
+          image: ghcr.io/linuxserver/code-server
+          imagePullPolicy: Always
+          ports:
+            - name: codeserver
+              containerPort: 8443
+              protocol: TCP
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: Europe/London
+            - name: PASSWORD
+              value: openstack
+            - name: SUDO_PASSWORD
+              value: openstack
+          #livenessProbe:
+          #  httpGet:
+          #    path: /
+          #    port: http
+          #readinessProbe:
+          #  httpGet:
+          #    path: /
+          #    port: http
+          # 使用者登入的Workspace空間資料
+          volumeMounts:
+            - mountPath: /config/workspace
+              name: initrepo
+          resources:
+            {}
+      # 匯入使用者的開發專案程式碼提供其線上進行修改
+      initContainers:
+        - name: initializing-a-new-instance
+          image: alpine/git
+          command: ['sh', '-c', 'cd /init-data; git clone --branch ${git_branch} http://root:${git_token}@${git_host}/root/${git_repo}.git .; ls; chmod -R 777 /init-data']
+          env:
+            - name: git_host
+              value: 10.50.1.53
+            - name: git_repo
+              value: iii-devops-code-server
+            - name: git_branch
+              value: master
+            - name: git_token
+              valueFrom:
+                secretKeyRef:
+                  name: gitlab-token
+                  key: git-clone
+          volumeMounts:
+            - mountPath: /init-data
+              name: initrepo
+      volumes:
+        - name: initrepo
+          emptyDir: {}
+---
+# Source: web/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  #name: iii-devops-code-server-web
+  name: "iii-devops-code-server-flask-ing"
+  labels:
+    #
+    helm.sh/chart: web-0.1.0
+    app.kubernetes.io/name: web
+    app.kubernetes.io/instance: iii-devops-code-server
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+    app: "iii-devops-code-server-flask"
+spec:
+#
+  rules:
+  - host: "flask.master.iii-devops-code-server.10.20.0.77.xip.io"
+    http:
+      paths:
+      - backend:
+          serviceName: "iii-devops-code-server-flask-svc"
+          servicePort: 5000
+        path: "/"
+        pathType: "ImplementationSpecific"
+---
+# Source: web/templates/ingressapieditor.yaml
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  #name: iii-devops-code-server-web
+  name: "iii-devops-code-server-flask-swagger-ing"
+  labels:
+    #
+    helm.sh/chart: web-0.1.0
+    app.kubernetes.io/name: web
+    app.kubernetes.io/instance: iii-devops-code-server
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+    app: "iii-devops-code-server-flask"
+spec:
+#
+  rules:
+  - host: "api.master.iii-devops-code-server.10.20.0.77.xip.io"
+    http:
+      paths:
+      - backend:
+          serviceName: "iii-devops-code-server-flask-swagger-svc"
+          servicePort: 8080
+        path: "/"
+        pathType: "ImplementationSpecific"
+---
+# Source: web/templates/ingressvscodeserver.yaml
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  #name: iii-devops-code-server-web
+  name: "iii-devops-code-server-codeserver-ing"
+  labels:
+    #
+    helm.sh/chart: web-0.1.0
+    app.kubernetes.io/name: web
+    app.kubernetes.io/instance: iii-devops-code-server
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+    app: "iii-devops-code-server-flask"
+spec:
+#
+  rules:
+  - host: "vscode.master.iii-devops-code-server.10.20.0.77.xip.io"
+    http:
+      paths:
+      - backend:
+          serviceName: "iii-devops-code-server-codeserver-svc"
+          servicePort: 8443
+        path: "/"
+        pathType: "ImplementationSpecific"
+---
+# Source: web/templates/deploymentapieditor.yaml
+# 線上API編寫的部屬(如果使用者有說明需要API線上部屬服務的話)
+---
+# Source: web/templates/serviceapieditor.yaml
+# 線上API編寫的Service(如果使用者有說明需要API線上部屬服務的話)
+
+NOTES:
+1. Get the application URL by running these commands:
