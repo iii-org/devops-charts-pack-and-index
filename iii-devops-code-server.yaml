@@ -1,0 +1,21 @@
+git: 
+  url: "http://10.20.0.71/root/iii-devops-code-server.git"
+  repoName: "iii-devops-code-server"
+  branch: "master"
+  commitID: e2a73cd9
+web: 
+  type: flask
+  image: "10.20.0.71:5443/iii-devops-code-server/code-server"
+  tag: latest
+checkmarx:
+  enabled: true
+  version: "latest"
+newman:
+  enabled: true
+apieditor:
+  enabled: false
+codeServer:
+  enabled: true
+  PASSWORD: openstack
+ingress:
+  enabled: true
