@@ -1,0 +1,42 @@
+## 在部屬完成後執行newman檢查
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    "helm.sh/hook": "post-install"
+  name: "newman-runner-{{ .Values.git.commitID }}"
+spec:
+  template:
+    spec:
+      containers:
+      - name: "newman-runner-{{ .Values.git.commitID }}"
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/newman-runner:devops-system"
+          command: ['sh', '-c', 'ln -s $(pwd) /usr/src/app/repo; cd /usr/src/app; ls; echo ${api_orign};node app.js;']
+          env:
+            - name: git_url
+              value: {{ .Values.git.url | quote }}
+            - name: git_branch
+              value: {{ .Values.git.branch }}
+            - name: git_commit_id
+              value: {{ .Values.git.commitID | quote }}
+            - name: test_origin
+              value: "http://{{ .Release.Name }}-{{ .Values.web.type }}-svc:5000"
+            - name: verbose
+              value: "true"
+            - name: api_origin
+              valueFrom:
+                secretKeyRef:
+                  name: newman
+                  key: api-origin
+            - name: username
+              valueFrom: 
+                secretKeyRef:
+                  name: newman
+                  key: username
+            - name: password
+              valueFrom: 
+                secretKeyRef:
+                  name: newman
+                  key: password
+      restartPolicy: Never
+  backoffLimit: 4

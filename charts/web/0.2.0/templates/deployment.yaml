@@ -125,7 +125,7 @@ spec:
       # 如果使用者要求進行newman
       {{- if eq .Values.newman.enabled true }}
         - name: "newman-runner-{{ .Values.git.commitID }}"
-          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iii-org/newman-runner:devops-system"
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/newman-runner:devops-system"
           command: ['sh', '-c', 'ln -s $(pwd) /usr/src/app/repo; cd /usr/src/app; ls; echo ${api_orign};node app.js;']
           env:
             - name: git_url
@@ -135,7 +135,7 @@ spec:
             - name: git_commit_id
               value: {{ .Values.git.commitID | quote }}
             - name: test_origin
-              value: "http://{{ .Values.git.repoName }}-${.Values.git.branch}:10009"
+              value: "http://{{ .Release.Name }}-{{ .Values.web.type }}-svc:5000"
             - name: verbose
               value: "true"
             - name: api_origin
