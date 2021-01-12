@@ -64,7 +64,7 @@ spec:
       # 如果使用者要求進行checkmarx
       {{- if eq .Values.checkmarx.enabled true }}
         - name: "checkmarx-scan-{{ .Values.git.commitID }}"
-          image: "{{ .Values.harbor.host }}/dockerhub/iiiorg/checkmarx-runner:latest"
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/checkmarx-runner:latest"
           command: ['sh', '-c', 'ln -s $(pwd) /usr/src/app/repo; cd /usr/src/app; ls; echo ${api_orign};node app.js;']
           env:
             # The CheckMarx server api base URL, including the base path "/cxresetapi"
@@ -125,7 +125,7 @@ spec:
       # 如果使用者要求進行newman
       {{- if eq .Values.newman.enabled true }}
         - name: "newman-runner-{{ .Values.git.commitID }}"
-          image: "{{ .Values.harbor.host }}/dockerhub/iii-org/newman-runner:devops-system"
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iii-org/newman-runner:devops-system"
           command: ['sh', '-c', 'ln -s $(pwd) /usr/src/app/repo; cd /usr/src/app; ls; echo ${api_orign};node app.js;']
           env:
             - name: git_url

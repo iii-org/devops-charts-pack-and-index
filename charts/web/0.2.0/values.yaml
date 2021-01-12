@@ -8,6 +8,7 @@
 # harbor
 harbor:
   host: ""
+  cache: dockerhub
 # aboout git repo info (準備於後續版本移除)
 git:
   host: "10.50.1.53"
