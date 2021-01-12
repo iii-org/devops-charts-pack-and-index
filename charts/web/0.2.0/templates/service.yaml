@@ -3,11 +3,12 @@ kind: Service
 metadata:
   name: "{{ .Release.Name }}-{{ .Values.web.type }}-svc"
   labels:
-    #{{- include "web.labels" . | nindent 4 }}
+    {{- include "web.labels" . | nindent 4 }}
     app: "{{ .Release.Name }}-{{ .Values.web.type }}"
 spec:
   type: {{ .Values.service.type }}
   selector:
+    {{- include "web.labels" . | nindent 4 }}
     app: "{{ .Release.Name }}-{{ .Values.web.type }}"
   ports:
   # 判斷使用者要求使用甚麼資料庫，並以此決定要讓哪一個PORT透過Service對外
@@ -25,6 +26,3 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
-  selector:
-    #{{- include "web.selectorLabels" . | nindent 4 }}
-    app: "{{ .Release.Name }}-{{ .Values.web.type }}"
