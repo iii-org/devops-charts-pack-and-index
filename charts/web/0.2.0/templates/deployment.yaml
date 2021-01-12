@@ -125,7 +125,7 @@ spec:
       # 如果使用者要求進行newman
       {{- if eq .Values.newman.enabled true }}
         - name: "newman-runner-{{ .Values.git.commitID }}"
-          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/newman-runner:devops-system"
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/newman-runner:latest"
           command: ['sh', '-c', 'ln -s $(pwd) /usr/src/app/repo; cd /usr/src/app; ls; echo ${api_orign};node app.js;']
           env:
             - name: git_url
