@@ -26,17 +26,17 @@ spec:
             - name: api_origin
               valueFrom:
                 secretKeyRef:
-                  name: newman
+                  name: nexus
                   key: api-origin
             - name: username
               valueFrom: 
                 secretKeyRef:
-                  name: newman
+                  name: nexus
                   key: username
             - name: password
               valueFrom: 
                 secretKeyRef:
-                  name: newman
+                  name: nexus
                   key: password
       restartPolicy: Never
   backoffLimit: 4
