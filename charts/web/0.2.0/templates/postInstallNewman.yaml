@@ -4,9 +4,12 @@ kind: Job
 metadata:
   annotations:
     "helm.sh/hook": "post-install"
+    "helm.sh/hook-delete-policy": hook-succeeded
   name: "newman-runner-{{ .Values.git.commitID }}"
 spec:
   template:
+    metadata:
+      name: "{{.Release.Name}}"
     spec:
       containers:
         - name: "newman-runner-{{ .Values.git.commitID }}"
