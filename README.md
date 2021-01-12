@@ -20,12 +20,9 @@ Charts for iii-devops
 
 ## 標準測試
 * `helm3 lint ./charts/web-db/0.1.0 -f ./test.yaml`
-# 測試前端與資料庫
-* `helm install --dry-run --debug ./charts/web-db/0.1.0 -f ./test/test.yaml  --generate-name`
-# 快速測試前端整合
-* `helm install --dry-run --debug ./charts/web/0.1.0 -f ./test/testweb.yaml  --generate-name`
-# 快速測試部屬資料庫
-* `helm install --dry-run --debug ./charts/db/0.1.0 -f ./test/testdb.yaml  --generate-name`
+* 前端與資料庫: `helm install --dry-run --debug ./charts/web-db/0.1.0 -f ./test/test.yaml  --generate-name`
+* 前端整合: `helm install --dry-run --debug ./charts/web/0.1.0 -f ./test/testweb.yaml  --generate-name`
+* 資料庫: `helm install --dry-run --debug ./charts/db/0.1.0 -f ./test/testdb.yaml  --generate-name`
 
 ## 快速專案模擬測試
 * `flask-restful-app-template`: `helm install --dry-run --debug flask-restful-app-template-master ./charts/web-db/0.2.0 -f ./test/testweb-flask-restful-app-template.yaml`
