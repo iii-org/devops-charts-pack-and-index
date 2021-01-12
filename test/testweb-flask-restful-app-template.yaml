@@ -1,19 +1,22 @@
+harbor:
+  host: "10.20.0.73:5443"
 git: 
-  url: "http://10.50.1.53/root/flask-app-pipeline-template.git"
-  repoName: "flask-app-pipeline-template"
+  url: "http://10.20.0.73/root/flask-restful-app-template.git"
+  repoName: "flask-restful-app-template"
   branch: "master"
+  commitID: ""
+  host: 10.20.0.73
 web: 
   name: "flask"
-  image: "127.0.0.1:34957/flask-app-pipeline-template-web"
-  tag: "latest"
-db: 
-  image: "127.0.0.1:34957/flask-app-pipeline-template-db"
-  tag: "latest"
-service: 
-  db: 
-    enabled: true
-    gui: "false"
-    type: "mysql"
-    rootpassword: "bearflask"
+  image: "10.20.0.73/flask-app-pipeline-template/api-test"
+  tag: "XXXXXX"
+#service:
+#  db: 
+#    enabled: true
+#    gui: "false"
+#    type: "mysql"
+#    rootpassword: "bearflask"
 checkmarx:
+  enabled: true
+newman:
   enabled: true

@@ -25,4 +25,4 @@ Charts for iii-devops
 * 資料庫: `helm install --dry-run --debug ./charts/db/0.1.0 -f ./test/testdb.yaml  --generate-name`
 
 ## 快速專案模擬測試
-* `flask-restful-app-template`: `helm install --dry-run --debug flask-restful-app-template-master ./charts/web-db/0.2.0 -f ./test/testweb-flask-restful-app-template.yaml`
+* `flask-restful-app-template`: `helm install --dry-run --debug flask-restful-app-template-master ./charts/web/0.2.0 -f ./test/testweb-flask-restful-app-template.yaml`
