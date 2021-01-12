@@ -71,25 +71,25 @@ spec:
             - name: cm_url
               valueFrom:
                 secretKeyRef:
-                  name: checkmarx-secret
+                  name: checkmarx
                   key: cm-url
             # Username of Checkmarx server
             - name: username
               valueFrom:
                 secretKeyRef:
-                  name: checkmarx-secret
+                  name: checkmarx
                   key: username
             # Password of Checkmarx server
             - name: password
               valueFrom:
                 secretKeyRef:
-                  name: checkmarx-secret
+                  name: checkmarx
                   key: password
             # Client secret of Checkmarx server
             - name: client_secret
               valueFrom:
                 secretKeyRef:
-                  name: checkmarx-secret
+                  name: checkmarx
                   key: client-secret
             # Git repo URL of the gitlab
             - name: git_url
@@ -104,20 +104,20 @@ spec:
             - name: api_origin
               valueFrom:
                 secretKeyRef:
-                  name: api-origin
+                  name: nexus
                   key: api-origin
             # username of the API server
             - name: api_username
               valueFrom:
                 secretKeyRef:
-                  name: api-origin
-                  key: api-username
+                  name: nexus
+                  key: username
             # password of the API server
             - name: api_password
               valueFrom:
                 secretKeyRef:
-                  name: api-origin
-                  key: api-password
+                  name: nexus
+                  key: password
             # If you want detailed log
             - name: verbose
               value: "true"
@@ -125,7 +125,7 @@ spec:
       # 如果使用者要求進行newman
       {{- if eq .Values.newman.enabled true }}
         - name: newman-runner
-          image: 10.50.1.63:5443/iii-org/newman-runner:devops-system
+          image: "{{ .Values.harbor.host }}/dockerhub/iii-org/newman-runner:devops-system"
           command: ['sh', '-c', 'ln -s $(pwd) /usr/src/app/repo; cd /usr/src/app; ls; echo ${api_orign};node app.js;']
           env:
             - name: git_url
