@@ -64,7 +64,7 @@ spec:
       # 如果使用者要求進行checkmarx
       {{- if eq .Values.checkmarx.enabled true }}
         - name: checkmarx-scan
-        # 如果checkmarx要求的版本是0.9.2
+        # 如果checkmarx要求的版本是0.9.2 目前僅有資訊處環境使用其他環境均不需要
         {{- if (eq .Values.checkmarx.version "0.9.2") }}
           image: iiiorg/checkmarx-runner:0.9.2
           command: ['sh', '-c', 'cd /usr/src/app; ls; echo ${api_orign};node app.js;']
