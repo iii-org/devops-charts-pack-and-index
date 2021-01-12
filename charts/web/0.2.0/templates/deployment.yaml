@@ -25,7 +25,7 @@ spec:
         - name: "{{ .Values.web.type }}-{{ .Values.git.commitID }}"
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.web.image }}:{{ .Values.web.tag }}"
+          image: "{{ .Values.harbor.host }}/{{ .Values.web.image }}:{{ .Values.web.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: repoName
@@ -64,7 +64,7 @@ spec:
       # 如果使用者要求進行checkmarx
       {{- if eq .Values.checkmarx.enabled true }}
         - name: "checkmarx-scan-{{ .Values.git.commitID }}"
-          image: iiiorg/checkmarx-runner:latest
+          image: "{{ .Values.harbor.host }}/dockerhub/iiiorg/checkmarx-runner:latest"
           command: ['sh', '-c', 'ln -s $(pwd) /usr/src/app/repo; cd /usr/src/app; ls; echo ${api_orign};node app.js;']
           env:
             # The CheckMarx server api base URL, including the base path "/cxresetapi"
