@@ -9,7 +9,7 @@ spec:
   template:
     spec:
       containers:
-      - name: "newman-runner-{{ .Values.git.commitID }}"
+        - name: "newman-runner-{{ .Values.git.commitID }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/newman-runner:devops-system"
           command: ['sh', '-c', 'ln -s $(pwd) /usr/src/app/repo; cd /usr/src/app; ls; echo ${api_orign};node app.js;']
           env:
