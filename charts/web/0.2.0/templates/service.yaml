@@ -7,6 +7,8 @@ metadata:
     app: "{{ .Release.Name }}-{{ .Values.web.type }}"
 spec:
   type: {{ .Values.service.type }}
+  selector:
+    app: "{{ .Release.Name }}-{{ .Values.web.type }}"
   ports:
   # 判斷使用者要求使用甚麼資料庫，並以此決定要讓哪一個PORT透過Service對外
   {{- if eq .Values.web.type "php" }}
