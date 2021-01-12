@@ -30,7 +30,7 @@ spec:
         - name: codeserver
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: ghcr.io/linuxserver/code-server
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/linuxserver/code-server"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: codeserver
@@ -64,7 +64,7 @@ spec:
       # 匯入使用者的開發專案程式碼提供其線上進行修改
       initContainers:
         - name: initializing-a-new-instance
-          image: alpine/git
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/alpine/git"
           command: ['sh', '-c', 'cd /init-data; git clone --branch ${git_branch} http://root:${git_token}@${git_host}/root/${git_repo}.git .; ls; chmod -R 777 /init-data']
           env:
             - name: git_host
