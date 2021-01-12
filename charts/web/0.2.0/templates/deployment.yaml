@@ -1,0 +1,221 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-{{ .Values.web.type }}"
+  labels:
+    app: "{{ .Release.Name }}-{{ .Values.web.type }}"
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: "{{ .Release.Name }}-{{ .Values.web.type }}"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Release.Name }}-{{ .Values.web.type }}"
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "web.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: "{{ .Values.web.type }}-{{ .Values.git.commitID }}"
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.web.image }}:{{ .Values.web.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: repoName
+              value: {{ .Values.git.repoName }}
+            - name: branch
+              value: {{ .Values.git.branch }}
+            - name: commitID
+              value: {{ .Values.git.commitID | quote }}
+          ports:
+            - name: http
+            {{- if eq .Values.web.type "php" }}
+              containerPort: 80
+            {{- else if eq .Values.web.type "flask" }}
+              containerPort: 5000
+            {{- else if eq .Values.web.type "uwsgi-flask" }}
+              containerPort: 80
+            {{- else if eq .Values.web.type "spring" }}
+              containerPort: 8080
+            {{- else }} # custom
+              containerPort: {{ .Values.web.port }}
+            {{- end }}
+              protocol: TCP
+          #livenessProbe:
+          #  httpGet:
+          #    path: /
+          #    port: http
+          #readinessProbe:
+          #  httpGet:
+          #    path: /
+          #    port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+    {{- if or (eq .Values.checkmarx.enabled true) (eq .Values.newman.enabled true) }}
+      # 如果使用者有任意個額外需求啟動
+      initContainers:
+      # 如果使用者要求進行checkmarx
+      {{- if eq .Values.checkmarx.enabled true }}
+        - name: checkmarx-scan
+        # 如果checkmarx要求的版本是0.9.2 目前僅有資訊處環境使用其他環境均不需要
+        {{- if (eq .Values.checkmarx.version "0.9.2") }}
+          image: iiiorg/checkmarx-runner:0.9.2
+          command: ['sh', '-c', 'cd /usr/src/app; ls; echo ${api_orign};node app.js;']
+          env:
+            - name: git_url
+              value: {{ .Values.git.url | quote }}
+            - name: verbose
+              value: "true"
+            - name: api_origin
+              valueFrom:
+                secretKeyRef:
+                  name: api-origin
+                  key: api-origin
+            - name: git_token
+              valueFrom:
+                secretKeyRef:
+                  name: gitlab-token
+                  key: git-token
+            - name: jwt_token
+              valueFrom: 
+                secretKeyRef:
+                  name: jwt-token
+                  key: jwt-token
+            - name: username
+              valueFrom: 
+                secretKeyRef:
+                  name: checkmarx-secret
+                  key: username
+            - name: password
+              valueFrom: 
+                secretKeyRef:
+                  name: checkmarx-secret
+                  key: password
+            - name: check_interval
+              valueFrom: 
+                secretKeyRef:
+                  name: checkmarx-secret
+                  key: check-interval
+            - name: client_secret
+              valueFrom: 
+                secretKeyRef:
+                  name: checkmarx-secret
+                  key: client-secret
+            - name: cm_url
+              valueFrom: 
+                secretKeyRef:
+                  name: checkmarx-secret
+                  key: cm-url
+        # 非0.9.2則使用最新版本的checkmarx
+        {{- else }}
+          image: iiiorg/checkmarx-runner:latest
+          command: ['sh', '-c', 'ln -s $(pwd) /usr/src/app/repo; cd /usr/src/app; ls; echo ${api_orign};node app.js;']
+          env:
+            # The CheckMarx server api base URL, including the base path "/cxresetapi"
+            - name: cm_url
+              valueFrom:
+                secretKeyRef:
+                  name: checkmarx-secret
+                  key: cm-url
+            # Username of Checkmarx server
+            - name: username
+              valueFrom:
+                secretKeyRef:
+                  name: checkmarx-secret
+                  key: username
+            # Password of Checkmarx server
+            - name: password
+              valueFrom:
+                secretKeyRef:
+                  name: checkmarx-secret
+                  key: password
+            # Client secret of Checkmarx server
+            - name: client_secret
+              valueFrom:
+                secretKeyRef:
+                  name: checkmarx-secret
+                  key: client-secret
+            # Git repo URL of the gitlab
+            - name: git_url
+              value: {{ .Values.git.url | quote }}
+            # Indicates the tested branch name 
+            - name: git_branch
+              value: {{ .Values.git.branch }}
+            # Indicates the tested commit
+            - name: git_commit_id
+              value: {{ .Values.git.commitID | quote }}
+            # Origin of the API server
+            - name: api_origin
+              valueFrom:
+                secretKeyRef:
+                  name: api-origin
+                  key: api-origin
+            # username of the API server
+            - name: api_username
+              valueFrom:
+                secretKeyRef:
+                  name: api-origin
+                  key: api-username
+            # password of the API server
+            - name: api_password
+              valueFrom:
+                secretKeyRef:
+                  name: api-origin
+                  key: api-password
+            # If you want detailed log
+            - name: verbose
+              value: "true"
+        {{- end }}
+      {{- end }}
+      # 如果使用者要求進行newman
+      {{- if eq .Values.newman.enabled true }}
+        - name: newman-runner
+          image: 10.50.1.63:5443/iii-org/newman-runner:devops-system
+          command: ['sh', '-c', 'ln -s $(pwd) /usr/src/app/repo; cd /usr/src/app; ls; echo ${api_orign};node app.js;']
+          env:
+            - name: git_url
+              value: {{ .Values.git.url | quote }}
+            - name: git_branch
+              value: {{ .Values.git.branch }}
+            - name: git_commit_id
+              value: {{ .Values.git.commitID | quote }}
+            - name: test_origin
+              value: "http://{{ .Values.git.repoName }}-${.Values.git.branch}:10009"
+            - name: verbose
+              value: "true"
+            - name: api_origin
+              valueFrom:
+                secretKeyRef:
+                  name: newman
+                  key: api-origin
+            - name: username
+              valueFrom: 
+                secretKeyRef:
+                  name: newman
+                  key: username
+            - name: password
+              valueFrom: 
+                secretKeyRef:
+                  name: newman
+                  key: password
+      {{- end }}
+    {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

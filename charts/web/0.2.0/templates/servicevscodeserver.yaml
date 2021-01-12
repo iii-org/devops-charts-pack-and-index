@@ -1,0 +1,20 @@
+# 線上API編寫的Service(如果使用者有說明需要API線上部屬服務的話)
+{{ if eq .Values.codeServer.enabled true -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Release.Name }}-codeserver-svc"
+  labels:
+    #{{- include "web.labels" . | nindent 4 }}
+    app: "{{ .Release.Name }}-codeserver"
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: 8443
+      targetPort: codeserver
+      protocol: TCP
+      name: codeserver
+  selector:
+    #{{- include "web.selectorLabels" . | nindent 4 }}
+    app: "{{ .Release.Name }}-codeserver"
+{{- end }}
