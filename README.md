@@ -14,14 +14,18 @@ Charts for iii-devops
 * [iii-org/spring-app-pipeline-template](https://github.com/iii-org/spring-app-pipeline-template.git)
 * [iii-org/php-app-pipeline-template](https://github.com/iii-org/php-app-pipeline-template.git)
 
-## 專案預設採用NodePort
-方便使用者進行透過PORT連線
+## 專案預設說明
+* 專案預設採用NodePort，方便使用者可從外部進行透過PORT連線，但已支援網域名稱連線機制
+* 於部屬的APP預設RELEASE名稱為專案與分支名稱
 
+## 標準測試
 * `helm3 lint ./charts/web-db/0.1.0 -f ./test.yaml`
 # 測試前端與資料庫
-* `helm install --dry-run --debug ./charts/web-db/0.1.0 -f ./test.yaml  --generate-name`
+* `helm install --dry-run --debug ./charts/web-db/0.1.0 -f ./test/test.yaml  --generate-name`
 # 快速測試前端整合
-* `helm install --dry-run --debug ./charts/web/0.1.0 -f ./testweb.yaml  --generate-name`
+* `helm install --dry-run --debug ./charts/web/0.1.0 -f ./test/testweb.yaml  --generate-name`
 # 快速測試部屬資料庫
-* `helm install --dry-run --debug ./charts/db/0.1.0 -f ./testdb.yaml  --generate-name`
+* `helm install --dry-run --debug ./charts/db/0.1.0 -f ./test/testdb.yaml  --generate-name`
 
+## 快速專案模擬測試
+* `flask-restful-app-template`: `helm install --dry-run --debug flask-restful-app-template-master ./charts/web-db/0.2.0 -f ./test/testweb-flask-restful-app-template.yaml`
