@@ -9,10 +9,10 @@ rancher:
   AccessKey: "token-thzvx"
   SecretKey: "lhv2phk852vsgh2jb2m2q8rf28pvlvhtw487tmkmkq9k6xskcx76cr"
   BearerToken: "token-thzvx:lhv2phk852vsgh2jb2m2q8rf28pvlvhtw487tmkmkq9k6xskcx76cr" 
-  host: "10.20.0.70"
+  host: "10.20.0.73"
 registry:
   # 要存取鏡像的來源
-  url: "10.50.1.63:5443"
+  url: "10.20.0.73:5443"
   # harbor作為docker hub的快取，在Harbor上的專案名稱
   hub: dockerhub
 
