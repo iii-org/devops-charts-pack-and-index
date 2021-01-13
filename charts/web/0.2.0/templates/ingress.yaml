@@ -42,6 +42,8 @@ spec:
           servicePort: 80
         {{- else if eq .Values.web.type "spring" }}
           servicePort: 8080
+        {{- else if eq .Values.web.type "apache" }}
+          servicePort: 80
         {{- else if eq .Values.web.type "custom" }}
           servicePort: {{ .Values.web.port }}
         {{- end }}

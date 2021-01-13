@@ -20,6 +20,8 @@ spec:
     - port: 80
   {{- else if eq .Values.web.type "spring" }}
     - port: 8080
+  {{- else if eq .Values.web.type "apache" }}
+    - port: 80
   {{- else if eq .Values.web.type "custom" }}
     - port: {{ .Values.web.port }}
   {{- end }}

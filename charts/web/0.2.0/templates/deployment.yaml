@@ -47,6 +47,8 @@ spec:
               containerPort: 80
             {{- else if eq .Values.web.type "spring" }}
               containerPort: 8080
+            {{- else if eq .Values.web.type "apache" }}
+              containerPort: 80
             {{- else }} # custom
               containerPort: {{ .Values.web.port }}
             {{- end }}

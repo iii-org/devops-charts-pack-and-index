@@ -18,7 +18,7 @@ git:
   url: ""
 # About the service deployname
 # web可選型態
-# "php"、"flask"、"uwsgi-flask"、"spring"、"custom"
+# "php"、"flask"、"uwsgi-flask"、"spring"、"apache"、"custom"
 # web.port 僅 custom時候使用
 web:
   type: "php"
