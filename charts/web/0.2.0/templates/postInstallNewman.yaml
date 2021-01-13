@@ -1,5 +1,5 @@
 ## 在部屬完成後執行newman檢查，如果有要求啟用的話
-{{- if .Values.newman.enabled -}}
+{{ if .Values.newman.enabled -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
