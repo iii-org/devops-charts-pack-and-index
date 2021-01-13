@@ -5,9 +5,10 @@ kind: Job
 metadata:
   annotations:
     "helm.sh/hook": "post-install"
-    "helm.sh/hook-delete-policy": "before-hook-creation"
+    #"helm.sh/hook-delete-policy": "before-hook-creation"
   name: "newman-runner-{{ .Values.git.commitID }}"
 spec:
+  ttlSecondsAfterFinished: 3600
   template:
     metadata:
       name: "{{.Release.Name}}"
