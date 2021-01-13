@@ -16,7 +16,7 @@ metadata:
   {{- with .Values.ingress.annotations }}
   annotations:
     # 嘗試強制https連線
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: true
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
