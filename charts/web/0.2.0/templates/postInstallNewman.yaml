@@ -8,7 +8,7 @@ metadata:
     #"helm.sh/hook-delete-policy": "before-hook-creation"
   name: "{{ .Release.Name }}-newman-runner"
 spec:
-  ttlSecondsAfterFinished: 3600
+  ttlSecondsAfterFinished: 600
   template:
     metadata:
       name: "{{ .Release.Name }}-newman-runner"

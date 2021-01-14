@@ -1,0 +1,77 @@
+## 在部屬完成後執行checkmarx檢查，如果有要求啟用的話
+{{ if .Values.checkmarx.enabled -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    "helm.sh/hook": "post-install"
+    #"helm.sh/hook-delete-policy": "before-hook-creation"
+  name: "{{ .Release.Name }}-checkmarx-runner"
+spec:
+  ttlSecondsAfterFinished: 600
+  template:
+    metadata:
+      name: "{{ .Release.Name }}-checkmarx-runner"
+    spec:
+      containers:
+        - name: "checkmarx-scan-{{ .Values.git.commitID }}"
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/checkmarx-runner:latest"
+          command: ['sh', '-c', 'ln -s $(pwd) /usr/src/app/repo; cd /usr/src/app; ls; echo ${api_orign};node app.js;']
+          env:
+            # The CheckMarx server api base URL, including the base path "/cxresetapi"
+            - name: cm_url
+              valueFrom:
+                secretKeyRef:
+                  name: checkmarx
+                  key: cm-url
+            # Username of Checkmarx server
+            - name: username
+              valueFrom:
+                secretKeyRef:
+                  name: checkmarx
+                  key: username
+            # Password of Checkmarx server
+            - name: password
+              valueFrom:
+                secretKeyRef:
+                  name: checkmarx
+                  key: password
+            # Client secret of Checkmarx server
+            - name: client_secret
+              valueFrom:
+                secretKeyRef:
+                  name: checkmarx
+                  key: client-secret
+            # Git repo URL of the gitlab
+            - name: git_url
+              value: {{ .Values.git.url | quote }}
+            # Indicates the tested branch name 
+            - name: git_branch
+              value: {{ .Values.git.branch }}
+            # Indicates the tested commit
+            - name: git_commit_id
+              value: {{ .Values.git.commitID | quote }}
+            # Origin of the API server
+            - name: api_origin
+              valueFrom:
+                secretKeyRef:
+                  name: nexus
+                  key: api-origin
+            # username of the API server
+            - name: api_username
+              valueFrom:
+                secretKeyRef:
+                  name: nexus
+                  key: username
+            # password of the API server
+            - name: api_password
+              valueFrom:
+                secretKeyRef:
+                  name: nexus
+                  key: password
+            # If you want detailed log
+            - name: verbose
+              value: "true"
+      restartPolicy: Never
+  backoffLimit: 4  
+{{- end }}

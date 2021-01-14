@@ -127,38 +127,6 @@ spec:
             - name: verbose
               value: "true"
       {{- end }}
-      # 如果使用者要求進行newman
-      {{- if eq .Values.newman.enabled true }}
-        - name: "newman-runner-{{ .Values.git.commitID }}"
-          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/newman-runner:latest"
-          command: ['sh', '-c', 'ln -s $(pwd) /usr/src/app/repo; cd /usr/src/app; ls; node /usr/src/app/app.js;']
-          env:
-            - name: git_url
-              value: {{ .Values.git.url | quote }}
-            - name: git_branch
-              value: {{ .Values.git.branch }}
-            - name: git_commit_id
-              value: {{ .Values.git.commitID | quote }}
-            - name: test_origin
-              value: "http://{{ .Release.Name }}-{{ .Values.web.type }}-svc:5000"
-            - name: verbose
-              value: "true"
-            - name: api_origin
-              valueFrom:
-                secretKeyRef:
-                  name: nexus
-                  key: api-origin
-            - name: username
-              valueFrom: 
-                secretKeyRef:
-                  name: nexus
-                  key: username
-            - name: password
-              valueFrom: 
-                secretKeyRef:
-                  name: nexus
-                  key: password
-      {{- end }}
     {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
