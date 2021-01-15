@@ -4,8 +4,8 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   annotations:
-    # 等待部屬完成後才進行postman的工作
-    "helm.sh/hook": "post-install"
+    # 等待當安裝後 升級後 降級後都會執行此工作
+    "helm.sh/hook": "post-install,post-upgrade,post-rollback"
     #"helm.sh/hook-delete-policy": "before-hook-creation"
   name: "{{ .Release.Name }}-newman-runner"
 spec:
