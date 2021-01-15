@@ -24,7 +24,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: webinspect
-                  key: wi_base_url
+                  key: wi-base-url
             - name: api_origin
               valueFrom:
                 secretKeyRef:
