@@ -31,6 +31,8 @@ web:
   port: 80
   image: ""
   tag: "latest"
+  # 等待部屬的完成時間(單位秒)
+  wait: 30
 extraEnv: []
 #  - name: GIT_URL
 #    value: ${CICD_GIT_URL}

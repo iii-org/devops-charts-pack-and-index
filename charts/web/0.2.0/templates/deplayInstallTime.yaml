@@ -1,0 +1,20 @@
+# 檔案的目的是為了提供前端部屬的緩衝時間
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+  name: "{{ .Release.Name }}-install-delay"
+spec:
+  ttlSecondsAfterFinished: 600
+  template:
+    metadata:
+      name: "{{ .Release.Name }}-install-delay"
+    spec:
+      containers:
+        - name: "delay-web-for-{{ .Values.git.commitID }}"
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/library/ubuntu:18.04"
+          command: ['sh', '-c', 'sleep {{ .Values.web.wait }}']
+      restartPolicy: Never
+  # Error四次就停止
+  backoffLimit: 4  
+{{- end }}
