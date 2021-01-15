@@ -1,4 +1,5 @@
-## 在部屬過程中執行checkmarx檢查，如果有要求啟用的話
+# 在部屬過程中執行checkmarx檢查，如果有要求啟用的話
+# checkmarx可在任何時間點執行, 在安裝過程中執行可順便給予前端部屬的準備時間
 {{ if .Values.checkmarx.enabled -}}
 apiVersion: batch/v1
 kind: Job

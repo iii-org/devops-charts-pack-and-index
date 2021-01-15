@@ -44,8 +44,11 @@ extraEnv: []
 # About to use checkmarx to run code scan
 checkmarx:
   enabled: false
-# About to use newman to run code scan
+# (After deployment) About to use newman to run code scan
 newman:
+  enabled: false
+# (After deployment) About to use webinspect to run code scan
+webinspect:
   enabled: false
 # 線上API設計
 apieditor:

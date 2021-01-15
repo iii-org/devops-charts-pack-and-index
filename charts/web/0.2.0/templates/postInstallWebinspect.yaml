@@ -1,0 +1,45 @@
+# 在部屬完成後執行webinspect檢查，如果有要求啟用的話
+# webinspect一定要等服務啟動部屬完成後才可進行檢查
+{{ if .Values.webinspect.enabled -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    # 等待當安裝後 升級後 降級後都會執行此工作
+    "helm.sh/hook": "post-install,post-upgrade,post-rollback"
+    #"helm.sh/hook-delete-policy": "before-hook-creation"
+  name: "{{ .Release.Name }}-webinspect-runner"
+spec:
+  ttlSecondsAfterFinished: 600
+  template:
+    metadata:
+      name: "{{ .Release.Name }}-webinspect-runner"
+    spec:
+      containers:
+        - name: "webinspect-runner-{{ .Values.git.commitID }}"
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiiorg/webinspect-runner:latest"
+          command: ['sh', '-c', 'cd /usr/src/app; node /usr/src/app/app.js;']
+          env:
+            - name: webinspect
+              valueFrom:
+                secretKeyRef:
+                  name: wi_base_url
+                  key: wi_base_url
+            - name: api_origin
+              valueFrom:
+                secretKeyRef:
+                  name: nexus
+                  key: api-origin
+            - name: username
+              valueFrom: 
+                secretKeyRef:
+                  name: nexus
+                  key: username
+            - name: password
+              valueFrom: 
+                secretKeyRef:
+                  name: nexus
+                  key: password
+      restartPolicy: Never
+  backoffLimit: 4
+{{- end }}
