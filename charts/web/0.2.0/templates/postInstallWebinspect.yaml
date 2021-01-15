@@ -20,10 +20,10 @@ spec:
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiiorg/webinspect-runner:latest"
           command: ['sh', '-c', 'cd /usr/src/app; node /usr/src/app/app.js;']
           env:
-            - name: webinspect
+            - name: wi_base_url
               valueFrom:
                 secretKeyRef:
-                  name: wi_base_url
+                  name: webinspect
                   key: wi_base_url
             - name: api_origin
               valueFrom:
