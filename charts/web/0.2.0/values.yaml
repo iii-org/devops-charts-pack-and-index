@@ -8,13 +8,19 @@
 # harbor
 harbor:
   host: ""
+  # harbor上面當作Docker Hub的proxy cache專案名稱
   cache: dockerhub
 # aboout git repo info (準備於後續版本移除)
 git:
+  # gitlab的IP(Host)
   host: "10.50.1.53"
+  # 當前gitlab的專案
   repoName: ""
+  # 當前gitlab的分支
   branch: ""
+  # 當前gitlab的commitID
   commitID: ""
+  # 當前gitlab的連線URL
   url: ""
 # About the service deployname
 # web可選型態

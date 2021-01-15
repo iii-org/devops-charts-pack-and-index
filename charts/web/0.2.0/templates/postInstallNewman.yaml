@@ -4,6 +4,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   annotations:
+    # 等待部屬完成後才進行postman的工作
     "helm.sh/hook": "post-install"
     #"helm.sh/hook-delete-policy": "before-hook-creation"
   name: "{{ .Release.Name }}-newman-runner"
@@ -16,7 +17,8 @@ spec:
       containers:
         - name: "newman-runner-{{ .Values.git.commitID }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/newman-runner:latest"
-          command: ['sh', '-c', 'ln -s $(pwd) /usr/src/app/repo; cd /usr/src/app; ls; echo ${api_orign};node app.js;']
+          # (傳統pipeline指令)command: ['sh', '-c', 'ln -s $(pwd) /usr/src/app/repo; cd /usr/src/app; ls; echo ${api_orign};node app.js;']
+          command: ['sh', '-c', 'cd /usr/src/app; ls; echo ${api_orign};node app.js;']
           env:
             - name: git_url
               value: {{ .Values.git.url | quote }}
@@ -43,6 +45,33 @@ spec:
                 secretKeyRef:
                   name: nexus
                   key: password
+          volumeMounts:
+            - mountPath: /usr/src/app/repo
+              name: initrepo
+      # 由於newman需要專案資料做Link連結, 因此此步驟會建立專案資料
+      initContainers:
+        - name: "clone-repo-{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.git.commitID }}"
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/checkmarx-runner:latest"
+          command: ['sh', '-c', 'cd /init-data; git clone --branch ${git_branch} http://root:${git_token}@${git_host}/root/${git_repo}.git .; rm -rf .git; ls; chmod -R 777 /init-data']
+          env:
+            - name: git_host
+              value: {{ .Values.git.host }}
+            - name: git_repo
+              value: {{ .Values.git.repoName }}
+            - name: git_branch
+              value: {{ .Values.git.branch }}
+            - name: git_token
+              valueFrom:
+                secretKeyRef:
+                  name: gitlab-token
+                  key: git-token
+          volumeMounts:
+            - mountPath: /init-data
+              name: initrepo
+      # 暫時專案資料儲存區
+      volumes:
+        - name: initrepo
+          emptyDir: {}
       restartPolicy: Never
   backoffLimit: 4
 {{- end }}
