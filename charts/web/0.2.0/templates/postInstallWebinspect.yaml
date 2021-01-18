@@ -10,7 +10,8 @@ metadata:
     "helm.sh/hook-delete-policy": "before-hook-creation"
   name: "{{ .Release.Name }}-webinspect-runner"
 spec:
-  ttlSecondsAfterFinished: 600
+  # Clean up finished jobs automatically
+  ttlSecondsAfterFinished: 100
   template:
     metadata:
       name: "{{ .Release.Name }}-webinspect-runner"
