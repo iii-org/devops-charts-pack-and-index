@@ -42,12 +42,12 @@ spec:
                 secretKeyRef:
                   name: nexus
                   key: api-origin
-            - name: username
+            - name: api_username
               valueFrom: 
                 secretKeyRef:
                   name: nexus
                   key: username
-            - name: password
+            - name: api_password
               valueFrom: 
                 secretKeyRef:
                   name: nexus
