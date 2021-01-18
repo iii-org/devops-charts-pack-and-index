@@ -5,9 +5,10 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   annotations:
+    "helm.sh/hook-delete-policy": hook-succeeded
   name: "{{ .Release.Name }}-checkmarx-runner-{{ .Values.git.commitID }}"
 spec:
-  ttlSecondsAfterFinished: 600
+  ttlSecondsAfterFinished: 0
   template:
     metadata:
       name: "{{ .Release.Name }}-checkmarx-runner-{{ .Values.git.commitID }}"

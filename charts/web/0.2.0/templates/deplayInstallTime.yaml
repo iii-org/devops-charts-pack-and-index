@@ -6,7 +6,9 @@ metadata:
     "helm.sh/hook-delete-policy": hook-succeeded
   name: "{{ .Release.Name }}-install-delay"
 spec:
-  ttlSecondsAfterFinished: 600
+  ttlSecondsAfterFinished: 0
+  successfulJobsHistoryLimit: 0
+  failedJobsHistoryLimit: 0
   template:
     metadata:
       name: "{{ .Release.Name }}-install-delay"
