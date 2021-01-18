@@ -21,7 +21,7 @@ spec:
           command: ['sh', '-c', 'cd /usr/src/app; node /usr/src/app/app.js;']
           env:
             - name: inspect_url
-              value: "{{ .Values.web.type }}.{{ .Values.git.branch}}.{{ .Values.git.repoName }}.{{ .Values.xip.ip }}.xip.io"
+              value: "http://{{ .Values.web.type }}.{{ .Values.git.branch}}.{{ .Values.git.repoName }}.{{ .Values.xip.ip }}.xip.io"
             - name: project_name
               value: {{ .Values.git.repoName }}
             # Indicates the tested branch name 
