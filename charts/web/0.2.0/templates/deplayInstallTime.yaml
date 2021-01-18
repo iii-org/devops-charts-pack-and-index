@@ -7,8 +7,6 @@ metadata:
   name: "{{ .Release.Name }}-install-delay"
 spec:
   ttlSecondsAfterFinished: 0
-  successfulJobsHistoryLimit: 0
-  failedJobsHistoryLimit: 0
   template:
     metadata:
       name: "{{ .Release.Name }}-install-delay"
