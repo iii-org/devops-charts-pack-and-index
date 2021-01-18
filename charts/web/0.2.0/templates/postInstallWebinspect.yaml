@@ -21,7 +21,7 @@ spec:
           command: ['sh', '-c', 'cd /usr/src/app; node /usr/src/app/app.js;']
           env:
             - name: inspect_url
-              value: 
+              value: "{{ .Values.web.type }}.{{ .Values.git.branch}}.{{ .Values.git.repoName }}.{{ .Values.xip.ip }}.xip.io"
             - name: project_name
               value: {{ .Values.git.repoName }}
             # Indicates the tested branch name 
@@ -30,6 +30,8 @@ spec:
             # Indicates the tested commit
             - name: git_commit_id
               value: {{ .Values.git.commitID | quote }}
+            - name: verbose
+              value: "true"
             - name: wi_base_url
               valueFrom:
                 secretKeyRef:
