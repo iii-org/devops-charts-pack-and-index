@@ -8,13 +8,13 @@ metadata:
     # 等待當安裝後 升級後 降級後都會執行此工作
     "helm.sh/hook": "post-install,post-upgrade,post-rollback"
     "helm.sh/hook-delete-policy": "before-hook-creation"
-  name: "{{ .Release.Name }}-webinspect-runner"
+  name: "{{ .Release.Name }}-webinspect-runner-{{ .Values.git.commitID }}"
 spec:
   # Clean up finished jobs automatically
   ttlSecondsAfterFinished: 100
   template:
     metadata:
-      name: "{{ .Release.Name }}-webinspect-runner"
+      name: "{{ .Release.Name }}-webinspect-runner-{{ .Values.git.commitID }}"
     spec:
       containers:
         - name: "webinspect-runner-{{ .Values.git.commitID }}"

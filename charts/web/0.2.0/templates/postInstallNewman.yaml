@@ -8,12 +8,12 @@ metadata:
     # 等待當安裝後 升級後 降級後都會執行此工作
     "helm.sh/hook": "post-install,post-upgrade,post-rollback"
     #"helm.sh/hook-delete-policy": "before-hook-creation"
-  name: "{{ .Release.Name }}-newman-runner"
+  name: "{{ .Release.Name }}-newman-runner-{{ .Values.git.commitID }}"
 spec:
   ttlSecondsAfterFinished: 600
   template:
     metadata:
-      name: "{{ .Release.Name }}-newman-runner"
+      name: "{{ .Release.Name }}-newman-runner-{{ .Values.git.commitID }}"
     spec:
       containers:
         - name: "newman-runner-{{ .Values.git.commitID }}"
