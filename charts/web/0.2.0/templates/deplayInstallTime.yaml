@@ -3,6 +3,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   annotations:
+    "helm.sh/hook-delete-policy": hook-succeeded
   name: "{{ .Release.Name }}-install-delay"
 spec:
   ttlSecondsAfterFinished: 600
