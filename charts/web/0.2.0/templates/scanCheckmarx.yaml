@@ -87,11 +87,6 @@ spec:
               value: {{ .Values.git.repoName }}
             - name: git_branch
               value: {{ .Values.git.branch }}
-            - name: git_token
-              valueFrom:
-                secretKeyRef:
-                  name: gitlab-token
-                  key: git-token
           volumeMounts:
             - mountPath: /init-data
               name: initrepo
