@@ -46,12 +46,12 @@ spec:
             - name: api_username
               valueFrom: 
                 secretKeyRef:
-                  name: nexus
+                  name: nexus-bot
                   key: username
             - name: api_password
               valueFrom: 
                 secretKeyRef:
-                  name: nexus
+                  name: nexus-bot
                   key: password
       restartPolicy: Never
   backoffLimit: 4

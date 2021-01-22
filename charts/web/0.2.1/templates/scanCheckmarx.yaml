@@ -61,13 +61,13 @@ spec:
             - name: api_username
               valueFrom:
                 secretKeyRef:
-                  name: nexus
+                  name: nexus-bot
                   key: username
             # password of the API server
             - name: api_password
               valueFrom:
                 secretKeyRef:
-                  name: nexus
+                  name: nexus-bot
                   key: password
             # If you want detailed log
             - name: verbose
@@ -90,7 +90,7 @@ spec:
             - name: git_token
               valueFrom:
                 secretKeyRef:
-                  name: gitlab-token
+                  name: gitlab-bot
                   key: git-token
           volumeMounts:
             - mountPath: /init-data
