@@ -82,7 +82,10 @@ spec:
           command: ['sh', '-c', 'cd /init-data; git clone --branch ${git_branch} http://root:${git_token}@${git_host}/root/${git_repo}.git .; rm -rf .git; ls; chmod -R 777 /init-data']
           env:
             - name: git_host
-              value: {{ .Values.git.host }}
+              valueFrom:
+                secretKeyRef:
+                  name: gitlab
+                  key: git-host
             - name: git_repo
               value: {{ .Values.git.repoName }}
             - name: git_branch
