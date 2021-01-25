@@ -17,7 +17,7 @@ spec:
       containers:
         - name: "checkmarx-scan-{{ .Values.git.commitID }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/checkmarx-runner:latest"
-          command: ['sh', '-c', 'cd /usr/src/app; ls; echo ${api_orign};node app.js;']
+          command: ['sh', '-c', 'cd /usr/src/app; node app.js;']
           env:
             # The CheckMarx server api base URL, including the base path "/cxresetapi"
             - name: cm_url

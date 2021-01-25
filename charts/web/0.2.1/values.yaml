@@ -46,6 +46,9 @@ extraEnv: []
 # About to use checkmarx to run code scan
 checkmarx:
   enabled: false
+# About to use sonarqube to run code scan
+sonarqube:
+  enabled: false
 # (After deployment) About to use newman to run code scan
 newman:
   enabled: false

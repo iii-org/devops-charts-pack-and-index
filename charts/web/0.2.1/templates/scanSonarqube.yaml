@@ -1,0 +1,115 @@
+{{ if .Values.sonarqube.enabled -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    "helm.sh/hook": "post-install,post-upgrade,post-rollback"
+    "helm.sh/hook-delete-policy": hook-succeeded
+  name: "{{ .Release.Name }}-sonarqube-runner-{{ .Values.git.commitID }}"
+spec:
+  ttlSecondsAfterFinished: 0
+  template:
+    metadata:
+      name: "{{ .Release.Name }}-sonarqube-runner-{{ .Values.git.commitID }}"
+    spec:
+      containers:
+#        - name: "sonarqube-nexus-{{ .Values.git.commitID }}"
+#          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/sonarqube-runner:latest"
+#          command: ['sh', '-c', 'cd /usr/src/app; ls; ./run.sh;']
+#          env:
+#            # Sonarqube's URL
+#            - name: sonar_url
+#              valueFrom:
+#                secretKeyRef:
+#                  name: sonarqube
+#                  key: sonar-url
+#            # Auth token of sonarqube's bot
+#            - name: sonar_token
+#              valueFrom:
+#                secretKeyRef:
+#                  name: sonar-bot
+#                  key: sonar-token
+#            # Project name is equal to the git repo name
+#            - name: project_name
+#              value: {{ .Values.git.repoName }}
+#            # Git repo URL of the gitlab
+#            - name: git_url
+#              value: {{ .Values.git.url | quote }}
+#            # Indicates the tested branch name
+#            - name: git_branch
+#              value: {{ .Values.git.branch }}
+#            # Indicates the tested commit
+#            - name: git_commit_id
+#              value: {{ .Values.git.commitID | quote }}
+#            # Origin of the API server
+#            - name: api_origin
+#              valueFrom:
+#                secretKeyRef:
+#                  name: nexus
+#                  key: api-origin
+#            # username of the API server
+#            - name: api_username
+#              valueFrom:
+#                secretKeyRef:
+#                  name: nexus-bot
+#                  key: username
+#            # password of the API server
+#            - name: api_password
+#              valueFrom:
+#                secretKeyRef:
+#                  name: nexus-bot
+#                  key: password
+#            # If you want detailed log
+#            - name: verbose
+#              value: "true"
+#          volumeMounts:
+#            - mountPath: /usr/src/app/repo
+#              name: initrepo
+        - name: "sonarqube-scan-{{ .Values.git.commitID }}"
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/sonarsource/sonar-scanner-cli"
+          env:
+            # Sonarqube's URL
+            - name: SONAR_HOST_URL
+              valueFrom:
+                secretKeyRef:
+                  name: sonarqube
+                  key: sonar-url
+            # Auth token of sonarqube's bot
+            - name: SONAR_LOGIN
+              valueFrom:
+                secretKeyRef:
+                  name: sonar-bot
+                  key: sonar-token
+          volumeMounts:
+            - mountPath: /usr/src
+              name: initrepo
+      # clone git repo and mount the code
+      initContainers:
+        - name: "clone-repo-{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.git.commitID }}"
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/alpine/git"
+          command: ['sh', '-c', 'cd /init-data; git clone --branch ${git_branch} http://root:${git_token}@${git_host}/root/${git_repo}.git .; rm -rf .git; ls; chmod -R 777 /init-data']
+          env:
+            - name: git_host
+              valueFrom:
+                secretKeyRef:
+                  name: gitlab
+                  key: git-host
+            - name: git_repo
+              value: {{ .Values.git.repoName }}
+            - name: git_branch
+              value: {{ .Values.git.branch }}
+            - name: git_token
+              valueFrom:
+                secretKeyRef:
+                  name: gitlab-bot
+                  key: git-token
+          volumeMounts:
+            - mountPath: /init-data
+              name: initrepo
+      # 暫時專案資料儲存區
+      volumes:
+        - name: initrepo
+          emptyDir: {}
+      restartPolicy: Never
+  backoffLimit: 4  
+{{- end }}

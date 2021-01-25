@@ -73,13 +73,19 @@ questions:
     options:
       - "0.9.3"
       - "latest"
+# about sonarqube
+- variable: sonarqube.enabled
+  default: "false"
+  description: "是否要啟動sonarqube掃描"
+  label: sonarqube掃描服務是否啟動
+  type: boolean
+  group: "Sonarqube 掃描服務"
 ## about newman
 - variable: newman.enabled
   default: "false"
   description: "是否要啟動newman"
   label: newman服務是否啟動
   type: boolean
-  # 如果使用者要求要進行checkmarx掃描的話就進入到進階問題的詢問部分
   group: "newman 服務"
 ## about apieditor(swagger)
 - variable: apieditor.enabled
