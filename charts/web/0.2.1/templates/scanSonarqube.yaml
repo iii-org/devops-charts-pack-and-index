@@ -66,7 +66,12 @@ spec:
 #            - mountPath: /usr/src/app/repo
 #              name: initrepo
         - name: "sonarqube-scan-{{ .Values.git.commitID }}"
-          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/sonarsource/sonar-scanner-cli"
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/sesame"
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - "/usr/bin/before.sh; /usr/bin/entrypoint.sh sonar-scanner | /usr/bin/after.sh"
           env:
             # Sonarqube's URL
             - name: SONAR_HOST_URL

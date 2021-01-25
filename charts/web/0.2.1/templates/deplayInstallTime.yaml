@@ -17,4 +17,4 @@ spec:
           command: ['sh', '-c', 'sleep {{ .Values.web.wait }}']
       restartPolicy: Never
   # Error四次就停止
-  backoffLimit: 4 
+  backoffLimit: 4
