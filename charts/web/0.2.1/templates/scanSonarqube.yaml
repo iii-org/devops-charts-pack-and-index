@@ -1,16 +1,20 @@
 {{ if .Values.sonarqube.enabled -}}
+{{ $timestamp := now | unixEpoch }}
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "{{ .Release.Name }}-sonarqube-runner-{{ .Values.git.commitID }}-{{ now | unixEpoch }}"
+  annotations:
+    "helm.sh/hook": "post-install,post-upgrade,post-rollback"
+    "helm.sh/hook-delete-policy": "before-hook-creation, hook-succeeded"
+  name: "{{ .Release.Name }}-sonarqube-runner-{{ .Values.git.commitID }}-{{ $timestamp }}"
 spec:
   ttlSecondsAfterFinished: 0
   template:
     metadata:
-      name: "{{ .Release.Name }}-sonarqube-runner-{{ .Values.git.commitID }}-{{ now | unixEpoch }}"
+      name: "{{ .Release.Name }}-sonarqube-runner-{{ .Values.git.commitID }}-{{ $timestamp }}"
     spec:
       containers:
-        - name: "sonarqube-scan-{{ .Values.git.commitID }}"
+        - name: "sonarqube-scan-{{ .Values.git.commitID }}-{{ $timestamp }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/sonarqube-runner"
           command:
             - /bin/sh
@@ -39,7 +43,7 @@ spec:
               name: initrepo
       # clone git repo and mount the code
       initContainers:
-        - name: "clone-repo-{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.git.commitID }}-{{ now | unixEpoch }}"
+        - name: "clone-repo-{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.git.commitID }}-{{ $timestamp }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/alpine/git"
           command: ['sh', '-c', 'cd /init-data; git clone --branch ${git_branch} http://root:${git_token}@${git_host}/root/${git_repo}.git .; rm -rf .git; ls; chmod -R 777 /init-data']
           env:
