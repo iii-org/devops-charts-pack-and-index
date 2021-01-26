@@ -8,6 +8,7 @@ Charts for iii-devops
 目前由於Serect 修改很大 因此下面專案可能無法通過
 
 ## 專案預設說明
+* 此chart非標準chart形式，因此無論用任何選項(用ClusterIP、Ingress、LoadBalance)都會有一個多出來的NodePort
 * 專案預設採用NodePort，方便使用者可從外部進行透過PORT連線，但已支援網域名稱連線機制
 * 於部屬的APP預設RELEASE名稱為專案與分支名稱
 
