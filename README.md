@@ -6,13 +6,7 @@ Charts for iii-devops
 
 ## iii-org 以chart為形式的專案範例
 目前由於Serect 修改很大 因此下面專案可能無法通過
-* [iii-org/flask-app-pipeline-template](https://github.com/iii-org/flask-app-pipeline-template.git)
-* [iii-org/php-mariadb-app-template](https://github.com/iii-org/php-mariadb-app-template.git)
-* [iii-org/mariadb10.4-app-example](https://github.com/iii-org/mariadb10.4-app-example.git)
-* [iii-org/mariadb10.5-app-example](https://github.com/iii-org/mariadb10.5-app-example.git)
-* [iii-org/postgresql-app-pipeline-template](https://github.com/iii-org/postgresql-app-pipeline-template.git)
-* [iii-org/spring-app-pipeline-template](https://github.com/iii-org/spring-app-pipeline-template.git)
-* [iii-org/php-app-pipeline-template](https://github.com/iii-org/php-app-pipeline-template.git)
+
 
 ## 專案預設說明
 * 專案預設採用NodePort，方便使用者可從外部進行透過PORT連線，但已支援網域名稱連線機制
