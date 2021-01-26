@@ -11,13 +11,13 @@ spec:
     spec:
       containers:
         - name: "sonarqube-scan-{{ .Values.git.commitID }}"
-          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/sesame"
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/sonarqube-runner"
           command:
             - /bin/sh
             - -c
           args:
             - >-
-              cd usr/src;
+              cd /usr/src;
               echo {{ .Values.git.repoName }} >> sonar-project.properties;
               /usr/bin/before.sh;
               /usr/bin/entrypoint.sh sonar-scanner | /usr/bin/after.sh;
