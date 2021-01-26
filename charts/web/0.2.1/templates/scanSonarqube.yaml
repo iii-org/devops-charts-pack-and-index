@@ -2,12 +2,12 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "{{ .Release.Name }}-sonarqube-runner-{{ .Values.git.commitID }}"
+  name: "{{ .Release.Name }}-sonarqube-runner-{{ .Values.git.commitID }}-{{ now | unixEpoch }}"
 spec:
   ttlSecondsAfterFinished: 0
   template:
     metadata:
-      name: "{{ .Release.Name }}-sonarqube-runner-{{ .Values.git.commitID }}"
+      name: "{{ .Release.Name }}-sonarqube-runner-{{ .Values.git.commitID }}-{{ now | unixEpoch }}"
     spec:
       containers:
         - name: "sonarqube-scan-{{ .Values.git.commitID }}"
@@ -39,7 +39,7 @@ spec:
               name: initrepo
       # clone git repo and mount the code
       initContainers:
-        - name: "clone-repo-{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.git.commitID }}"
+        - name: "clone-repo-{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.git.commitID }}-{{ now | unixEpoch }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/alpine/git"
           command: ['sh', '-c', 'cd /init-data; git clone --branch ${git_branch} http://root:${git_token}@${git_host}/root/${git_repo}.git .; rm -rf .git; ls; chmod -R 777 /init-data']
           env:
