@@ -63,10 +63,6 @@ spec:
           #    port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-        # 等待部屬時間(sidecar)
-        - name: "delay-web-for-{{ .Values.git.commitID }}"
-          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/library/ubuntu:18.04"
-          command: ['sh', '-c', 'sleep {{ .Values.web.wait }}']
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

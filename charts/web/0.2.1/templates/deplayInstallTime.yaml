@@ -3,13 +3,14 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   annotations:
+    "helm.sh/hook": "post-install,post-upgrade,post-rollback"
     "helm.sh/hook-delete-policy": hook-succeeded
-  name: "{{ .Release.Name }}-install-delay"
+  name: "{{ .Release.Name }}-install-delay-{{ .Values.git.commitID }}"
 spec:
   ttlSecondsAfterFinished: 0
   template:
     metadata:
-      name: "{{ .Release.Name }}-install-delay"
+      name: "{{ .Release.Name }}-install-delay-{{ .Values.git.commitID }}"
     spec:
       containers:
         - name: "delay-web-for-{{ .Values.git.commitID }}"
