@@ -71,7 +71,11 @@ spec:
             - /bin/sh
             - -c
           args:
-            - "/usr/bin/before.sh; /usr/bin/entrypoint.sh sonar-scanner | /usr/bin/after.sh"
+            - >-
+              cd usr/src;
+              echo {{ .Values.git.repoName }} >> sonar-project.properties;
+              /usr/bin/before.sh;
+              /usr/bin/entrypoint.sh sonar-scanner | /usr/bin/after.sh;
           env:
             # Sonarqube's URL
             - name: SONAR_HOST_URL
