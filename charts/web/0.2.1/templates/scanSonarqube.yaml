@@ -2,9 +2,6 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  annotations:
-    "helm.sh/hook": "post-install,post-upgrade,post-rollback"
-    "helm.sh/hook-delete-policy": hook-succeeded
   name: "{{ .Release.Name }}-sonarqube-runner-{{ .Values.git.commitID }}"
 spec:
   ttlSecondsAfterFinished: 0
@@ -13,58 +10,6 @@ spec:
       name: "{{ .Release.Name }}-sonarqube-runner-{{ .Values.git.commitID }}"
     spec:
       containers:
-#        - name: "sonarqube-nexus-{{ .Values.git.commitID }}"
-#          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/sonarqube-runner:latest"
-#          command: ['sh', '-c', 'cd /usr/src/app; ls; ./run.sh;']
-#          env:
-#            # Sonarqube's URL
-#            - name: sonar_url
-#              valueFrom:
-#                secretKeyRef:
-#                  name: sonarqube
-#                  key: sonar-url
-#            # Auth token of sonarqube's bot
-#            - name: sonar_token
-#              valueFrom:
-#                secretKeyRef:
-#                  name: sonar-bot
-#                  key: sonar-token
-#            # Project name is equal to the git repo name
-#            - name: project_name
-#              value: {{ .Values.git.repoName }}
-#            # Git repo URL of the gitlab
-#            - name: git_url
-#              value: {{ .Values.git.url | quote }}
-#            # Indicates the tested branch name
-#            - name: git_branch
-#              value: {{ .Values.git.branch }}
-#            # Indicates the tested commit
-#            - name: git_commit_id
-#              value: {{ .Values.git.commitID | quote }}
-#            # Origin of the API server
-#            - name: api_origin
-#              valueFrom:
-#                secretKeyRef:
-#                  name: nexus
-#                  key: api-origin
-#            # username of the API server
-#            - name: api_username
-#              valueFrom:
-#                secretKeyRef:
-#                  name: nexus-bot
-#                  key: username
-#            # password of the API server
-#            - name: api_password
-#              valueFrom:
-#                secretKeyRef:
-#                  name: nexus-bot
-#                  key: password
-#            # If you want detailed log
-#            - name: verbose
-#              value: "true"
-#          volumeMounts:
-#            - mountPath: /usr/src/app/repo
-#              name: initrepo
         - name: "sonarqube-scan-{{ .Values.git.commitID }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/sesame"
           command:
