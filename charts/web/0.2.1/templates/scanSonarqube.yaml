@@ -18,9 +18,9 @@ spec:
             - -c
           args:
             - >-
-              echo "sonar.projectKey={{ .Values.git.repoName }}" >> /opt/sonar-scanner/conf/sonar-project.properties;
-              cat /opt/sonar-scanner/conf/sonar-project.properties;
-              /usr/bin/before.sh;
+              /usr/bin/setup.sh;
+              cat /usr/src/sonar-project.properties;
+              ls /usr/src;
               /usr/bin/entrypoint.sh sonar-scanner | /usr/bin/after.sh;
           env:
             # Sonarqube's URL
