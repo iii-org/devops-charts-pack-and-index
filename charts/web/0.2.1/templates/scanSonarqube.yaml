@@ -3,9 +3,6 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  annotations:
-    "helm.sh/hook": "post-install,post-upgrade,post-rollback"
-    "helm.sh/hook-delete-policy": "before-hook-creation, hook-succeeded"
   name: "{{ .Release.Name }}-sonarqube-runner-{{ .Values.git.commitID }}-{{ $timestamp }}"
 spec:
   ttlSecondsAfterFinished: 0
