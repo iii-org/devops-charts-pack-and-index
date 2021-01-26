@@ -18,7 +18,8 @@ spec:
             - -c
           args:
             - >-
-              echo {{ .Values.git.repoName }} >> /opt/sonar-scanner/conf/sonar-project.properties;
+              echo "sonar.projectKey={{ .Values.git.repoName }}" >> /opt/sonar-scanner/conf/sonar-project.properties;
+              cat /opt/sonar-scanner/conf/sonar-project.properties;
               /usr/bin/before.sh;
               /usr/bin/entrypoint.sh sonar-scanner | /usr/bin/after.sh;
           env:
