@@ -35,6 +35,9 @@ spec:
                 secretKeyRef:
                   name: sonar-bot
                   key: sonar-token
+            # Project name
+            - name: PROJECT_NAME
+              value: {{ .Values.git.repoName }}
           volumeMounts:
             - mountPath: /usr/src
               name: initrepo
