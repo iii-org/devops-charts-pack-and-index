@@ -1,6 +1,7 @@
 # 在部屬完成後執行newman檢查，如果有要求啟用的話
 # newman一定要等服務啟動部屬完成後才可啟動檢查
 {{ if .Values.newman.enabled -}}
+  {{ $timestamp := now | unixEpoch }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -8,18 +9,17 @@ metadata:
     # 等待當安裝後 升級後 降級後都會執行此工作
     "helm.sh/hook": "post-install,post-upgrade,post-rollback"
     "helm.sh/hook-delete-policy": "before-hook-creation, hook-succeeded"
-  name: "{{ .Release.Name }}-newman-runner-{{ .Values.git.commitID }}"
+  name: "{{ .Release.Name }}-newman-runner-{{ .Values.git.commitID }}-{{ $timestamp }}"
 spec:
   ttlSecondsAfterFinished: 600
   template:
     metadata:
-      name: "{{ .Release.Name }}-newman-runner-{{ .Values.git.commitID }}"
+      name: "{{ .Release.Name }}-newman-runner-{{ .Values.git.commitID }}-{{ $timestamp }}"
     spec:
       containers:
-        - name: "newman-runner-{{ .Values.git.commitID }}"
+        - name: "newman-runner-{{ .Values.git.commitID }}-{{ $timestamp }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/newman-runner:latest"
-          # (傳統pipeline指令)command: ['sh', '-c', 'ln -s $(pwd) /usr/src/app/repo; cd /usr/src/app; ls; echo ${api_orign};node app.js;']
-          command: ['sh', '-c', 'cd /usr/src/app; ls; echo ${api_orign};node app.js;']
+          command: ['sh', '-c', 'cd /usr/src/app; node app.js;']
           env:
             - name: git_url
               value: {{ .Values.git.url | quote }}
@@ -51,7 +51,7 @@ spec:
               name: initrepo
       # 由於newman需要專案資料做Link連結, 因此此步驟會建立專案資料
       initContainers:
-        - name: "clone-repo-{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.git.commitID }}"
+        - name: "clone-repo-{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.git.commitID }}-{{ $timestamp }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/alpine/git"
           command: ['sh', '-c', 'cd /init-data; git clone --branch ${git_branch} http://root:${git_token}@${git_host}/root/${git_repo}.git .; rm -rf .git; ls; chmod -R 777 /init-data']
           env:
