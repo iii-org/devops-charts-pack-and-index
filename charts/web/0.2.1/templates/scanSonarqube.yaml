@@ -38,6 +38,11 @@ spec:
             # Project name
             - name: PROJECT_NAME
               value: {{ .Values.git.repoName }}
+            # Git info for nexus
+            - name: GIT_BRANCH
+              value: {{ .Values.git.branch }}
+            - name: GIT_COMMIT_ID
+              value: {{ .Values.git.commitID }}
           volumeMounts:
             - mountPath: /usr/src
               name: initrepo
