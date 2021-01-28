@@ -43,6 +43,10 @@ extraEnv: []
 #  - name: DB_HOST
 #    value: ${CICD_GIT_REPO_NAME}-${CICD_GIT_BRANCH}-db-service
 
+# About Rancher pipelines
+pipeline:
+  sequence: 0
+
 # About to use checkmarx to run code scan
 checkmarx:
   enabled: false

@@ -1,17 +1,16 @@
 {{ if .Values.sonarqube.enabled -}}
-{{ $timestamp := now | unixEpoch }}
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "{{ .Release.Name }}-sonarqube-{{ .Values.git.commitID }}-{{ $timestamp }}"
+  name: "{{ .Release.Name }}-sonarqube-{{ .Values.pipeline.sequence }}"
 spec:
   ttlSecondsAfterFinished: 0
   template:
     metadata:
-      name: "{{ .Release.Name }}-sonarqube-{{ .Values.git.commitID }}-{{ $timestamp }}"
+      name: "{{ .Release.Name }}-sonarqube-{{ .Values.pipeline.sequence }}"
     spec:
       containers:
-        - name: "sonarqube-scan-{{ .Values.git.commitID }}-{{ $timestamp }}"
+        - name: "sonarqube-scan-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/sonarqube-runner"
           command:
             - /bin/sh
@@ -48,7 +47,7 @@ spec:
               name: initrepo
       # clone git repo and mount the code
       initContainers:
-        - name: "clone-repo-{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.git.commitID }}-{{ $timestamp }}"
+        - name: "clone-repo-{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/alpine/git"
           command: ['sh', '-c', 'cd /init-data; git clone --branch ${git_branch} http://root:${git_token}@${git_host}/root/${git_repo}.git .; rm -rf .git; ls; chmod -R 777 /init-data']
           env:
