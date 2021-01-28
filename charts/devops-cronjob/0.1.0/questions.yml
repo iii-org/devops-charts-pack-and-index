@@ -26,3 +26,17 @@ questions:
   required: true
   default: ""
   group: "rancher devops service"
+## 因應iii-org鏡像來源規定
+- variable: registry.url
+  label: 您Harbor的HOST
+  description: "部屬採用的Image來源，目前禁止使用docker hub作為來源，但是用預設值google也OK"
+  type: string
+  required: true
+  default: "mirror.gcr.io"
+  group: "deploy image source"
+- variable: registry.hub
+  label: cache的proxy專案名稱
+  description: "proxy cache的來源專案名稱"
+  required: false
+  default: ""
+  group: "deploy image source"
