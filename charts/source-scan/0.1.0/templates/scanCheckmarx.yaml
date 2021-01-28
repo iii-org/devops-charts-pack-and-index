@@ -82,7 +82,7 @@ spec:
             - >-
               cd /init-data;
               se="//"
-              url="${git_url/$se*/$se}${git_username}:${git_token}@${git_url/*$se}"
+              export url="${git_url/$se*/$se}${git_username}:${git_token}@${git_url/*$se}";
               echo ${url};
               git clone --branch ${git_branch} ${url};
               rm -rf .git;
