@@ -9,7 +9,7 @@ metadata:
 spec:
   template:
     metadata:
-      name: "{{ .Release.Name }}-checkmarx-runner-{{ .Values.git.commitID }}"
+      name: "{{ .Release.Name }}-checkmarx-runner"
     spec:
       containers:
         - name: "checkmarx-scan-{{ .Values.git.commitID }}-{{ $timestamp }}"
