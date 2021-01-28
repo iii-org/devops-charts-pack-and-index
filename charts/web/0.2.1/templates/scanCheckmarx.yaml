@@ -5,12 +5,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "{{ .Release.Name }}-checkmarx-runner-{{ .Values.git.commitID }}-{{ $timestamp }}"
+  name: "{{ .Release.Name }}-checkmarx"
 spec:
-  ttlSecondsAfterFinished: 0
   template:
-    metadata:
-      name: "{{ .Release.Name }}-checkmarx-runner-{{ .Values.git.commitID }}-{{ $timestamp }}"
     spec:
       containers:
         - name: "checkmarx-scan-{{ .Values.git.commitID }}-{{ $timestamp }}"
