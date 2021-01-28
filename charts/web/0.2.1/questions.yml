@@ -8,7 +8,7 @@ questions:
 - variable: pipeline.sequence
   label: "Rancher pipeline 的 $CICD_EXECUTION_SEQUENCE"
   type: int
-  required: false
+  required: true
   default: 0
   group: "Rancher pipeline 相關設定"
 ## about web
