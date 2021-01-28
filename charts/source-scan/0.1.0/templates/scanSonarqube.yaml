@@ -41,7 +41,7 @@ spec:
             - name: GIT_BRANCH
               value: {{ .Values.git.branch }}
             - name: GIT_COMMIT_ID
-              value: {{ .Values.git.commitID }}
+              value: {{ .Values.git.commitID | quote }}
           volumeMounts:
             - mountPath: /usr/src
               name: initrepo
