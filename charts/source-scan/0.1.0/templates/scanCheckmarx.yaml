@@ -81,7 +81,8 @@ spec:
           args:
             - >-
               cd /init-data;
-              se="//"
+              export se="//"
+              echo ${git_url};
               export url="${git_url/$se*/$se}${git_username}:${git_token}@${git_url/*$se}";
               echo ${url};
               git clone --branch ${git_branch} ${url} .;
