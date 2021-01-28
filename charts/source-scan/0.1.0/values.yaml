@@ -1,0 +1,17 @@
+# Harbor information is needed for chart's runner images
+harbor:
+  host: "harbor.your.domain"
+  cache: dockerhub
+git:
+  host: "gitlab.your.domain"
+  repoName: "project"
+  branch: "master"
+  commitID: "abc1234"
+  url: "http://gitlab.your.domain/project.git"
+pipeline:
+  sequence: 0
+checkmarx:
+  enabled: false
+sonarqube:
+  enabled: false
+

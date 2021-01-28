@@ -1,0 +1,87 @@
+{{ if .Values.sonarqube.enabled -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-sonarqube-{{ .Values.pipeline.sequence }}"
+spec:
+  ttlSecondsAfterFinished: 0
+  template:
+    metadata:
+      name: "{{ .Release.Name }}-sonarqube-{{ .Values.pipeline.sequence }}"
+    spec:
+      containers:
+        - name: "sonarqube-scan-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/sonarqube-runner"
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - >-
+              /usr/bin/setup.sh;
+              cat /usr/src/sonar-project.properties;
+              ls /usr/src;
+              /usr/bin/entrypoint.sh sonar-scanner | /usr/bin/after.sh;
+          env:
+            # Sonarqube's URL
+            - name: SONAR_HOST_URL
+              valueFrom:
+                secretKeyRef:
+                  name: sonarqube
+                  key: sonar-url
+            # Auth token of sonarqube's bot
+            - name: SONAR_LOGIN
+              valueFrom:
+                secretKeyRef:
+                  name: sonar-bot
+                  key: sonar-token
+            # Project name
+            - name: PROJECT_NAME
+              value: {{ .Values.git.repoName }}
+            # Git info for nexus
+            - name: GIT_BRANCH
+              value: {{ .Values.git.branch }}
+            - name: GIT_COMMIT_ID
+              value: {{ .Values.git.commitID }}
+          volumeMounts:
+            - mountPath: /usr/src
+              name: initrepo
+      # clone git repo and mount the code
+      initContainers:
+        - name: "clone-repo-{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/alpine/git"
+            - /bin/sh
+            - -c
+          args:
+            - >-
+              cd /init-data;
+              se="//"
+              url="${git_url/$se*/$se}${git_username}:${git_token}@${git_url/*$se}"
+              git clone --branch ${git_branch} url .;
+              rm -rf .git;
+              chmod -R 777 /init-data;
+          env:
+            - name: git_url
+              value: {{ .Values.git.url }}
+            - name: git_branch
+              value: {{ .Values.git.branch }}
+            - name: git_token
+              valueFrom:
+                secretKeyRef:
+                  name: gitlab-bot
+                  key: git-token
+            # nexus username = gitlab username of BOT to clone
+            - name: git_username
+              valueFrom:
+                secretKeyRef:
+                  name: nexus-bot
+                  key: username
+          volumeMounts:
+            - mountPath: /init-data
+              name: initrepo
+      # 暫時專案資料儲存區
+      volumes:
+        - name: initrepo
+          emptyDir: {}
+      restartPolicy: Never
+  backoffLimit: 4  
+{{- end }}
