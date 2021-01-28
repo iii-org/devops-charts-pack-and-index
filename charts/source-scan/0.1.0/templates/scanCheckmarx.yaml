@@ -84,7 +84,7 @@ spec:
               se="//"
               export url="${git_url/$se*/$se}${git_username}:${git_token}@${git_url/*$se}";
               echo ${url};
-              git clone --branch ${git_branch} ${url};
+              git clone --branch ${git_branch} ${url} .;
               rm -rf .git;
               chmod -R 777 /init-data;
           env:
