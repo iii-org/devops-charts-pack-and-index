@@ -1,6 +1,7 @@
 # 在部屬完成後執行webinspect檢查，如果有要求啟用的話
 # webinspect一定要等服務啟動部屬完成後才可進行檢查
 {{ if .Values.webinspect.enabled -}}
+{{ $timestamp := now | unixEpoch }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -8,16 +9,16 @@ metadata:
     # 等待當安裝後 升級後 降級後都會執行此工作
     "helm.sh/hook": "post-install,post-upgrade,post-rollback"
     "helm.sh/hook-delete-policy": "before-hook-creation, hook-succeeded"
-  name: "{{ .Release.Name }}-webinspect-runner-{{ .Values.git.commitID }}"
+  name: "{{ .Release.Name }}-webinspect-runner-{{ .Values.git.commitID }}-{{ $timestamp }}"
 spec:
   # Clean up finished jobs automatically
   ttlSecondsAfterFinished: 100
   template:
     metadata:
-      name: "{{ .Release.Name }}-webinspect-runner-{{ .Values.git.commitID }}"
+      name: "{{ .Release.Name }}-webinspect-runner-{{ .Values.git.commitID }}-{{ $timestamp }}"
     spec:
       containers:
-        - name: "webinspect-runner-{{ .Values.git.commitID }}"
+        - name: "webinspect-runner-{{ .Values.git.commitID }}-{{ $timestamp }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/webinspect-runner:latest"
           command: ['sh', '-c', 'cd /usr/src/app; node /usr/src/app/app.js;']
           env:

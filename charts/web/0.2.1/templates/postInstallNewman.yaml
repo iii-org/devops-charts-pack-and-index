@@ -1,7 +1,7 @@
 # 在部屬完成後執行newman檢查，如果有要求啟用的話
 # newman一定要等服務啟動部屬完成後才可啟動檢查
 {{ if .Values.newman.enabled -}}
-  {{ $timestamp := now | unixEpoch }}
+{{ $timestamp := now | unixEpoch }}
 apiVersion: batch/v1
 kind: Job
 metadata:
