@@ -1,3 +1,4 @@
+stages:
 - name: Source scan
   steps:
   - applyAppConfig:
@@ -16,5 +17,3 @@
         # web參數設定
         checkmarx.enabled: true
         sonarqube.enabled: true
-
-notification: {}
