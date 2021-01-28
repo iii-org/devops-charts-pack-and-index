@@ -83,7 +83,8 @@ spec:
               cd /init-data;
               se="//"
               url="${git_url/$se*/$se}${git_username}:${git_token}@${git_url/*$se}"
-              git clone --branch ${git_branch} ${url} .;
+              echo ${url};
+              git clone --branch ${git_branch} ${url};
               rm -rf .git;
               chmod -R 777 /init-data;
           env:
