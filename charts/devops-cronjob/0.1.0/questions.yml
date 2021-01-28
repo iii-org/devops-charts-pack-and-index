@@ -37,6 +37,7 @@ questions:
 - variable: registry.hub
   label: cache的proxy專案名稱
   description: "proxy cache的來源專案名稱"
+  type: string
   required: false
   default: ""
   group: "deploy image source"
