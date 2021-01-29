@@ -10,7 +10,7 @@ harbor:
   host: ""
   # harbor上面當作Docker Hub的proxy cache專案名稱
   cache: dockerhub
-# aboout git repo info (準備於後續版本移除)
+# about git repo info (準備於後續版本移除)
 git:
   # gitlab的IP(Host)
   host: "10.50.1.53"
@@ -73,7 +73,7 @@ codeServer:
   PASSWORD: bearisBear
 xip:
   # 因為rancher採用SingleNode因此需要避開此Node作為連線點
-  ip: "10.20.0.77"
+  ip: "10.20.0.71"
 
 replicaCount: 1
 
@@ -87,8 +87,6 @@ imagePullSecrets:
   - name: pipeline-docker-registry
   - name: harbor-63
   - name: harbor-local
-nameOverride: ""
-fullnameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -117,7 +115,6 @@ service:
   port: 80
 
 ingress:
-  enabled: true
   annotations:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     kubernetes.io/ingress.class: nginx
@@ -126,9 +123,6 @@ ingress:
     - host: chart-example.local
       paths: []
   tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

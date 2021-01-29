@@ -1,33 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .Release.Name }}-{{ .Values.web.type }}"
+  name: {{ include "web.fullname" . }}-deployment
   labels:
     {{- include "web.labels" . | nindent 4 }}
-    app: "{{ .Release.Name }}-{{ .Values.web.type }}"
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       {{- include "web.selectorLabels" . | nindent 6 }}
-      app: "{{ .Release.Name }}-{{ .Values.web.type }}"
+      app: {{ include "web.fullname" . }}
   template:
     metadata:
       labels:
         {{- include "web.selectorLabels" . | nindent 8 }}
-        app: "{{ .Release.Name }}-{{ .Values.web.type }}"
+        app: {{ include "web.fullname" . }}
     spec:
-    {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
+        {{- .Values.imagePullSecrets | toYaml | nindent 8 }}
       serviceAccountName: {{ include "web.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- .Values.podSecurityContext | toYaml | nindent 8 }}
       containers:
         - name: "{{ .Values.web.type }}-{{ .Values.git.commitID }}"
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- .Values.securityContext | toYaml | nindent 12 }}
           image: "{{ .Values.harbor.host }}/{{ .Values.web.image }}:{{ .Values.web.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
@@ -39,39 +36,23 @@ spec:
               value: {{ .Values.git.commitID | quote }}
           ports:
             - name: http
-            {{- if eq .Values.web.type "php" }}
+            {{- with .Values.web.type }}
+              {{- if list "php" "uwsgi-flask" "apache" | has . }}
               containerPort: 80
-            {{- else if eq .Values.web.type "flask" }}
+              {{- else if "flask" | eq . }}
               containerPort: 5000
-            {{- else if eq .Values.web.type "uwsgi-flask" }}
-              containerPort: 80
-            {{- else if eq .Values.web.type "spring" }}
+              {{- else if "spring" | eq . }}
               containerPort: 8080
-            {{- else if eq .Values.web.type "apache" }}
-              containerPort: 80
-            {{- else }} # custom
-              containerPort: {{ .Values.web.port }}
+              {{- else }}
+              containerPort: {{ $.Values.web.port }}
+              {{- end }}
             {{- end }}
-              protocol: TCP
-          #livenessProbe:
-          #  httpGet:
-          #    path: /
-          #    port: http
-          #readinessProbe:
-          #  httpGet:
-          #    path: /
-          #    port: http
+            protocol: TCP
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
+            {{- .Values.resources | toYaml | nindent 12 }}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-    {{- with .Values.affinity }}
+        {{- .Values.nodeSelector | toYaml | nindent 8 }}
       affinity:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
+        {{- .Values.affinity | toYaml | nindent 8 }}
       tolerations:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
+        {{- .Values.tolerations | toYaml | nindent 8 }}
