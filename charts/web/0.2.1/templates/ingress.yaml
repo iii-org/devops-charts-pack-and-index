@@ -16,7 +16,7 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: "{{ include "web.fullname\" . }}-service"
+              serviceName: "{{ include "web.fullname" . }}-service"
               servicePort: {{ include "web.port" . }}
             path: "/"
             pathType: "ImplementationSpecific"
