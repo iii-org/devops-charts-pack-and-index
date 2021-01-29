@@ -8,12 +8,10 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      {{- include "web.selectorLabels" . | nindent 6 }}
       app: {{ include "web.fullname" . }}
   template:
     metadata:
       labels:
-        {{- include "web.selectorLabels" . | nindent 8 }}
         app: {{ include "web.fullname" . }}
     spec:
       imagePullSecrets:
@@ -35,19 +33,8 @@ spec:
             - name: commitID
               value: {{ .Values.git.commitID | quote }}
           ports:
-            - name: http
-            {{- with .Values.web.type }}
-              {{- if list "php" "uwsgi-flask" "apache" | has . }}
-              containerPort: 80
-              {{- else if "flask" | eq . }}
-              containerPort: 5000
-              {{- else if "spring" | eq . }}
-              containerPort: 8080
-              {{- else }}
-              containerPort: {{ $.Values.web.port }}
-              {{- end }}
-            {{- end }}
-            protocol: TCP
+            - containerPort: {{ include "web.port" . }}
+              protocol: TCP
           resources:
             {{- .Values.resources | toYaml | nindent 12 }}
       nodeSelector:

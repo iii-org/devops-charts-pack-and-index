@@ -18,9 +18,8 @@ Create chart name and version as used by the chart label.
 Common labels
 */}}
 {{- define "web.labels" -}}
-app: {{ web.fullname }}
+app: {{ include "web.fullname" . }}
 helm.sh/chart: {{ include "web.chart" . }}
-app.kubernetes.io/name: {{ include "web.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- if .Chart.AppVersion }}
