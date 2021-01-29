@@ -3,8 +3,8 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "web.fullname" -}}
-  {{- cat .Release.Name "-web" | trunc 63 -}}
+{{- define "web.name" -}}
+  {{- .Release.Name | trunc 59 -}}-web
 {{- end -}}
 
 {{/*
@@ -18,7 +18,7 @@ Create chart name and version as used by the chart label.
 Common labels
 */}}
 {{- define "web.labels" -}}
-app: {{ include "web.fullname" . }}
+app: {{ include "web.name" . }}
 helm.sh/chart: {{ include "web.chart" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
@@ -46,7 +46,7 @@ Create the name of the service account to use
 */}}
 {{- define "web.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create -}}
-{{ default (include "web.fullname" .) .Values.serviceAccount.name }}
+{{ default (include "web.name" .) .Values.serviceAccount.name }}
 {{- else -}}
 {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}

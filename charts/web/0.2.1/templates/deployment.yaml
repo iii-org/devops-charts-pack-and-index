@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "web.fullname" . }}-deployment
+  name: {{ include "web.name" . }}-deployment
   labels:
     {{- include "web.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ include "web.fullname" . }}
+      app: {{ include "web.name" . }}
   template:
     metadata:
       labels:
-        app: {{ include "web.fullname" . }}
+        app: {{ include "web.name" . }}
     spec:
       imagePullSecrets:
         {{- .Values.imagePullSecrets | toYaml | nindent 8 }}
