@@ -7,12 +7,12 @@ kind: Ingress
 metadata:
   name: {{ include "web.name" . }}-ingress
   labels:
-    {{ include "web.labels" | nindent 4 }}
+    {{ include "web.labels" . | nindent 4 }}
   annotations:
     {{- .Values.ingress.annotations | toYaml | nindent 4 }}
 spec:
   rules:
-    - host: "{{ include "web.name" }}.{{ .Values.xip.ip }}.xip.io"
+    - host: "{{ include "web.name" . }}.{{ .Values.xip.ip }}.xip.io"
       http:
         paths:
           - backend:
