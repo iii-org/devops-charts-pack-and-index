@@ -5,18 +5,18 @@ apiVersion: {{ if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion 
   {{- end }}
 kind: Ingress
 metadata:
-  name: {{ include "web.fullname" . }}-ingress
+  name: {{ include "web.name" . }}-ingress
   labels:
     {{ include "web.labels" | nindent 4 }}
   annotations:
     {{- .Values.ingress.annotations | toYaml | nindent 4 }}
 spec:
   rules:
-    - host: "{{ include "web.fullname" }}.{{ .Values.xip.ip }}.xip.io"
+    - host: "{{ include "web.name" }}.{{ .Values.xip.ip }}.xip.io"
       http:
         paths:
           - backend:
-              serviceName: "{{ include "web.fullname" . }}-service"
+              serviceName: "{{ include "web.name" . }}-service"
               servicePort: {{ include "web.port" . }}
             path: "/"
             pathType: "ImplementationSpecific"
