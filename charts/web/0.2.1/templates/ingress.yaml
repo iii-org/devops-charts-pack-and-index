@@ -5,7 +5,7 @@ apiVersion: {{ if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion 
   {{- end }}
 kind: Ingress
 metadata:
-  name: {{ include "web.name" . }}-ingress
+  name: {{ include "web.name" . }}-ing
   labels:
     {{ include "web.labels" . | nindent 4 }}
   annotations:
@@ -16,7 +16,7 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: "{{ include "web.name" . }}-service"
+              serviceName: "{{ include "web.name" . }}-svc"
               servicePort: {{ include "web.port" . }}
             path: "/"
             pathType: "ImplementationSpecific"
