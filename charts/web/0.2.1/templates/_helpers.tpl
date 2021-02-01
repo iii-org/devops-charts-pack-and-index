@@ -4,7 +4,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 If release name contains chart name it will be used as a full name.
 */}}
 {{- define "web.name" -}}
-  {{- .Release.Name | trunc 59 -}}-web
+  {{- .Release.Name | trunc 59 -}}
 {{- end -}}
 
 {{/*
