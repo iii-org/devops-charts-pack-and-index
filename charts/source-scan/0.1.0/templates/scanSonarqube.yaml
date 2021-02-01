@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
         - name: "sonarqube-scan-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
-          image: >
+          image: >-
             "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}
             /iiiorg/sonarqube-runner:{{ .Values.sonarqube.runnerVersion }}"
           command:
