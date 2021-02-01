@@ -5,7 +5,7 @@ categories:
 questions:
 # pipeline parameters
 - variable: pipeline.sequence
-  label: "Rancher pipeline 的 $CICD_EXECUTION_SEQUENCE"
+  label: "Rancher pipeline 的 ${CICD_EXECUTION_SEQUENCE} 變數"
   type: int
   required: true
   default: 0
