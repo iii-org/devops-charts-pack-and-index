@@ -12,6 +12,7 @@ pipeline:
   sequence: 0
 checkmarx:
   enabled: false
+  runnerVersion: latest
 sonarqube:
   enabled: false
-
+  runnerVersion: latest
