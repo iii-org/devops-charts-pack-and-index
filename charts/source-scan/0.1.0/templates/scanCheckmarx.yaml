@@ -10,7 +10,7 @@ spec:
       name: "{{ .Release.Name }}-checkmarx-{{ .Values.pipeline.sequence }}"
     spec:
       containers:
-        - name: "checkmarx-scan-{{ .Values.git.commitID | quote }}-{{ .Values.pipeline.sequence }}"
+        - name: "checkmarx-scan-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
           image: >
             "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}
             /iiiorg/checkmarx-runner:{{ .Values.checkmarx.runnerVersion }}"
@@ -75,7 +75,7 @@ spec:
               name: initrepo
       # 由於checkmarx需要專案資料做Link連結, 因此此步驟會建立專案資料
       initContainers:
-        - name: "clone-repo-{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.git.commitID | quote }}-{{ .Values.pipeline.sequence }}"
+        - name: "clone-repo-{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/alpine/git"
           command:
             - /bin/sh
