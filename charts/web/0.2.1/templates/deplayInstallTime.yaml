@@ -5,15 +5,15 @@ metadata:
   annotations:
     "helm.sh/hook": "post-install,post-upgrade,post-rollback"
     "helm.sh/hook-delete-policy": hook-succeeded
-  name: "{{ .Release.Name }}-install-delay-{{ .Values.git.commitID }}"
+  name: "{{ .Release.Name }}-install-delay-{{ .Values.git.commitID | quote }}"
 spec:
   ttlSecondsAfterFinished: 0
   template:
     metadata:
-      name: "{{ .Release.Name }}-install-delay-{{ .Values.git.commitID }}"
+      name: "{{ .Release.Name }}-install-delay-{{ .Values.git.commitID | quote }}"
     spec:
       containers:
-        - name: "delay-web-for-{{ .Values.git.commitID }}"
+        - name: "delay-web-for-{{ .Values.git.commitID | quote }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/library/ubuntu:18.04"
           command: ['sh', '-c', 'sleep {{ .Values.web.wait }}']
       restartPolicy: Never

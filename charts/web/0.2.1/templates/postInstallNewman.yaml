@@ -7,15 +7,15 @@ metadata:
   annotations:
     # 等待當安裝後 升級後 降級後都會執行此工作
     "helm.sh/hook": "post-install,post-upgrade,post-rollback"
-  name: "{{ .Release.Name }}-newman-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
+  name: "{{ .Release.Name }}-newman-{{ .Values.git.commitID | quote }}-{{ .Values.pipeline.sequence }}"
 spec:
   ttlSecondsAfterFinished: 600
   template:
     metadata:
-      name: "{{ .Release.Name }}-newman-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
+      name: "{{ .Release.Name }}-newman-{{ .Values.git.commitID | quote }}-{{ .Values.pipeline.sequence }}"
     spec:
       containers:
-        - name: "newman-runner-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
+        - name: "newman-runner-{{ .Values.git.commitID | quote }}-{{ .Values.pipeline.sequence }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/newman-runner:latest"
           command: ['sh', '-c', 'cd /usr/src/app; node app.js;']
           env:
@@ -49,7 +49,7 @@ spec:
               name: initrepo
       # 由於newman需要專案資料做Link連結, 因此此步驟會建立專案資料
       initContainers:
-        - name: "clone-repo-{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
+        - name: "clone-repo-{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.git.commitID | quote }}-{{ .Values.pipeline.sequence }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/alpine/git"
           command: ['sh', '-c', 'cd /init-data; git clone --branch ${git_branch} http://root:${git_token}@${git_host}/root/${git_repo}.git .; rm -rf .git; ls; chmod -R 777 /init-data']
           env:

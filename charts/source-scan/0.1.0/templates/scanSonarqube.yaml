@@ -10,7 +10,7 @@ spec:
       name: "{{ .Release.Name }}-sonarqube-{{ .Values.pipeline.sequence }}"
     spec:
       containers:
-        - name: "sonarqube-scan-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
+        - name: "sonarqube-scan-{{ .Values.git.commitID | quote }}-{{ .Values.pipeline.sequence }}"
           image: >
             "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}
             /iiiorg/sonarqube-runner:{{ .Values.sonarqube.runnerVersion }}"
@@ -49,7 +49,7 @@ spec:
               name: initrepo
       # clone git repo and mount the code
       initContainers:
-        - name: "clone-repo-{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
+        - name: "clone-repo-{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.git.commitID | quote }}-{{ .Values.pipeline.sequence }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/alpine/git"
           command:
             - /bin/sh
