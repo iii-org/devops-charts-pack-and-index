@@ -14,6 +14,9 @@ spec:
       labels:
         app: {{ include "web.name" . }}
     spec:
+      metadata:
+        labels:
+          {{- include "web.labels" . | nindent 10 }}
       imagePullSecrets:
         {{- .Values.imagePullSecrets | toYaml | nindent 8 }}
       serviceAccountName: {{ include "web.serviceAccountName" . }}

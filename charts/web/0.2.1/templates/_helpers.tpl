@@ -15,10 +15,12 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{/*
-Common labels
+Workload labels
 */}}
 {{- define "web.labels" -}}
 app: {{ include "web.name" . }}
+project_name: {{ .Values.git.repoName }}
+branch: {{ .Values.git.branch | quote }}
 helm.sh/chart: {{ include "web.chart" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
