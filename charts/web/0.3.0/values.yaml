@@ -25,7 +25,7 @@ git:
 web:
   type: "php"
   port: 80
-  image: ""
+  imageTag: "project/branch:version"
   tag: "latest"
   # 等待部屬的完成時間(單位秒)
   wait: 30

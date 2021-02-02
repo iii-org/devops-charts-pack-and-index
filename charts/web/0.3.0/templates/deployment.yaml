@@ -24,7 +24,7 @@ spec:
         - name: "{{ .Values.web.type }}-{{ .Values.git.commitID }}"
           securityContext:
             {{- .Values.securityContext | toYaml | nindent 12 }}
-          image: "{{ .Values.harbor.host }}/{{ .Values.web.image }}:{{ .Values.web.tag }}"
+          image: "{{ .Values.harbor.host }}/{{ .Values.web.imageTag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: repoName
