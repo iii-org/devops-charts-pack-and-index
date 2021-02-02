@@ -4,6 +4,8 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
+  labels:
+    {{- include "iiidevops.labels" . | nindent 4 }}
   annotations:
     # 等待當安裝後 升級後 降級後都會執行此工作
     "helm.sh/hook": "post-install,post-upgrade,post-rollback"
@@ -13,6 +15,8 @@ spec:
   template:
     metadata:
       name: "{{ .Release.Name }}-newman-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
+      labels:
+        {{- include "iiidevops.labels" . | nindent 8 }}
     spec:
       containers:
         - name: "newman-runner-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"

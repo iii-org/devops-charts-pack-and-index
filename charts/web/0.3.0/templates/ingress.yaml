@@ -7,7 +7,7 @@ kind: Ingress
 metadata:
   name: {{ include "web.name" . }}-ing
   labels:
-    {{ include "web.labels" . | nindent 4 }}
+    {{- include "iiidevops.labels" . | nindent 4 }}
   annotations:
     {{- .Values.ingress.annotations | toYaml | nindent 4 }}
 spec:

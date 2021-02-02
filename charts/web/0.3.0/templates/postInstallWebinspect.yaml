@@ -16,6 +16,8 @@ spec:
   template:
     metadata:
       name: "{{ .Release.Name }}-webinspect-runner-{{ .Values.git.commitID }}-{{ $timestamp }}"
+      labels:
+        {{- include "iiidevops.labels" . | nindent 8 }}
     spec:
       containers:
         - name: "webinspect-runner-{{ .Values.git.commitID }}-{{ $timestamp }}"

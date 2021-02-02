@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ include "web.name" . }}-dpy
   labels:
-    {{- include "web.labels" . | nindent 4 }}
+    {{- include "iiidevops.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
@@ -16,7 +16,6 @@ spec:
     spec:
       metadata:
         labels:
-          {{- include "web.labels" . | nindent 10 }}
           {{- include "iiidevops.labels" . | nindent 10 }}
       imagePullSecrets:
         {{- .Values.imagePullSecrets | toYaml | nindent 8 }}
