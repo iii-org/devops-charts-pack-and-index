@@ -3,11 +3,10 @@ harbor:
   host: "harbor.your.domain"
   cache: dockerhub
 git:
-  host: "gitlab.your.domain"
+  url: "http://gitlab.your.domain/project.git"
   repoName: "project"
   branch: "master"
   commitID: "abc1234"
-  url: "http://gitlab.your.domain/project.git"
 pipeline:
   sequence: 0
 checkmarx:

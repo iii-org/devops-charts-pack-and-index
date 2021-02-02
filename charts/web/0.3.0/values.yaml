@@ -12,6 +12,8 @@ harbor:
   cache: dockerhub
 # about git repo info (準備於後續版本移除)
 git:
+  # 專案 git repo URL
+  url: "http://gitlab.domain/project.git"
   # 專案名稱，在nexus和gitlab上必須一樣
   repoName: "project-name"
   # 當前gitlab的分支
