@@ -8,7 +8,8 @@ metadata:
     {{- include "iiidevops.labels" . | nindent 4 }}
   annotations:
     # 等待當安裝後 升級後 降級後都會執行此工作
-    "helm.sh/hook": "post-install,post-upgrade,post-rollback"
+    "helm.sh/hook": post-install,post-upgrade,post-rollback
+    "helm.sh/hook-delete-policy": before-hook-creation
   name: "{{ .Release.Name }}-newman-{{ .Values.pipeline.sequence }}"
 spec:
   ttlSecondsAfterFinished: 600
