@@ -62,31 +62,6 @@ questions:
     - php
     - flask
   group: "應用程式部屬設定"
-## about checkmarx
-- variable: checkmarx.enabled
-  default: "false"
-  description: "是否要啟動checkmarx掃描"
-  label: checkmarx掃描服務是否啟動
-  type: boolean
-  # 如果使用者要求要進行checkmarx掃描的話就進入到進階問題的詢問部分
-  show_subquestion_if: true
-  group: "Checkmarx 掃描服務"
-  subquestions:
-  - variable: checkmarx.version
-    default: "0.9.2"
-    description: "要使用的checkmarx掃描版本"
-    label: checkmarx掃描版本
-    type: enum
-    options:
-      - "0.9.3"
-      - "latest"
-# about sonarqube
-- variable: sonarqube.enabled
-  default: "false"
-  description: "是否要啟動sonarqube掃描"
-  label: sonarqube掃描服務是否啟動
-  type: boolean
-  group: "Sonarqube 掃描服務"
 ## about newman
 - variable: newman.enabled
   default: "false"
@@ -94,26 +69,22 @@ questions:
   label: newman服務是否啟動
   type: boolean
   group: "newman 服務"
-## about apieditor(swagger)
-- variable: apieditor.enabled
-  default: "false"
-  description: "是否要使用個人專屬的Swagger線上API設計平台"
-  label: API設計開發平台
-  type: boolean
-  group: "API設計開發平台(Swagger)"
-## about codeServer
-- variable: codeServer.enabled
-  default: "false"
-  description: "是否要使用個人專屬的線上開發平台(vscode) 具執行環境"
-  label: 個人線上程式開發平台
-  type: boolean
-  # 如果使用者要求要進行checkmarx掃描的話就進入到進階問題的詢問部分
-  show_subquestion_if: true
-  group: "個人線上程式開發平台(vscode)"
-  subquestions:
-  - variable: codeServer.PASSWORD
-    default: ""
-    description: "此密碼除了用作登入以外，在裡面的terminal sudo等密碼均為您的個人密碼"
-    label: 在這裡輸入您想要的個人的線上開發平台登入密碼
+- variable: newman.runnerVersion
+  default: "latest"
+  description: "newman runner version"
+    label: "newman runner version"
     type: string
-    
+    group: "newman 服務"
+## about webinspect
+- variable: webinspect.enabled
+  default: "false"
+  description: "是否要啟動webinspect"
+  label: webinspect服務是否啟動
+  type: boolean
+  group: "webinspect 服務"
+- variable: webinspect.runnerVersion
+  default: "latest"
+  description: "webinspect runner version"
+    label: "webinspect runner version"
+    type: string
+    group: "webinspect 服務"

@@ -9,18 +9,18 @@ metadata:
   annotations:
     # 等待當安裝後 升級後 降級後都會執行此工作
     "helm.sh/hook": "post-install,post-upgrade,post-rollback"
-  name: "{{ .Release.Name }}-newman-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
+  name: "{{ .Release.Name }}-newman-{{ .Values.pipeline.sequence }}"
 spec:
   ttlSecondsAfterFinished: 600
   template:
     metadata:
-      name: "{{ .Release.Name }}-newman-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
+      name: "{{ .Release.Name }}-newman-{{ .Values.pipeline.sequence }}"
       labels:
         {{- include "iiidevops.labels" . | nindent 8 }}
     spec:
       containers:
-        - name: "newman-runner-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
-          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/newman-runner:latest"
+        - name: "newman-runner-{{ .Values.pipeline.sequence }}"
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/newman-runner:{{ .Values.newman.runnerVersion }}"
           command: ['sh', '-c', 'cd /usr/src/app; node app.js;']
           env:
             - name: git_url

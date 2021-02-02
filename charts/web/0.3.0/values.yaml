@@ -39,9 +39,11 @@ pipeline:
 
 # (After deployment) About to use newman to run code scan
 newman:
+  runnerVersion: latest
   enabled: false
 # (After deployment) About to use webinspect to run code scan
 webinspect:
+  runnerVersion: latest
   enabled: false
 xip:
   # 因為rancher採用SingleNode因此需要避開此Node作為連線點

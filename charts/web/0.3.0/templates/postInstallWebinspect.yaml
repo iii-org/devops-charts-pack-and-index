@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: "webinspect-runner-{{ .Values.git.commitID }}-{{ $timestamp }}"
-          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/webinspect-runner:latest"
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/webinspect-runner:{{ .Values.webinspect.runnerVersion }}"
           command: ['sh', '-c', 'cd /usr/src/app; node /usr/src/app/app.js;']
           env:
             - name: inspect_url
