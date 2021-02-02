@@ -22,7 +22,7 @@ iiidevops.org/branch: {{ .Values.git.branch | quote }}
 {{- end -}}
 
 {{- define "web.postInstallDebug" -}}
-{{- if eq {{ .Values.web.debug }} "true" -}}
+{{- if .Values.web.debug | eq "true" -}}
 before-hook-creation,hook-succeeded
 {{- else -}}
 before-hook-creation
