@@ -12,6 +12,7 @@ spec:
   template:
     metadata:
       labels:
+        app: {{ include "web.name" . }}
         {{- include "iiidevops.labels" . | nindent 8 }}
     spec:
       imagePullSecrets:
