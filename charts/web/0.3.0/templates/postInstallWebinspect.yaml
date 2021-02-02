@@ -1,0 +1,59 @@
+# 在部屬完成後執行webinspect檢查，如果有要求啟用的話
+# webinspect一定要等服務啟動部屬完成後才可進行檢查
+{{ if .Values.webinspect.enabled -}}
+{{ $timestamp := now | unixEpoch }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    # 等待當安裝後 升級後 降級後都會執行此工作
+    "helm.sh/hook": "post-install,post-upgrade,post-rollback"
+    "helm.sh/hook-delete-policy": "before-hook-creation, hook-succeeded"
+  name: "{{ .Release.Name }}-webinspect-runner-{{ .Values.git.commitID }}-{{ $timestamp }}"
+spec:
+  # Clean up finished jobs automatically
+  ttlSecondsAfterFinished: 100
+  template:
+    metadata:
+      name: "{{ .Release.Name }}-webinspect-runner-{{ .Values.git.commitID }}-{{ $timestamp }}"
+    spec:
+      containers:
+        - name: "webinspect-runner-{{ .Values.git.commitID }}-{{ $timestamp }}"
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/webinspect-runner:latest"
+          command: ['sh', '-c', 'cd /usr/src/app; node /usr/src/app/app.js;']
+          env:
+            - name: inspect_url
+              value: "http://{{ .Values.web.type }}.{{ .Values.git.branch}}.{{ .Values.git.repoName }}.{{ .Values.xip.ip }}.xip.io"
+            - name: project_name
+              value: {{ .Values.git.repoName }}
+            # Indicates the tested branch name 
+            - name: git_branch
+              value: {{ .Values.git.branch }}
+            # Indicates the tested commit
+            - name: git_commit_id
+              value: {{ .Values.git.commitID | quote }}
+            - name: verbose
+              value: "true"
+            - name: wi_base_url
+              valueFrom:
+                secretKeyRef:
+                  name: webinspect
+                  key: wi-base-url
+            - name: api_origin
+              valueFrom:
+                secretKeyRef:
+                  name: nexus
+                  key: api-origin
+            - name: api_username
+              valueFrom: 
+                secretKeyRef:
+                  name: nexus-bot
+                  key: username
+            - name: api_password
+              valueFrom: 
+                secretKeyRef:
+                  name: nexus-bot
+                  key: password
+      restartPolicy: Never
+  backoffLimit: 4
+{{- end }}

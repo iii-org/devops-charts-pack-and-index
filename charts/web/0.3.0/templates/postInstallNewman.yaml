@@ -1,0 +1,79 @@
+# 在部屬完成後執行newman檢查，如果有要求啟用的話
+# newman一定要等服務啟動部屬完成後才可啟動檢查
+{{ if .Values.newman.enabled -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    # 等待當安裝後 升級後 降級後都會執行此工作
+    "helm.sh/hook": "post-install,post-upgrade,post-rollback"
+  name: "{{ .Release.Name }}-newman-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
+spec:
+  ttlSecondsAfterFinished: 600
+  template:
+    metadata:
+      name: "{{ .Release.Name }}-newman-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
+    spec:
+      containers:
+        - name: "newman-runner-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/newman-runner:latest"
+          command: ['sh', '-c', 'cd /usr/src/app; node app.js;']
+          env:
+            - name: git_url
+              value: {{ .Values.git.url | quote }}
+            - name: git_branch
+              value: {{ .Values.git.branch }}
+            - name: git_commit_id
+              value: {{ .Values.git.commitID | quote }}
+            - name: test_origin
+              value: "http://{{ include "web.name" . }}-svc:{{ include "web.port" . }}"
+            - name: verbose
+              value: "true"
+            - name: api_origin
+              valueFrom:
+                secretKeyRef:
+                  name: nexus
+                  key: api-origin
+            - name: username
+              valueFrom: 
+                secretKeyRef:
+                  name: nexus-bot
+                  key: username
+            - name: password
+              valueFrom: 
+                secretKeyRef:
+                  name: nexus-bot
+                  key: password
+          volumeMounts:
+            - mountPath: /usr/src/app/repo
+              name: initrepo
+      # 由於newman需要專案資料做Link連結, 因此此步驟會建立專案資料
+      initContainers:
+        - name: "clone-repo-{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/alpine/git"
+          command: ['sh', '-c', 'cd /init-data; git clone --branch ${git_branch} http://root:${git_token}@${git_host}/root/${git_repo}.git .; rm -rf .git; ls; chmod -R 777 /init-data']
+          env:
+            - name: git_host
+              valueFrom:
+                secretKeyRef:
+                  name: gitlab
+                  key: git-host
+            - name: git_repo
+              value: {{ .Values.git.repoName }}
+            - name: git_branch
+              value: {{ .Values.git.branch }}
+            - name: git_token
+              valueFrom:
+                secretKeyRef:
+                  name: gitlab-bot
+                  key: git-token
+          volumeMounts:
+            - mountPath: /init-data
+              name: initrepo
+      # 暫時專案資料儲存區
+      volumes:
+        - name: initrepo
+          emptyDir: {}
+      restartPolicy: Never
+  backoffLimit: 4
+{{- end }}

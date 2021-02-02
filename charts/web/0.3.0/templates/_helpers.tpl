@@ -14,8 +14,13 @@ Create chart name and version as used by the chart label.
   {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
+{{- define "iiidevops.labels" -}}
+iiidevops.org/project_name: {{ .Values.git.repoName }}
+iiidevops.org/branch: {{ .Values.git.branch | quote }}
+{{- end -}}
+
 {{/*
-Common labels
+Workload labels
 */}}
 {{- define "web.labels" -}}
 app: {{ include "web.name" . }}

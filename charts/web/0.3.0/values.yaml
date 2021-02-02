@@ -1,0 +1,143 @@
+# iii-devops 精簡版服務(web服務)
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# iii-devops-param(necessary)
+# url僅用於checkmarx或其他額外服務時使用
+######################################################
+# harbor
+harbor:
+  host: ""
+  # harbor上面當作Docker Hub的proxy cache專案名稱
+  cache: dockerhub
+# about git repo info (準備於後續版本移除)
+git:
+  # gitlab的IP(Host)
+  host: "10.50.1.53"
+  # 當前gitlab的專案
+  repoName: ""
+  # 當前gitlab的分支
+  branch: ""
+  # 當前gitlab的commitID
+  commitID: ""
+  # 當前gitlab的連線URL
+  url: ""
+# About the service deployname
+# web可選型態
+# "php"、"flask"、"uwsgi-flask"、"spring"、"apache"、"custom"
+# web.port 僅 custom時候使用
+web:
+  type: "php"
+  port: 80
+  image: ""
+  tag: "latest"
+  # 等待部屬的完成時間(單位秒)
+  wait: 30
+extraEnv: []
+#  - name: GIT_URL
+#    value: ${CICD_GIT_URL}
+#  - name: GIT_REPO
+#    value: ${CICD_GIT_REPO_NAME}
+#  - name: GIT_BRANCH
+#    value: ${CICD_GIT_BRANCH}
+#  - name: DB_HOST
+#    value: ${CICD_GIT_REPO_NAME}-${CICD_GIT_BRANCH}-db-service
+
+# About Rancher pipelines
+pipeline:
+  sequence: 0
+
+# About to use checkmarx to run code scan
+checkmarx:
+  enabled: false
+# About to use sonarqube to run code scan
+sonarqube:
+  enabled: false
+# (After deployment) About to use newman to run code scan
+newman:
+  enabled: false
+# (After deployment) About to use webinspect to run code scan
+webinspect:
+  enabled: false
+# 線上API設計
+apieditor:
+  enabled: false
+  # 目錄在restful資料夾下的要鎖定檔案名稱
+  filename: swagger.json
+# 線上程式碼編譯器
+codeServer:
+  enabled: false
+  PUID: 1000
+  PGID: 1000
+  TZ: Europe/London
+  PASSWORD: bearisBear
+xip:
+  # 因為rancher採用SingleNode因此需要避開此Node作為連線點
+  ip: "10.20.0.71"
+
+replicaCount: 1
+
+image:
+  repository: nginx
+  #pullPolicy: IfNotPresent
+  # 強制每次部屬重新拉取鏡像
+  pullPolicy: Always
+
+imagePullSecrets: 
+  - name: pipeline-docker-registry
+  - name: harbor-63
+  - name: harbor-local
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# iii-devops-param(internal)
+######################################################
+service:
+  type: NodePort
+  port: 80
+
+ingress:
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths: []
+  tls: []
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

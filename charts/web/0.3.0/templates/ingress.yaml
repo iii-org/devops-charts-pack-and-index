@@ -1,0 +1,22 @@
+apiVersion: {{ if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+  networking.k8s.io/v1beta1
+  {{- else -}}
+  extensions/v1beta1
+  {{- end }}
+kind: Ingress
+metadata:
+  name: {{ include "web.name" . }}-ing
+  labels:
+    {{ include "web.labels" . | nindent 4 }}
+  annotations:
+    {{- .Values.ingress.annotations | toYaml | nindent 4 }}
+spec:
+  rules:
+    - host: "{{ include "web.name" . }}.{{ .Values.xip.ip }}.xip.io"
+      http:
+        paths:
+          - backend:
+              serviceName: "{{ include "web.name" . }}-svc"
+              servicePort: {{ include "web.port" . }}
+            path: "/"
+            pathType: "ImplementationSpecific"

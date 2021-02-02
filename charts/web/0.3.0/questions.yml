@@ -1,0 +1,119 @@
+rancher_max_version: 2.4.5
+rancher_min_version: 2.4.5
+categories:
+  - Blog
+  - CMS
+questions:
+# pipeline parameters
+- variable: pipeline.sequence
+  label: "Rancher pipeline 的 $CICD_EXECUTION_SEQUENCE"
+  type: int
+  required: true
+  default: 0
+  group: "Rancher pipeline 相關設定"
+## about web
+- variable: git.host
+  label: 專案所在的gitlab位置
+  description: "請輸入gitlab的IP或是網域名稱 例如:gitlab.404.csie.nuu.edu.tw"
+  type: string
+  required: true
+  default: "10.XX.XX.XX"
+  group: "專案Git相關設定"
+- variable: git.repoName
+  label: 專案名稱設定
+  description: "請輸入您git的專案名稱 例如:flask-app-tempalte"
+  type: string
+  required: true
+  default: "flask-app-tempalte"
+  group: "專案Git相關設定"
+- variable: git.branch
+  default: "master"
+  description: "選擇您專案的分支，預設採用master"
+  label: 請輸入要部屬的專案分支
+  type: enum
+  options:
+    - master
+    - main
+    - developer
+    - bear
+    - test
+    - fire
+    - static
+  group: "專案Git相關設定"
+- variable: git.commitID
+  label: 專案commit名稱
+  description: "請輸入您專案的commit名稱 這個主要用於提供checkmarx掃描時需要"
+  type: string
+  required: true
+  default: "I am bear"
+  group: "專案Git相關設定"
+## about web
+- variable: web.type
+  default: "php"
+  description: "選擇您應用網站類型，主要影響您網站的對外連線"
+  label: 請輸入要部屬的應用網站類型
+  type: enum
+  options:
+    - test3
+    - test2
+    - test1
+    - spring
+    - uwsgi-flask
+    - php
+    - flask
+  group: "應用程式部屬設定"
+## about checkmarx
+- variable: checkmarx.enabled
+  default: "false"
+  description: "是否要啟動checkmarx掃描"
+  label: checkmarx掃描服務是否啟動
+  type: boolean
+  # 如果使用者要求要進行checkmarx掃描的話就進入到進階問題的詢問部分
+  show_subquestion_if: true
+  group: "Checkmarx 掃描服務"
+  subquestions:
+  - variable: checkmarx.version
+    default: "0.9.2"
+    description: "要使用的checkmarx掃描版本"
+    label: checkmarx掃描版本
+    type: enum
+    options:
+      - "0.9.3"
+      - "latest"
+# about sonarqube
+- variable: sonarqube.enabled
+  default: "false"
+  description: "是否要啟動sonarqube掃描"
+  label: sonarqube掃描服務是否啟動
+  type: boolean
+  group: "Sonarqube 掃描服務"
+## about newman
+- variable: newman.enabled
+  default: "false"
+  description: "是否要啟動newman"
+  label: newman服務是否啟動
+  type: boolean
+  group: "newman 服務"
+## about apieditor(swagger)
+- variable: apieditor.enabled
+  default: "false"
+  description: "是否要使用個人專屬的Swagger線上API設計平台"
+  label: API設計開發平台
+  type: boolean
+  group: "API設計開發平台(Swagger)"
+## about codeServer
+- variable: codeServer.enabled
+  default: "false"
+  description: "是否要使用個人專屬的線上開發平台(vscode) 具執行環境"
+  label: 個人線上程式開發平台
+  type: boolean
+  # 如果使用者要求要進行checkmarx掃描的話就進入到進階問題的詢問部分
+  show_subquestion_if: true
+  group: "個人線上程式開發平台(vscode)"
+  subquestions:
+  - variable: codeServer.PASSWORD
+    default: ""
+    description: "此密碼除了用作登入以外，在裡面的terminal sudo等密碼均為您的個人密碼"
+    label: 在這裡輸入您想要的個人的線上開發平台登入密碼
+    type: string
+    
