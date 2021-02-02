@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ include "web.name" . }}-svc
     labels:
-      {{- include "iiidevops.labels" . | nindent 4 }}
+      {{- include "iiidevops.labels" . | nindent 6 }}
 spec:
   type: {{ .Values.service.type }}
   selector:
