@@ -35,30 +35,12 @@ extraEnv: []
 pipeline:
   sequence: 0
 
-# About to use checkmarx to run code scan
-checkmarx:
-  enabled: false
-# About to use sonarqube to run code scan
-sonarqube:
-  enabled: false
 # (After deployment) About to use newman to run code scan
 newman:
   enabled: false
 # (After deployment) About to use webinspect to run code scan
 webinspect:
   enabled: false
-# 線上API設計
-apieditor:
-  enabled: false
-  # 目錄在restful資料夾下的要鎖定檔案名稱
-  filename: swagger.json
-# 線上程式碼編譯器
-codeServer:
-  enabled: false
-  PUID: 1000
-  PGID: 1000
-  TZ: Europe/London
-  PASSWORD: bearisBear
 xip:
   # 因為rancher採用SingleNode因此需要避開此Node作為連線點
   ip: "10.20.0.71"
