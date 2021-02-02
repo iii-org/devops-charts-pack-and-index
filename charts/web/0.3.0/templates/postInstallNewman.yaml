@@ -24,7 +24,10 @@ spec:
           command: ['sh', '-c', 'cd /usr/src/app; node app.js;']
           env:
             - name: git_url
-              value: {{ .Values.git.url | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: gitlab
+                  key: git-host
             - name: git_branch
               value: {{ .Values.git.branch }}
             - name: git_commit_id

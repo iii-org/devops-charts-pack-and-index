@@ -42,7 +42,10 @@ spec:
                   key: client-secret
             # Git repo URL of the gitlab
             - name: git_url
-              value: {{ .Values.git.url | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: gitlab
+                  key: git-host
             # Indicates the tested branch name 
             - name: git_branch
               value: {{ .Values.git.branch }}
@@ -92,7 +95,10 @@ spec:
               chmod -R 777 /init-data;
           env:
             - name: git_url
-              value: {{ .Values.git.url }}
+              valueFrom:
+                secretKeyRef:
+                  name: gitlab
+                  key: git-host
             - name: git_branch
               value: {{ .Values.git.branch }}
             - name: git_token

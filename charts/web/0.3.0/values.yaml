@@ -7,21 +7,17 @@
 ######################################################
 # harbor
 harbor:
-  host: ""
+  host: "harbor.domain"
   # harbor上面當作Docker Hub的proxy cache專案名稱
   cache: dockerhub
 # about git repo info (準備於後續版本移除)
 git:
-  # gitlab的IP(Host)
-  host: "10.50.1.53"
-  # 當前gitlab的專案
+  # 專案名稱，在nexus和gitlab上必須一樣
   repoName: "project-name"
   # 當前gitlab的分支
   branch: "master"
   # 當前gitlab的commitID
-  commitID: ""
-  # 當前gitlab的連線URL
-  url: ""
+  commitID: "commit123"
 # About the service deployname
 # web可選型態
 # "php"、"flask"、"uwsgi-flask"、"spring"、"apache"、"custom"
@@ -34,14 +30,6 @@ web:
   # 等待部屬的完成時間(單位秒)
   wait: 30
 extraEnv: []
-#  - name: GIT_URL
-#    value: ${CICD_GIT_URL}
-#  - name: GIT_REPO
-#    value: ${CICD_GIT_REPO_NAME}
-#  - name: GIT_BRANCH
-#    value: ${CICD_GIT_BRANCH}
-#  - name: DB_HOST
-#    value: ${CICD_GIT_REPO_NAME}-${CICD_GIT_BRANCH}-db-service
 
 # About Rancher pipelines
 pipeline:

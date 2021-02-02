@@ -7,11 +7,9 @@
 > 主要用於測試在pipeline上進行直接的部屬，因為rancher在部屬上仍有嚴重的issue，需註記為v1才可編譯
 
 ## 全部iiidevops-web變數(包含預設值)
-`git.host`: "10.50.1.53"
 `git.repoName`: ""
 `git.branch`: ""
 `git.commitID`: ""
-`git.url`: ""
 `web.type`: "php"
 `web.port`: 80
 `web.image`: ""

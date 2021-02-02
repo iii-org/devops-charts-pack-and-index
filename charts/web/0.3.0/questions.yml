@@ -12,13 +12,6 @@ questions:
   default: 0
   group: "Rancher pipeline 相關設定"
 ## about web
-- variable: git.host
-  label: 專案所在的gitlab位置
-  description: "請輸入gitlab的IP或是網域名稱 例如:gitlab.404.csie.nuu.edu.tw"
-  type: string
-  required: true
-  default: "10.XX.XX.XX"
-  group: "專案Git相關設定"
 - variable: git.repoName
   label: 專案名稱設定
   description: "請輸入您git的專案名稱 例如:flask-app-tempalte"

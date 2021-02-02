@@ -66,7 +66,10 @@ spec:
               chmod -R 777 /init-data;
           env:
             - name: git_url
-              value: {{ .Values.git.url }}
+              valueFrom:
+                secretKeyRef:
+                  name: gitlab
+                  key: git-host
             - name: git_branch
               value: {{ .Values.git.branch }}
             - name: git_token
