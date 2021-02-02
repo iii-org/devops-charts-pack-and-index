@@ -7,20 +7,20 @@ kind: Job
 metadata:
   annotations:
     # 等待當安裝後 升級後 降級後都會執行此工作
-    "helm.sh/hook": "post-install,post-upgrade,post-rollback"
-    "helm.sh/hook-delete-policy": "before-hook-creation, hook-succeeded"
-  name: "{{ .Release.Name }}-webinspect-runner-{{ .Values.git.commitID }}-{{ $timestamp }}"
+    "helm.sh/hook": post-install,post-upgrade,post-rollback
+    "helm.sh/hook-delete-policy": {{ include "web.postInstallDebug" . }}
+  name: "{{ .Release.Name }}-webinspect-{{ .Values.pipeline.sequence }}"
 spec:
   # Clean up finished jobs automatically
   ttlSecondsAfterFinished: 100
   template:
     metadata:
-      name: "{{ .Release.Name }}-webinspect-runner-{{ .Values.git.commitID }}-{{ $timestamp }}"
+      name: "{{ .Release.Name }}-webinspect-{{ .Values.pipeline.sequence }}"
       labels:
         {{- include "iiidevops.labels" . | nindent 8 }}
     spec:
       containers:
-        - name: "webinspect-runner-{{ .Values.git.commitID }}-{{ $timestamp }}"
+        - name: "webinspect-runner-{{ .Values.pipeline.sequence }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/webinspect-runner:{{ .Values.webinspect.runnerVersion }}"
           command: ['sh', '-c', 'cd /usr/src/app; node /usr/src/app/app.js;']
           env:
@@ -47,12 +47,12 @@ spec:
                   name: nexus
                   key: api-origin
             - name: api_username
-              valueFrom: 
+              valueFrom:
                 secretKeyRef:
                   name: nexus-bot
                   key: username
             - name: api_password
-              valueFrom: 
+              valueFrom:
                 secretKeyRef:
                   name: nexus-bot
                   key: password

@@ -21,3 +21,10 @@ iiidevops.org/branch: {{ .Values.git.branch | quote }}
 {{- end -}}
 {{- end -}}
 
+{{- define "web.postInstallDebug" -}}
+{{- if {{ .Values.web.debug }} -}}
+before-hook-creation,hook-succeeded
+{{- else -}}
+before-hook-creation
+{{- end -}}
+{{- end -}}
