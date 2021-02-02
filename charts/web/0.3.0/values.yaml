@@ -15,9 +15,9 @@ git:
   # gitlab的IP(Host)
   host: "10.50.1.53"
   # 當前gitlab的專案
-  repoName: ""
+  repoName: "project-name"
   # 當前gitlab的分支
-  branch: ""
+  branch: "master"
   # 當前gitlab的commitID
   commitID: ""
   # 當前gitlab的連線URL
