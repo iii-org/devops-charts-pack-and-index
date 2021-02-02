@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
       app: {{ include "web.name" . }}
-      {{- include "iiidevops.labels" . | nindent 8 }}
+      {{- include "iiidevops.labels" . | nindent 6 }}
   template:
     metadata:
       labels:
