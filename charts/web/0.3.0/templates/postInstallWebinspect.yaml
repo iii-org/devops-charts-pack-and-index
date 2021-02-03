@@ -9,7 +9,7 @@ metadata:
   annotations:
     # 等待當安裝後 升級後 降級後都會執行此工作
     "helm.sh/hook": post-install,post-upgrade,post-rollback
-#    "helm.sh/hook-delete-policy": {{ include "web.postInstallDebug" . }}
+    "helm.sh/hook-delete-policy": {{ include "web.postInstallDebug" . }}
   name: "{{ .Release.Name }}-webinspect-{{ .Values.pipeline.sequence }}"
 spec:
   ttlSecondsAfterFinished: 60
