@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: v2
 name: web
 description: Deploy a web server and can run tests on it.
 
