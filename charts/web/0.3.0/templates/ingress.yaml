@@ -12,11 +12,10 @@ metadata:
     {{- .Values.ingress.annotations | toYaml | nindent 4 }}
 spec:
   rules:
-    - host: "{{ include "web.name" . }}.{{ .Values.xip.ip }}.xip.io"
+    - host: "{{ .Values.ingress.externalHost }}"
       http:
         paths:
           - backend:
               serviceName: "{{ include "web.name" . }}-svc"
               servicePort: {{ include "web.port" . }}
-            path: "/"
-            pathType: "ImplementationSpecific"
+            path: "/"{{ .Release.Name }}"(/|$)(.*)"
