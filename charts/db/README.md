@@ -22,3 +22,7 @@
 * [mongodb](https://hub.docker.com/r/bitnami/mongodb)
 * [adminer](https://hub.docker.com/_/adminer)
 * [mongo-express](https://hub.docker.com/_/mongo-express)
+
+## 版本說明
+* [按照原始yaml檔案為基礎做轉為chart版本 非標準](0.1.0)
+* [改進原始版本無法判別資料庫啟動狀況](0.1.1)
