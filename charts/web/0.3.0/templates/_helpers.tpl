@@ -28,3 +28,11 @@ before-hook-creation
 before-hook-creation,hook-succeeded
 {{- end -}}
 {{- end -}}
+
+{{- define "git.safeCommitID" -}}
+{{- if .Values.git.commitID | toString | contains "e+" -}}
+{{ .Values.git.commitID | toString | replace "." "" | regexFind "^\\d+" }}
+{{- else -}}
+{{ .Values.git.commitID }}
+{{- end -}}
+{{- end -}}

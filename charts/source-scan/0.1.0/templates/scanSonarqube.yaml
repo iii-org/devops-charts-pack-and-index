@@ -12,7 +12,7 @@ spec:
         {{- include "iiidevops.labels" . | nindent 8 }}
     spec:
       containers:
-        - name: "sonarqube-scan-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
+        - name: "sonarqube-scan-{{ include git.safeCommitID . }}-{{ .Values.pipeline.sequence }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/sonarqube-runner:{{ .Values.sonarqube.runnerVersion }}"
           command:
             - /bin/sh
@@ -49,7 +49,7 @@ spec:
               name: initrepo
       # clone git repo and mount the code
       initContainers:
-        - name: "clone-repo-{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
+        - name: "clone-repo-{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ include git.safeCommitID . }}-{{ .Values.pipeline.sequence }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/alpine/git"
           command:
             - /bin/sh
