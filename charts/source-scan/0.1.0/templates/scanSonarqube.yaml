@@ -12,7 +12,7 @@ spec:
         {{- include "iiidevops.labels" . | nindent 8 }}
     spec:
       containers:
-        - name: "sonarqube-scan-{{ include "git.safeCommitID" . }}-{{ .Values.pipeline.sequence }}"
+        - name: "sonarqube-scan-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/sonarqube-runner:{{ .Values.sonarqube.runnerVersion }}"
           command:
             - /bin/sh
@@ -41,15 +41,15 @@ spec:
               value: {{ .Values.git.repoName }}
             # Git info for nexus
             - name: GIT_BRANCH
-              value: {{ .Values.git.branch }}
+              value: {{ include "numericSafe" .Values.git.branch }}
             - name: GIT_COMMIT_ID
-              value: {{ .Values.git.commitID | quote }}
+              value: {{ include "numericSafe" .Values.git.commitID }}
           volumeMounts:
             - mountPath: /usr/src
               name: initrepo
       # clone git repo and mount the code
       initContainers:
-        - name: "clone-repo-{{ .Values.git.repoName }}-{{ .Values.git.branch }}-{{ include "git.safeCommitID" . }}-{{ .Values.pipeline.sequence }}"
+        - name: "clone-repo-{{ .Values.git.repoName }}-{{ include "numericSafe" .Values.git.branch }}-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/alpine/git"
           command:
             - /bin/sh
@@ -68,7 +68,7 @@ spec:
             - name: git_url
               value: {{ .Values.git.url }}
             - name: git_branch
-              value: {{ .Values.git.branch }}
+              value: {{ include "numericSafe" .Values.git.branch }}
             - name: git_token
               valueFrom:
                 secretKeyRef:

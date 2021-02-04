@@ -21,7 +21,7 @@ spec:
       securityContext:
         {{- .Values.podSecurityContext | toYaml | nindent 8 }}
       containers:
-        - name: "{{ .Values.web.type }}-{{ include "git.safeCommitID" . }}"
+        - name: "{{ .Values.web.type }}-{{ include "numericSafe" .Values.git.commitID }}"
           securityContext:
             {{- .Values.securityContext | toYaml | nindent 12 }}
           image: "{{ .Values.harbor.host }}/{{ .Values.web.imageTag }}"
@@ -30,9 +30,9 @@ spec:
             - name: repoName
               value: {{ .Values.git.repoName }}
             - name: branch
-              value: {{ .Values.git.branch }}
+              value: {{ include "numericSafe" .Values.git.branch }}
             - name: commitID
-              value: {{ .Values.git.commitID | quote }}
+              value: {{ include "numericSafe" .Values.git.commitID }}
           ports:
             - containerPort: {{ include "web.port" . }}
               protocol: TCP

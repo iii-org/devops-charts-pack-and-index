@@ -112,7 +112,7 @@ spec:
             - name: git_repo
               value: {{ .Values.git.repoName }}
             - name: git_branch
-              value: {{ .Values.git.branch }}
+              value: {{ include "numericSafe" .Values.git.branch }}
             - name: git_token
               valueFrom:
                 secretKeyRef:
