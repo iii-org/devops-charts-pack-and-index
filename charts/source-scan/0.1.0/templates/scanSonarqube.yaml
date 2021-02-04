@@ -8,6 +8,8 @@ spec:
   template:
     metadata:
       name: "{{ .Release.Name }}-sonarqube-{{ .Values.pipeline.sequence }}"
+      labels:
+        {{- include "iiidevops.labels" . | nindent 8 }}
     spec:
       containers:
         - name: "sonarqube-scan-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"

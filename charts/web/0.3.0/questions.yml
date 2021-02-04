@@ -1,0 +1,90 @@
+rancher_max_version: 2.4.5
+rancher_min_version: 2.4.5
+categories:
+  - Blog
+  - CMS
+questions:
+# pipeline parameters
+- variable: pipeline.sequence
+  label: "Rancher pipeline 的 $CICD_EXECUTION_SEQUENCE"
+  type: int
+  required: true
+  default: 0
+  group: "Rancher pipeline 相關設定"
+## about web
+- variable: git.url
+  label: 專案所在的gitlab位置
+  description: "請輸入專案的git repo URL"
+  type: string
+  required: true
+  default: "http://gitlab.your.domain/project.git"
+  group: "專案Git相關設定"
+- variable: git.repoName
+  label: 專案名稱設定
+  description: "請輸入您git的專案名稱 例如:flask-app-tempalte"
+  type: string
+  required: true
+  default: "flask-app-tempalte"
+  group: "專案Git相關設定"
+- variable: git.branch
+  default: "master"
+  description: "選擇您專案的分支，預設採用master"
+  label: 請輸入要部屬的專案分支
+  type: enum
+  options:
+    - master
+    - main
+    - developer
+    - bear
+    - test
+    - fire
+    - static
+  group: "專案Git相關設定"
+- variable: git.commitID
+  label: 專案commit名稱
+  description: "請輸入您專案的commit名稱 這個主要用於提供checkmarx掃描時需要"
+  type: string
+  required: true
+  default: "I am bear"
+  group: "專案Git相關設定"
+## about web
+- variable: web.type
+  default: "php"
+  description: "選擇您應用網站類型，主要影響您網站的對外連線"
+  label: 請輸入要部屬的應用網站類型
+  type: enum
+  options:
+    - test3
+    - test2
+    - test1
+    - spring
+    - uwsgi-flask
+    - php
+    - flask
+  group: "應用程式部屬設定"
+## about newman
+- variable: newman.enabled
+  default: "false"
+  description: "是否要啟動newman"
+  label: newman服務是否啟動
+  type: boolean
+  group: "newman 服務"
+- variable: newman.runnerVersion
+  default: "latest"
+  description: "newman runner version"
+    label: "newman runner version"
+    type: string
+    group: "newman 服務"
+## about webinspect
+- variable: webinspect.enabled
+  default: "false"
+  description: "是否要啟動webinspect"
+  label: webinspect服務是否啟動
+  type: boolean
+  group: "webinspect 服務"
+- variable: webinspect.runnerVersion
+  default: "latest"
+  description: "webinspect runner version"
+    label: "webinspect runner version"
+    type: string
+    group: "webinspect 服務"

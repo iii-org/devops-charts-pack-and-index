@@ -8,6 +8,8 @@ spec:
   template:
     metadata:
       name: "{{ .Release.Name }}-checkmarx-{{ .Values.pipeline.sequence }}"
+      labels:
+        {{- include "iiidevops.labels" . | nindent 8 }}
     spec:
       containers:
         - name: "checkmarx-scan-{{ .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
@@ -40,7 +42,7 @@ spec:
                   key: client-secret
             # Git repo URL of the gitlab
             - name: git_url
-              value: {{ .Values.git.url | quote }}
+              value: {{ .Values.git.url }}
             # Indicates the tested branch name 
             - name: git_branch
               value: {{ .Values.git.branch }}
