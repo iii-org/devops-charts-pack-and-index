@@ -45,6 +45,7 @@ newman:
 webinspect:
   runnerVersion: latest
   enabled: false
+  startPath: /
 xip:
   # 因為rancher採用SingleNode因此需要避開此Node作為連線點
   ip: "10.20.0.71"
