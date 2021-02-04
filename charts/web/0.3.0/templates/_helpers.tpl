@@ -22,7 +22,7 @@ iiidevops.org/branch: {{ include "numericSafe" .Values.git.branch }}
 {{- end -}}
 
 {{- define "web.postInstallDebug" -}}
-{{- if .Values.web.debug -}}
+{{- if .Values.web.debug | eq true -}}
 before-hook-creation
 {{- else -}}
 before-hook-creation,hook-succeeded
