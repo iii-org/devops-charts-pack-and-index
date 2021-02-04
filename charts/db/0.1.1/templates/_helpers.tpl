@@ -60,3 +60,11 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{- define "numericSafe" -}}
+{{- if . | toString | contains "e+" -}}
+{{ . | toString | replace "." "" | regexFind "^\\d+" }}
+{{- else -}}
+{{ . }}
+{{- end -}}
+{{- end -}}
