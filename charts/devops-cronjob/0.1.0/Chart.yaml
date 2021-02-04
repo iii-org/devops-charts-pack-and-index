@@ -1,4 +1,4 @@
-apiVersion: v2
+apiVersion: v1
 name: devops-cronjob
 description: devops cronjob in system
 
