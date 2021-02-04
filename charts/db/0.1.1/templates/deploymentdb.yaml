@@ -79,7 +79,7 @@ spec:
                 - /bin/sh
                 - -c
                 - -e
-                exec pg_isready -U {{ .Values.db.username }} -d "dbname={{ .Values.db.name }}" -h 127.0.0.1 -p 5432
+                - exec pg_isready -U {{ .Values.db.username }} -d "dbname={{ .Values.db.name }}" -h 127.0.0.1 -p 5432
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
