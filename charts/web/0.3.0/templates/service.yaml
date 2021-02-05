@@ -9,5 +9,5 @@ spec:
   selector:
     app: {{ include "web.name" . }}
   ports:
-      - port: {{ ".Values.web.port" }}
+      - port: {{ .Values.web.port }}
         protocol: TCP
