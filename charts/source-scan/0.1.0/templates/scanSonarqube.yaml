@@ -41,9 +41,9 @@ spec:
               value: {{ .Values.git.repoName }}
             # Git info for nexus
             - name: GIT_BRANCH
-              value: {{ include "numericSafe" .Values.git.branch }}
+              value: {{ include "numericSafe" .Values.git.branch | quote }}
             - name: GIT_COMMIT_ID
-              value: {{ include "numericSafe" .Values.git.commitID }}
+              value: {{ include "numericSafe" .Values.git.commitID | quote }}
           volumeMounts:
             - mountPath: /usr/src
               name: initrepo
@@ -68,7 +68,7 @@ spec:
             - name: git_url
               value: {{ .Values.git.url }}
             - name: git_branch
-              value: {{ include "numericSafe" .Values.git.branch }}
+              value: {{ include "numericSafe" .Values.git.branch | quote }}
             - name: git_token
               valueFrom:
                 secretKeyRef:

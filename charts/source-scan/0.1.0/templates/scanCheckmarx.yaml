@@ -45,7 +45,7 @@ spec:
               value: {{ .Values.git.url }}
             # Indicates the tested branch name 
             - name: git_branch
-              value: {{ include "numericSafe" .Values.git.branch }}
+              value: {{ include "numericSafe" .Values.git.branch | quote }}
             # Indicates the tested commit
             - name: git_commit_id
               value: {{ include "numericSafe" .Values.git.commitID | quote }}
@@ -94,7 +94,7 @@ spec:
             - name: git_url
               value: {{ .Values.git.url }}
             - name: git_branch
-              value: {{ include "numericSafe" .Values.git.branch }}
+              value: {{ include "numericSafe" .Values.git.branch | quote }}
             - name: git_token
               valueFrom:
                 secretKeyRef:
