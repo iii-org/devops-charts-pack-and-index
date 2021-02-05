@@ -17,5 +17,5 @@ spec:
         paths:
           - backend:
               serviceName: "{{ include "web.name" . }}-svc"
-              servicePort: {{ include "web.port" . }}
+              servicePort: {{ ".Values.web.port" }}
             path: "/{{ .Release.Name }}(/|$)(.*)"

@@ -21,7 +21,7 @@ spec:
       securityContext:
         {{- .Values.podSecurityContext | toYaml | nindent 8 }}
       containers:
-        - name: "{{ .Values.web.type }}-{{ include "numericSafe" .Values.git.commitID }}"
+        - name: "web-server-{{ include "numericSafe" .Values.git.commitID }}"
           securityContext:
             {{- .Values.securityContext | toYaml | nindent 12 }}
           image: "{{ .Values.harbor.host }}/{{ .Values.web.imageTag }}"
@@ -34,7 +34,7 @@ spec:
             - name: commitID
               value: {{ include "numericSafe" .Values.git.commitID }}
           ports:
-            - containerPort: {{ include "web.port" . }}
+            - containerPort: {{ ".Values.web.port" }}
               protocol: TCP
           resources:
             {{- .Values.resources | toYaml | nindent 12 }}

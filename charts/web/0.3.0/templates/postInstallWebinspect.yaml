@@ -12,7 +12,6 @@ metadata:
     "helm.sh/hook-delete-policy": {{ include "web.postInstallDebug" . }}
   name: "{{ .Release.Name }}-webinspect-{{ .Values.pipeline.sequence }}"
 spec:
-  ttlSecondsAfterFinished: 60
   template:
     metadata:
       name: "{{ .Release.Name }}-webinspect-{{ .Values.pipeline.sequence }}"

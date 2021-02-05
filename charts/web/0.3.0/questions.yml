@@ -48,19 +48,11 @@ questions:
   default: "I am bear"
   group: "專案Git相關設定"
 ## about web
-- variable: web.type
-  default: "php"
-  description: "選擇您應用網站類型，主要影響您網站的對外連線"
-  label: 請輸入要部屬的應用網站類型
-  type: enum
-  options:
-    - test3
-    - test2
-    - test1
-    - spring
-    - uwsgi-flask
-    - php
-    - flask
+- variable: web.port
+  default: 80
+  description: "網頁伺服器聆聽的埠號"
+  label: 請輸入網頁伺服器聆聽的埠號
+  type: int
   group: "應用程式部屬設定"
 ## about newman
 - variable: newman.enabled

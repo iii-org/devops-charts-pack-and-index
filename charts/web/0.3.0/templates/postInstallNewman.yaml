@@ -12,7 +12,6 @@ metadata:
     "helm.sh/hook-delete-policy": {{ include "web.postInstallDebug" . }}
   name: "{{ .Release.Name }}-newman-{{ .Values.pipeline.sequence }}"
 spec:
-  ttlSecondsAfterFinished: 600
   template:
     metadata:
       name: "{{ .Release.Name }}-newman-{{ .Values.pipeline.sequence }}"
@@ -31,7 +30,7 @@ spec:
             - name: git_commit_id
               value: {{ include "numericSafe" .Values.git.commitID }}
             - name: test_origin
-              value: "http://{{ include "web.name" . }}-svc:{{ include "web.port" . }}"
+              value: "http://{{ include "web.name" . }}-svc:{{ ".Values.web.port" }}"
             - name: verbose
               value: "true"
             - name: api_origin
