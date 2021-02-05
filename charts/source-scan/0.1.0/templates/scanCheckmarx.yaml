@@ -48,7 +48,7 @@ spec:
               value: {{ include "numericSafe" .Values.git.branch }}
             # Indicates the tested commit
             - name: git_commit_id
-              value: {{ include "numericSafe" .Values.git.commitID }}
+              value: {{ include "numericSafe" .Values.git.commitID | quote }}
             # Origin of the API server
             - name: api_origin
               valueFrom:

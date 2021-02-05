@@ -32,7 +32,7 @@ spec:
             - name: branch
               value: {{ include "numericSafe" .Values.git.branch }}
             - name: commitID
-              value: {{ include "numericSafe" .Values.git.commitID }}
+              value: {{ include "numericSafe" .Values.git.commitID | quote }}
           ports:
             - containerPort: {{ .Values.web.port }}
               protocol: TCP
