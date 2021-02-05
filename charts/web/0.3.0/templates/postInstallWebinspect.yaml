@@ -28,6 +28,8 @@ spec:
             - name: project_name
               value: {{ .Values.git.repoName }}
             # Indicates the tested branch name
+            - name: git_url
+              value: {{ .Values.git.url }}
             - name: git_branch
               value: {{ include "numericSafe" .Values.git.branch }}
             # Indicates the tested commit
