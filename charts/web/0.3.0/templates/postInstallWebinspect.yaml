@@ -24,7 +24,7 @@ spec:
           command: ['sh', '-c', 'cd /usr/src/app; node /usr/src/app/app.js;']
           env:
             - name: inspect_url
-              value: http://{{ .Values.ingress.externalHost }}/{{ .Release.Name }}{{ .Values.webinspect.startPath }}
+              value: http://{{ .Release.Name }}.{{ .Values.ingress.externalHost }}{{ .Values.webinspect.startPath }}
             - name: project_name
               value: {{ .Values.git.repoName }}
             # Indicates the tested branch name 

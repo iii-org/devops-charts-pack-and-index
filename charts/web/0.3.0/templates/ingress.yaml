@@ -12,10 +12,10 @@ metadata:
     {{- .Values.ingress.annotations | toYaml | nindent 4 }}
 spec:
   rules:
-    - host: "{{ .Values.ingress.externalHost }}"
+    - host: "{{ .Release.Name }}.{{ .Values.ingress.externalHost }}"
       http:
         paths:
           - backend:
               serviceName: "{{ include "web.name" . }}-svc"
               servicePort: {{ .Values.web.port }}
-            path: "/{{ .Release.Name }}(/|$)(.*)"
+            path: "/"
