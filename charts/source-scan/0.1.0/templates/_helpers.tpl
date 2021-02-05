@@ -7,6 +7,6 @@ iiidevops.org/branch: {{ include "numericSafe" .Values.git.branch }}
 {{- if . | toString | contains "e+" -}}
 {{ . | toString | replace "." "" | regexFind "^\\d+" }}
 {{- else -}}
-{{ . }}
+{{ . | toString }}
 {{- end -}}
 {{- end -}}

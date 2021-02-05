@@ -19,6 +19,6 @@ before-hook-creation,hook-succeeded
 {{- if . | toString | contains "e+" -}}
 {{ . | toString | replace "." "" | regexFind "^\\d+" }}
 {{- else -}}
-{{ . }}
+{{ . | toString }}
 {{- end -}}
 {{- end -}}
