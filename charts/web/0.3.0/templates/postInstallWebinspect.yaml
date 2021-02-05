@@ -23,11 +23,11 @@ spec:
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/webinspect-runner:{{ .Values.webinspect.runnerVersion }}"
           command: ['sh', '-c', 'cd /usr/src/app; node /usr/src/app/app.js;']
           env:
-            - name: inspect_url
-              value: http://{{ .Release.Name }}.{{ .Values.ingress.externalHost }}{{ .Values.webinspect.startPath }}
+            - name: web_service_name
+              value: {{ .Release.Name }}-svc
             - name: project_name
               value: {{ .Values.git.repoName }}
-            # Indicates the tested branch name 
+            # Indicates the tested branch name
             - name: git_branch
               value: {{ include "numericSafe" .Values.git.branch }}
             # Indicates the tested commit

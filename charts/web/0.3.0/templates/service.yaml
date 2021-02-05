@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "iiidevops.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.service.type }}
+  type: NodePort
   selector:
     app: {{ include "web.name" . }}
   ports:

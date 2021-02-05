@@ -83,12 +83,6 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-# iii-devops-param(internal)
-######################################################
-service:
-  type: NodePort
-  port: 80
-
 ingress:
   annotations:
     kubernetes.io/ingress.class: nginx
