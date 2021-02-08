@@ -33,6 +33,11 @@ web:
   debug: false
 extraEnv: []
 
+db:
+  username: "bear"
+  password: "bearbearbear"
+  name: "bearDB"
+
 # About Rancher pipelines
 pipeline:
   sequence: 0

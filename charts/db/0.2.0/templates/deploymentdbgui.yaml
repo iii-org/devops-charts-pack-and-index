@@ -1,0 +1,91 @@
+# 部屬資料庫管理網頁(如果使用者有說明需要的話)
+{{ if and (eq .Values.db.enabled true) (eq .Values.db.gui true) -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-gui"
+  labels:
+    #{{- include "db.labels" . | nindent 4 }}
+    app: "{{ .Release.Name }}-gui"
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      #{{- include "db.selectorLabels" . | nindent 6 }}
+      app: "{{ .Release.Name }}-gui"
+  template:
+    metadata:
+      labels:
+        #{{- include "db.selectorLabels" . | nindent 8 }}
+        app: "{{ .Release.Name }}-gui"
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "db.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Values.db.name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+        # 按照使用者要求的資料庫去配置對應的網頁管理鏡像，基本上除了mongodb獨特，其他都可以用adminer
+        {{- if eq .Values.db.type "mariadb" }}
+          image: "bitnami/phpmyadmin"
+        {{- else if eq .Values.db.type "mongodb" }}
+          image: "mongo-express"
+        {{- else }}
+          image: "adminer"
+        {{- end }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: dbgui
+            {{- if eq .Values.db.type "mysql" }}
+              containerPort: 8080
+            {{- else if eq .Values.db.type "mariadb" }}
+              containerPort: 8080
+            {{- else if eq .Values.db.type "postgresql" }}
+              containerPort: 8080
+            {{- else if eq .Values.db.type "mongodb" }}
+              containerPort: 8081
+            {{- end }}
+              protocol: TCP
+          env:
+        # 先保留給予後續鏡像環境設定時候使用
+        {{- if eq .Values.db.type "mysql" }}
+          - name: ADMINER_DEFAULT_SERVER
+            value: "{{ .Release.Name }}-svc"
+          - name: MYSQL_ROOT_PASSWORD
+            value: {{ .Values.db.rootpassword }}
+        {{- else if eq .Values.db.type "mariadb" }}
+          - name: DATABASE_HOST
+            value: "{{ .Release.Name }}-svc"
+          - name: DATABASE_ALLOW_NO_PASSWORD
+            value: "no"
+        {{- else if eq .Values.db.type "postgresql" }}
+          - name: ADMINER_DEFAULT_SERVER
+            value: "{{ .Release.Name }}-svc"
+          - name: POSTGRESQL_USERNAME
+            value: root
+          - name: POSTGRESQL_PASSWORD
+            value: {{ .Values.db.rootpassword }}
+        {{- else if eq .Values.db.type "mongodb" }}
+          - name: MONGODB_ROOT_PASSWORD
+            value: {{ .Values.db.rootpassword }}
+        {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+{{- end }}
