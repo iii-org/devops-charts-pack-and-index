@@ -34,7 +34,7 @@ spec:
             - name: git_commit_id
               value: {{ include "numericSafe" .Values.git.commitID | quote }}
             - name: db_host
-              value: {{ .Release.Name }}-svc
+              value: {{ .Values.db.releaseName }}-svc
             - name: db_name
               value: {{ .Values.db.name }}
             - name: db_username

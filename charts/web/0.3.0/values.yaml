@@ -34,6 +34,7 @@ web:
 extraEnv: []
 
 db:
+  releaseName: "project-branch-db"
   username: "bear"
   password: "bearbearbear"
   name: "bearDB"

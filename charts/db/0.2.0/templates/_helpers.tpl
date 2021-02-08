@@ -50,17 +50,6 @@ app.kubernetes.io/name: {{ include "db.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "db.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "db.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
-{{- end }}
-{{- end }}
-
 {{- define "iiidevops.labels" -}}
 iiidevops.org/project_name: {{ .Values.git.repoName }}
 iiidevops.org/branch: {{ include "numericSafe" .Values.git.branch }}
