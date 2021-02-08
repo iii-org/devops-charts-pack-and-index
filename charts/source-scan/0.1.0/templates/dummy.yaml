@@ -1,0 +1,10 @@
+{{ if include "allTurnedOff" . -}}
+# Used when all checks are turned off so helm will strike with "no objects visited",
+# making pipeline failed.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: source-scan-dummy
+data:
+  message: "This is a dummy configmap"
+{{ if .Values.checkmarx.enabled -}}

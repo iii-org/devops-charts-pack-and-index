@@ -5,18 +5,15 @@ kind: Deployment
 metadata:
   name: "{{ .Release.Name }}-gui"
   labels:
-    #{{- include "db.labels" . | nindent 4 }}
     app: "{{ .Release.Name }}-gui"
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      #{{- include "db.selectorLabels" . | nindent 6 }}
       app: "{{ .Release.Name }}-gui"
   template:
     metadata:
       labels:
-        #{{- include "db.selectorLabels" . | nindent 8 }}
         app: "{{ .Release.Name }}-gui"
     spec:
     {{- with .Values.imagePullSecrets }}

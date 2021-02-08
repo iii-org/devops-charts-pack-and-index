@@ -30,26 +30,6 @@ Create chart name and version as used by the chart label.
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-{{/*
-Common labels
-*/}}
-{{- define "db.labels" -}}
-helm.sh/chart: {{ include "db.chart" . }}
-{{ include "db.selectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-{{- end }}
-
-{{/*
-Selector labels
-*/}}
-{{- define "db.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "db.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-{{- end }}
-
 {{- define "iiidevops.labels" -}}
 iiidevops.org/project_name: {{ .Values.git.repoName }}
 iiidevops.org/branch: {{ include "numericSafe" .Values.git.branch }}
@@ -61,4 +41,8 @@ iiidevops.org/branch: {{ include "numericSafe" .Values.git.branch }}
 {{- else -}}
 {{ . }}
 {{- end -}}
+{{- end -}}
+
+{{- define "allTurnedOff" -}}
+{{ and {{ .Values.checkmarx.enabled }} {{ .Values.sonarqube.enabled }} }}
 {{- end -}}

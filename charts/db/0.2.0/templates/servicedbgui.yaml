@@ -5,7 +5,6 @@ kind: Service
 metadata:
   name: "{{ .Release.Name }}-gui-svc"
   labels:
-    #{{- include "db.labels" . | nindent 4 }}
     app: "{{ .Release.Name }}-gui"
 spec:
   type: {{ .Values.service.type }}
@@ -24,6 +23,5 @@ spec:
       protocol: TCP
       name: dbgui
   selector:
-    #{{- include "db.selectorLabels" . | nindent 4 }}
     app: "{{ .Release.Name }}-gui"
 {{- end }}
