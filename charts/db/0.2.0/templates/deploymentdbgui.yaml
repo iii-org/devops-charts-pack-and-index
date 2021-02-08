@@ -27,7 +27,7 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Values.db.name }}
+        - name: {{ .Values.db.type }}-gui
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
         # 按照使用者要求的資料庫去配置對應的網頁管理鏡像，基本上除了mongodb獨特，其他都可以用adminer
