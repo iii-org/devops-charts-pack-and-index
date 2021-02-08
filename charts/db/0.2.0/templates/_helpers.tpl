@@ -43,6 +43,3 @@ iiidevops.org/branch: {{ include "numericSafe" .Values.git.branch }}
 {{- end -}}
 {{- end -}}
 
-{{- define "allTurnedOff" -}}
-{{ and {{ .Values.checkmarx.enabled }} {{ .Values.sonarqube.enabled }} }}
-{{- end -}}
