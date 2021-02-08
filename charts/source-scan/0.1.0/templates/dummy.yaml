@@ -7,4 +7,4 @@ metadata:
   name: source-scan-dummy
 data:
   message: "This is a dummy configmap"
-{{ if .Values.checkmarx.enabled -}}
+{{ end -}}
