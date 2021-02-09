@@ -6,5 +6,5 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-dummy
 data:
-  message: "This is a dummy configmap"
+  message: "This is a dummy configmap preventing helm complaining nothing to do."
 {{ end -}}
