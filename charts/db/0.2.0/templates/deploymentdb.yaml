@@ -55,6 +55,7 @@ spec:
               containerPort: 27017
             {{- end }}
               protocol: TCP
+        {{- if eq .Values.db.type "postgresql" }}  
           livenessProbe:
             exec:
               command:
@@ -78,6 +79,7 @@ spec:
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
             successThreshold: {{ .Values.readinessProbe.successThreshold }}
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+        {{- end }}
           env:
         {{- if eq .Values.db.type "mysql" }}
           - name: MYSQL_ROOT_USER
