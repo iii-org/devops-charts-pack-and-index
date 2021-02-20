@@ -1,0 +1,54 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    {{- include "iiidevops.labels" . | nindent 4 }}
+  name: "{{ .Release.Name }}-webinspect-{{ .Values.pipeline.sequence }}"
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}-webinspect-{{ .Values.pipeline.sequence }}"
+      labels:
+        {{- include "iiidevops.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: "webinspect-runner-{{ .Values.pipeline.sequence }}"
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/webinspect-runner:{{ .Values.webinspect.runnerVersion }}"
+          command: ['sh', '-c', 'cd /usr/src/app; node /usr/src/app/app.js;']
+          env:
+            - name: web_service_name
+              value: {{ .Release.Name }}-svc
+            - name: project_name
+              value: {{ .Values.git.repoName }}
+            # Indicates the tested branch name
+            - name: git_url
+              value: {{ .Values.git.url }}
+            - name: git_branch
+              value: {{ include "numericSafe" .Values.git.branch }}
+            # Indicates the tested commit
+            - name: git_commit_id
+              value: {{ include "numericSafe" .Values.git.commitID | quote }}
+            - name: verbose
+              value: "true"
+            - name: wi_base_url
+              valueFrom:
+                secretKeyRef:
+                  name: webinspect
+                  key: wi-base-url
+            - name: api_origin
+              valueFrom:
+                secretKeyRef:
+                  name: nexus
+                  key: api-origin
+            - name: api_username
+              valueFrom:
+                secretKeyRef:
+                  name: nexus-bot
+                  key: username
+            - name: api_password
+              valueFrom:
+                secretKeyRef:
+                  name: nexus-bot
+                  key: password
+      restartPolicy: Never
+  backoffLimit: 4

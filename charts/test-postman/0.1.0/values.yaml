@@ -1,0 +1,14 @@
+harbor:
+  host: "harbor.domain"
+  cache: dockerhub
+git:
+  url: "http://gitlab.domain/project.git"
+  repoName: "project-name"
+  branch: "master"
+  commitID: "commit123"
+web:
+  port: 80
+pipeline:
+  sequence: 0
+newman:
+  runnerVersion: 2.0.1
