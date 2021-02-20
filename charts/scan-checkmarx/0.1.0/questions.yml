@@ -1,0 +1,33 @@
+rancher_max_version: 2.4.5
+rancher_min_version: 2.4.5
+categories:
+  - CMS
+questions:
+# pipeline parameters
+- variable: pipeline.sequence
+  label: "Rancher pipeline 的 ${CICD_EXECUTION_SEQUENCE} 變數"
+  type: int
+  required: true
+  default: 0
+  group: "Rancher pipeline 相關設定"
+# git parameters
+- variable: git.repoName
+  label: 專案名稱設定
+  description: "請輸入您git的專案名稱 例如:flask-app-template"
+  type: string
+  required: true
+  default: "flask-app-tempalte"
+  group: "專案Git相關設定"
+- variable: git.branch
+  default: "master"
+  description: "選擇您專案的分支，預設採用master"
+  label: 請輸入要部屬的專案分支
+  type: string
+  group: "專案Git相關設定"
+- variable: git.commitID
+  label: 專案commit名稱
+  description: "請輸入您專案的commit名稱 這個主要用於提供checkmarx掃描時需要"
+  type: string
+  required: true
+  default: "I am bear"
+  group: "專案Git相關設定"
