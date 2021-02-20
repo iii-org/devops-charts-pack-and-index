@@ -1,4 +1,3 @@
-{{ if .Values.checkmarx.enabled -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -114,5 +113,4 @@ spec:
         - name: initrepo
           emptyDir: {}
       restartPolicy: Never
-  backoffLimit: 4  
-{{- end }}
+  backoffLimit: 4
