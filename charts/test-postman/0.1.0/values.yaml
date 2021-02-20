@@ -7,6 +7,7 @@ git:
   branch: "master"
   commitID: "commit123"
 web:
+  deployName: name-branch-serv-dpy
   port: 80
 pipeline:
   sequence: 0

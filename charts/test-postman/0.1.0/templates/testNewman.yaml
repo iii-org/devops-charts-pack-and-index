@@ -23,7 +23,7 @@ spec:
             - name: git_commit_id
               value: {{ include "numericSafe" .Values.git.commitID | quote }}
             - name: test_origin
-              value: "http://{{ include "web.name" . }}-svc:{{ .Values.web.port }}"
+              value: "http://{{ .Values.web.deployName }}-svc:{{ .Values.web.port }}"
             - name: verbose
               value: "true"
             - name: api_origin
