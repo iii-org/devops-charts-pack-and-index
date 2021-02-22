@@ -10,7 +10,7 @@ Expand the name of the chart.
 ## warning: should label on namespace
 {{- define "iiidevops.labels" -}}
 iiidevops.org/project_name: {{ .Values.git.repoName }}
-iiidevops.org/branch: {{ include "numericSafe" .Values.git.branch }}
+iiidevops.org/branch: {{ include "numericSafe" .Values.git.branch | quote }}
 {{- end }}
 
 {{/*
