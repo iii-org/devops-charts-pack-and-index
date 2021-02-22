@@ -38,11 +38,6 @@ Create chart name and version as used by the chart label.
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-{{- define "iiidevops.labels" -}}
-iiidevops.org/project_name: {{ .Values.git.repoName }}
-iiidevops.org/branch: {{ include "numericSafe" .Values.git.branch }}
-{{- end }}
-
 {{- define "numericSafe" -}}
 {{- if . | toString | contains "e+" -}}
 {{ . | toString | replace "." "" | regexFind "^\\d+" }}
