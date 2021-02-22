@@ -4,7 +4,7 @@
 
 {{- define "iiidevops.labels" -}}
 iiidevops.org/project_name: {{ .Values.git.repoName }}
-iiidevops.org/branch: {{ include "numericSafe" .Values.git.branch }}
+iiidevops.org/branch: {{ include "numericSafe" .Values.git.branch | toString }}
 {{- end }}
 
 {{- define "web.postInstallDebug" -}}
