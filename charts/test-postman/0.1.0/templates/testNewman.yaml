@@ -19,7 +19,7 @@ spec:
             - name: git_url
               value: {{ .Values.git.url }}
             - name: git_branch
-              value: {{ include "numericSafe" .Values.git.branch }}
+              value: {{ include "numericSafe" .Values.git.branch | quote }}
             - name: git_commit_id
               value: {{ include "numericSafe" .Values.git.commitID | quote }}
             - name: test_origin
@@ -58,7 +58,7 @@ spec:
             - name: git_repo
               value: {{ .Values.git.repoName }}
             - name: git_branch
-              value: {{ include "numericSafe" .Values.git.branch }}
+              value: {{ include "numericSafe" .Values.git.branch | quote }}
             - name: git_token
               valueFrom:
                 secretKeyRef:

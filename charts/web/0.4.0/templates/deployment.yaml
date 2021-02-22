@@ -30,7 +30,7 @@ spec:
             - name: repo_name
               value: {{ .Values.git.repoName }}
             - name: git_branch
-              value: {{ include "numericSafe" .Values.git.branch }}
+              value: {{ include "numericSafe" .Values.git.branch | quote }}
             - name: git_commit_id
               value: {{ include "numericSafe" .Values.git.commitID | quote }}
             - name: db_host
