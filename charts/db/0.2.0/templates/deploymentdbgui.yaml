@@ -6,15 +6,18 @@ metadata:
   name: "{{ .Release.Name }}-gui"
   labels:
     app: "{{ .Release.Name }}-gui"
+    {{- include "iiidevops.labels" . | nindent 4 }}    
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: "{{ .Release.Name }}-gui"
+      {{- include "iiidevops.labels" . | nindent 6 }}
   template:
     metadata:
       labels:
         app: "{{ .Release.Name }}-gui"
+        {{- include "iiidevops.labels" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:

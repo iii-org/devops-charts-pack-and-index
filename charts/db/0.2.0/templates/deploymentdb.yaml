@@ -7,11 +7,14 @@ metadata:
     {{- include "iiidevops.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
+  # warning: replicas only support for 1, above it won't support master slave
+  # dont use this chart in production env
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
       app: "{{ .Release.Name }}"
+      {{- include "iiidevops.labels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -19,8 +22,8 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "iiidevops.labels" . | nindent 8 }}
         app: "{{ .Release.Name }}"
+        {{- include "iiidevops.labels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:

@@ -5,6 +5,14 @@ Expand the name of the chart.
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
+## iiiorg chart label for iiiorg-api
+## used for iii-org-api to lock resource
+## warning: should label on namespace
+{{- define "iiidevops.labels" -}}
+iiidevops.org/project_name: {{ .Values.git.repoName }}
+iiidevops.org/branch: {{ include "numericSafe" .Values.git.branch }}
+{{- end }}
+
 {{/*
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
