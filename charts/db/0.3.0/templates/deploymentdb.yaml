@@ -4,19 +4,19 @@ metadata:
   name: {{ .Release.Name }}-dpy
   labels:
     app: {{ .Release.Name }}
-    {{- include "iiidevops.labels" . | nindent 4 }}
+  annotations:
+    {{- include "iiidevops.annotations" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: {{ .Release.Name }}
-      {{- include "iiidevops.labels" . | nindent 6 }}
-      iiidevops.org/pod_type: db-server
   template:
     metadata:
       labels:
         app: {{ .Release.Name }}
-        {{- include "iiidevops.labels" . | nindent 8 }}
+      annotations:
+        {{- include "iiidevops.annotations" . | nindent 8 }}
         iiidevops.org/pod_type: db-server
     spec:
       containers:

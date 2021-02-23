@@ -7,8 +7,8 @@ spec:
   template:
     metadata:
       name: "{{ .Release.Name }}-checkmarx-{{ .Values.pipeline.sequence }}"
-      labels:
-        {{- include "iiidevops.labels" . | nindent 8 }}
+      annotations:
+        {{- include "iiidevops.annotations" . | nindent 8 }}
     spec:
       containers:
         - name: "checkmarx-scan-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
