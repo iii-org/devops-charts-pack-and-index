@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: "{{ .Release.Name }}-svc"
+  name: {{ .Release.Name }}-svc
   labels:
-    app: "{{ .Release.Name }}"
+    app: {{ .Release.Name }}
   annotations:
     {{- include "iiidevops.annotations" . | nindent 4 }}
-    iiidevops.org/service_type: db-server
+    iiidevops.org/type: db-server
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -24,4 +24,4 @@ spec:
       protocol: TCP
       name: db
   selector:
-    app: "{{ .Release.Name }}"
+    app: {{ .Release.Name }}

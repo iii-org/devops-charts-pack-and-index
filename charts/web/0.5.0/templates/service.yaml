@@ -6,7 +6,6 @@ metadata:
     app: {{ .Release.Name }}
   annotations:
     {{- include "iiidevops.annotations" . | nindent 4 }}
-    iiidevops.org/service_type: web-server
 spec:
   type: NodePort
   selector:

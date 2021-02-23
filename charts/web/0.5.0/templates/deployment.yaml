@@ -17,7 +17,6 @@ spec:
         app: {{ .Release.Name }}
       annotations:
         {{- include "iiidevops.annotations" . | nindent 8 }}
-        iiidevops.org/pod_type: web-server
     spec:
       imagePullSecrets:
         {{- .Values.imagePullSecrets | toYaml | nindent 8 }}

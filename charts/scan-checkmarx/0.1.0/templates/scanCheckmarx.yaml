@@ -1,17 +1,19 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "{{ .Release.Name }}-checkmarx-{{ .Values.pipeline.sequence }}"
+  name: {{ .Release.Name }}-{{ .Values.pipeline.sequence }}
+  annotations:
+    {{- include "iiidevops.annotations" . | nindent 4 }}
 spec:
   ttlSecondsAfterFinished: 0
   template:
     metadata:
-      name: "{{ .Release.Name }}-checkmarx-{{ .Values.pipeline.sequence }}"
+      name: {{ .Release.Name }}-{{ .Values.pipeline.sequence }}
       annotations:
         {{- include "iiidevops.annotations" . | nindent 8 }}
     spec:
       containers:
-        - name: "checkmarx-scan-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
+        - name: checkmarx-scan-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}
           image: iiiorg/checkmarx-runner:{{ .Values.checkmarx.runnerVersion }}
           imagePullPolicy: IfNotPresent
           command: ['sh', '-c', 'cd /usr/src/app; node app.js;']
@@ -74,7 +76,7 @@ spec:
             - mountPath: /usr/src/app/repo
               name: initrepo
       initContainers:
-        - name: "clone-repo-{{ .Values.git.repoName }}-{{ include "numericSafe" .Values.git.branch }}-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
+        - name: clone-repo-{{ .Values.git.repoName }}-{{ include "numericSafe" .Values.git.branch }}-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}
           image: alpine/git
           imagePullPolicy: IfNotPresent
           command:

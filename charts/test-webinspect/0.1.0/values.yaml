@@ -1,6 +1,3 @@
-harbor:
-  host: "harbor.domain"
-  cache: dockerhub
 git:
   url: "http://gitlab.domain/project.git"
   repoName: "project-name"

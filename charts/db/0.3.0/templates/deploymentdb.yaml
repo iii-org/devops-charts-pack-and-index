@@ -6,6 +6,7 @@ metadata:
     app: {{ .Release.Name }}
   annotations:
     {{- include "iiidevops.annotations" . | nindent 4 }}
+  iiidevops.org/type: db-server
 spec:
   replicas: 1
   selector:
@@ -17,7 +18,7 @@ spec:
         app: {{ .Release.Name }}
       annotations:
         {{- include "iiidevops.annotations" . | nindent 8 }}
-        iiidevops.org/pod_type: db-server
+        iiidevops.org/type: db-server
     spec:
       containers:
         - name: {{ .Values.db.type }}

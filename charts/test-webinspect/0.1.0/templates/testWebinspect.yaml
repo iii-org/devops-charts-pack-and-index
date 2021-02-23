@@ -1,19 +1,20 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  labels:
-    {{- include "iiidevops.labels" . | nindent 4 }}
-  name: "{{ .Release.Name }}-webinspect-{{ .Values.pipeline.sequence }}"
+  name: {{ .Release.Name }}-{{ .Values.pipeline.sequence }}
+  annotations:
+    {{- include "iiidevops.annotations" . | nindent 4 }}
 spec:
   template:
     metadata:
-      name: "{{ .Release.Name }}-webinspect-{{ .Values.pipeline.sequence }}"
-      labels:
-        {{- include "iiidevops.labels" . | nindent 8 }}
+      name: {{ .Release.Name }}-{{ .Values.pipeline.sequence }}
+      annotations:
+        {{- include "iiidevops.annotations" . | nindent 8 }}
     spec:
       containers:
-        - name: "webinspect-runner-{{ .Values.pipeline.sequence }}"
-          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/webinspect-runner:{{ .Values.webinspect.runnerVersion }}"
+        - name: webinspect-runner-{{ .Values.pipeline.sequence }}
+          image: iiiorg/webinspect-runner:{{ .Values.webinspect.runnerVersion }}
+          imagePullPolicy: IfNotPresent
           command: ['sh', '-c', 'cd /usr/src/app; node /usr/src/app/app.js;']
           env:
             - name: web_service_name
@@ -51,4 +52,4 @@ spec:
                   name: nexus-bot
                   key: password
       restartPolicy: Never
-  backoffLimit: 4
+  backoffLimit: 2

@@ -3,12 +3,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: "{{ .Release.Name }}-gui-svc"
+  name: {{ .Release.Name }}-gui-svc
   labels:
-    app: "{{ .Release.Name }}-gui"
+    app: {{ .Release.Name }}-gui
   annotations:
     {{- include "iiidevops.annotations" . | nindent 4 }}
-    iiidevops.org/service_type: db-gui
+    iiidevops.org/type: db-gui
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -26,5 +26,5 @@ spec:
       protocol: TCP
       name: dbgui
   selector:
-    app: "{{ .Release.Name }}-gui"
+    app: {{ .Release.Name }}-gui
 {{- end }}

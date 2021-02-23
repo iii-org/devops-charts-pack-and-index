@@ -2,7 +2,8 @@
 iiidevops.org/project_name: {{ .Values.git.repoName }}
 iiidevops.org/branch: {{ include "numericSafe" .Values.git.branch | quote }}
 iiidevops.org/commit_id: {{ include "numericSafe" .Values.git.commitID | quote }}
-{{- end -}}
+iiidevops.org/type: scan-checkmarx
+{{- end }}
 
 {{- define "numericSafe" -}}
 {{- if . | toString | contains "e+" -}}
