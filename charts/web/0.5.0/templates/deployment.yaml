@@ -15,7 +15,7 @@ spec:
     metadata:
       labels:
         app: {{ .Release.Name }}
-      annotations
+      annotations:
         {{- include "iiidevops.annotations" . | nindent 8 }}
         iiidevops.org/pod_type: web-server
     spec:
