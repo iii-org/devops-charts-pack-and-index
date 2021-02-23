@@ -15,3 +15,5 @@ db:
   username: "bear"
   password: "bearbearbear"
   name: "bearDB"
+imagePullSecrets:
+  - name: harbor-local

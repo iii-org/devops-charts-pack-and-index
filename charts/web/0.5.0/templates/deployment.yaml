@@ -18,6 +18,8 @@ spec:
         {{- include "iiidevops.labels" . | nindent 8 }}
         iiidevops.org/pod_type: web-server
     spec:
+      imagePullSecrets:
+        {{- .Values.imagePullSecrets | toYaml | nindent 8 }}
       containers:
         - name: web-server-{{ include "numericSafe" .Values.git.commitID }}
           image: {{ .Values.harbor.host }}/{{ .Values.web.imageTag }}
