@@ -3,11 +3,12 @@ kind: Service
 metadata:
   name: {{ include "web.name" . }}-svc
   labels:
-    {{- include "web.labels" . | nindent 4 }}
+    {{- include "iiidevops.labels" . | nindent 4 }}
+  iiidevops.org/service_type: web-server
 spec:
-  type: {{ .Values.service.type }}
+  type: NodePort
   selector:
     app: {{ include "web.name" . }}
   ports:
-      - port: {{ include "web.port" . }}
+      - port: {{ .Values.web.port }}
         protocol: TCP
