@@ -12,7 +12,8 @@ spec:
     spec:
       containers:
         - name: "checkmarx-scan-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
-          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/checkmarx-runner:{{ .Values.checkmarx.runnerVersion }}"
+          image: iiiorg/checkmarx-runner:{{ .Values.checkmarx.runnerVersion }}
+          imagePullPolicy: IfNotPresent
           command: ['sh', '-c', 'cd /usr/src/app; node app.js;']
           env:
             # The CheckMarx server api base URL, including the base path "/cxresetapi"
@@ -74,7 +75,8 @@ spec:
               name: initrepo
       initContainers:
         - name: "clone-repo-{{ .Values.git.repoName }}-{{ include "numericSafe" .Values.git.branch }}-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
-          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/alpine/git"
+          image: alpine/git
+          imagePullPolicy: IfNotPresent
           command:
             - /bin/sh
             - -c
