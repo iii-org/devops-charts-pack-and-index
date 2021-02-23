@@ -8,6 +8,6 @@ iiidevops.org/commit_id: {{ include "numericSafe" .Values.git.commitID | quote }
 {{- if . | toString | contains "e+" -}}
 {{ . | toString | replace "." "" | regexFind "^\\d+" }}
 {{- else -}}
-{{ . | toString }}
+{{ . }}
 {{- end -}}
 {{- end -}}

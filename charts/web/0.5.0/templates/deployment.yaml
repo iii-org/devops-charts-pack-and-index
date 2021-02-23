@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "web.name" . }}-dpy
+  name: {{ .Release.Name }}-dpy
   labels:
     {{- include "iiidevops.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ include "web.name" . }}
+      app: {{ .Release.Name }}
       {{- include "iiidevops.labels" . | nindent 6 }}
       iiidevops.org/pod_type: web-server
   template:
     metadata:
       labels:
-        app: {{ include "web.name" . }}
+        app: {{ .Release.Name }}
         {{- include "iiidevops.labels" . | nindent 8 }}
         iiidevops.org/pod_type: web-server
     spec:
@@ -42,3 +42,4 @@ spec:
           ports:
             - containerPort: {{ .Values.web.port }}
               protocol: TCP
+  backoffLimit: 2

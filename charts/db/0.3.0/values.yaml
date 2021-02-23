@@ -13,15 +13,9 @@ db:
   username: "bear"
   password: "bearbearbear"
   name: "bearDB"
-  image: ""
   tag: "latest"
-  extraEnv: []
 
 replicaCount: 1
-
-imagePullSecrets:
-  - name: pipeline-docker-registry
-  - name: harbor-63
 
 service:
   type: NodePort
