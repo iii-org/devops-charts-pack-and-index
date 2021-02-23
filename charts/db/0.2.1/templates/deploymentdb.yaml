@@ -116,7 +116,7 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
       # 自動將資料庫所需匯入的表單匯入到資料庫
       initContainers:
-        - name: "clone-repo-{{ .Values.git.repoName }}-{{ include "numericSafe" .Values.git.branch }}-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
+        - name: "clone-repo-{{ .Values.git.repoName }}-{{ include "numericSafe" .Values.git.branch }}-{{ include "numericSafe" .Values.git.commitID }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/alpine/git"
           command:
             - /bin/sh
