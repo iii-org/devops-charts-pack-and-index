@@ -116,21 +116,35 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
       # 自動將資料庫所需匯入的表單匯入到資料庫
       initContainers:
-        - name: initializing-a-new-instance
-          image: alpine/git
-          command: ['sh', '-c', 'git clone --branch ${git_branch} http://root:${git_token}@${git_host}/root/${git_repo}.git ; ls; mv -v ${git_repo}/db/* /initdb-data/; cd /initdb-data; ls; chmod -R 777 /initdb-data']
+        - name: "clone-repo-{{ .Values.git.repoName }}-{{ include "numericSafe" .Values.git.branch }}-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
+          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/alpine/git"
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - >-
+              cd /initdb-data;
+              export se="//";
+              export url="${git_url/$se*/$se}${git_username}:${git_token}@${git_url/*$se}";
+              git clone --branch ${git_branch} ${url} .;
+              rm -rf .git;
+              chmod -R 777 .;
           env:
-            - name: git_host
-              value: {{ .Values.git.host }}
-            - name: git_repo
-              value: {{ .Values.git.repoName }}
+            - name: git_url
+              value: {{ .Values.git.url }}
             - name: git_branch
-              value: {{ include "numericSafe" .Values.git.branch }}
+              value: {{ include "numericSafe" .Values.git.branch | quote }}
             - name: git_token
               valueFrom:
                 secretKeyRef:
                   name: gitlab-bot
                   key: git-token
+            # nexus username = gitlab username of BOT to clone
+            - name: git_username
+              valueFrom:
+                secretKeyRef:
+                  name: nexus-bot
+                  key: username
           volumeMounts:
             - mountPath: /initdb-data
               name: initdb

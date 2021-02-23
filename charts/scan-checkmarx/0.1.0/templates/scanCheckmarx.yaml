@@ -72,7 +72,6 @@ spec:
           volumeMounts:
             - mountPath: /usr/src/app/repo
               name: initrepo
-      # 由於checkmarx需要專案資料做Link連結, 因此此步驟會建立專案資料
       initContainers:
         - name: "clone-repo-{{ .Values.git.repoName }}-{{ include "numericSafe" .Values.git.branch }}-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
           image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/alpine/git"
@@ -83,12 +82,10 @@ spec:
             - >-
               cd /init-data;
               export se="//";
-              echo ${git_url};
               export url="${git_url/$se*/$se}${git_username}:${git_token}@${git_url/*$se}";
-              echo ${url};
               git clone --branch ${git_branch} ${url} .;
               rm -rf .git;
-              chmod -R 777 /init-data;
+              chmod -R 777 .;
           env:
             - name: git_url
               value: {{ .Values.git.url }}
