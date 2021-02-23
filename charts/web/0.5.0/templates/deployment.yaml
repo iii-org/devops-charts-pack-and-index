@@ -18,16 +18,10 @@ spec:
         {{- include "iiidevops.labels" . | nindent 8 }}
         iiidevops.org/pod_type: web-server
     spec:
-      imagePullSecrets:
-        {{- .Values.imagePullSecrets | toYaml | nindent 8 }}
-      securityContext:
-        {{- .Values.podSecurityContext | toYaml | nindent 8 }}
       containers:
-        - name: "web-server-{{ include "numericSafe" .Values.git.commitID }}"
-          securityContext:
-            {{- .Values.securityContext | toYaml | nindent 12 }}
-          image: "{{ .Values.harbor.host }}/{{ .Values.web.imageTag }}"
-          imagePullPolicy: IfNotPresent
+        - name: web-server-{{ include "numericSafe" .Values.git.commitID }}
+          image: {{ .Values.harbor.host }}/{{ .Values.web.imageTag }}
+          imagePullPolicy: Always
           env:
             - name: repo_name
               value: {{ .Values.git.repoName }}
@@ -46,11 +40,3 @@ spec:
           ports:
             - containerPort: {{ .Values.web.port }}
               protocol: TCP
-          resources:
-            {{- .Values.resources | toYaml | nindent 12 }}
-      nodeSelector:
-        {{- .Values.nodeSelector | toYaml | nindent 8 }}
-      affinity:
-        {{- .Values.affinity | toYaml | nindent 8 }}
-      tolerations:
-        {{- .Values.tolerations | toYaml | nindent 8 }}

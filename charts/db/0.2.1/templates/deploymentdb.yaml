@@ -45,7 +45,6 @@ spec:
         {{- else if eq .Values.db.type "mongodb" }}
           image: "bitnami/mongodb:{{ .Values.db.tag }}"
         {{- end }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: db
             {{- if eq .Values.db.type "mysql" }}

@@ -8,14 +8,6 @@ iiidevops.org/branch: {{ include "numericSafe" .Values.git.branch | quote }}
 iiidevops.org/commit_id: {{ include "numericSafe" .Values.git.commitID | quote }}
 {{- end }}
 
-{{- define "web.postInstallDebug" -}}
-{{- if .Values.web.debug | eq true -}}
-before-hook-creation
-{{- else -}}
-before-hook-creation,hook-succeeded
-{{- end -}}
-{{- end -}}
-
 {{- define "numericSafe" -}}
 {{- if . | toString | contains "e+" -}}
 {{ . | toString | replace "." "" | regexFind "^\\d+" }}
