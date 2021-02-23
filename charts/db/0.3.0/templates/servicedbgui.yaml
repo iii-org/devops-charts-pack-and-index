@@ -6,6 +6,9 @@ metadata:
   name: "{{ .Release.Name }}-gui-svc"
   labels:
     app: "{{ .Release.Name }}-gui"
+  annotations:
+    {{- include "iiidevops.annotations" . | nindent 4 }}
+    iiidevops.org/service_type: db-gui
 spec:
   type: {{ .Values.service.type }}
   ports:

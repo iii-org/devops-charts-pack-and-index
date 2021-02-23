@@ -4,7 +4,9 @@ metadata:
   name: "{{ .Release.Name }}-svc"
   labels:
     app: "{{ .Release.Name }}"
-    {{- include "iiidevops.labels" . | nindent 4 }}
+  annotations:
+    {{- include "iiidevops.annotations" . | nindent 4 }}
+    iiidevops.org/service_type: db-server
 spec:
   type: {{ .Values.service.type }}
   ports:
