@@ -1,45 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .Release.Name }}-{{ .Values.db.type }}-db"
+  name: {{ .Release.Name }}-dpy
   labels:
-    #{{- include "db.labels" . | nindent 4 }}
-    app: "{{ .Release.Name }}-{{ .Values.db.type }}-db"
+    app: {{ .Release.Name }}
+    {{- include "iiidevops.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
+  replicas: 1
   selector:
     matchLabels:
-      #{{- include "db.selectorLabels" . | nindent 6 }}
-      app: "{{ .Release.Name }}-{{ .Values.db.type }}-db"
-  # 單一時間僅可單一容器存在，非Production作法
-  #strategy:
-    #type: Recreate
-    # 限制失敗重啟次數(避免因工作執行序不足而造成的額外負擔延緩效能)
-    #maxRetries: 3 
+      app: {{ .Release.Name }}
+      {{- include "iiidevops.labels" . | nindent 6 }}
+      iiidevops.org/pod_type: db-server
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       labels:
-        #{{- include "db.selectorLabels" . | nindent 8 }}
-        app: "{{ .Release.Name }}-{{ .Values.db.type }}-db"
+        app: {{ .Release.Name }}
+        {{- include "iiidevops.labels" . | nindent 8 }}
+        iiidevops.org/pod_type: db-server
     spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "db.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Values.db.type }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          #image: "{{ .Values.db.image }}:{{ .Values.db.tag }}"
+          imagePullPolicy: IfNotPresent
         {{- if eq .Values.db.type "mysql" }}
           image: "bitnami/mysql:{{ .Values.db.tag }}"
         {{- else if eq .Values.db.type "mariadb" }}
@@ -49,7 +31,6 @@ spec:
         {{- else if eq .Values.db.type "mongodb" }}
           image: "bitnami/mongodb:{{ .Values.db.tag }}"
         {{- end }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: db
             {{- if eq .Values.db.type "mysql" }}
@@ -62,6 +43,7 @@ spec:
               containerPort: 27017
             {{- end }}
               protocol: TCP
+        {{- if eq .Values.db.type "postgresql" }}  
           livenessProbe:
             exec:
               command:
@@ -85,6 +67,7 @@ spec:
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
             successThreshold: {{ .Values.readinessProbe.successThreshold }}
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+        {{- end }}
           env:
         {{- if eq .Values.db.type "mysql" }}
           - name: MYSQL_ROOT_USER
@@ -118,36 +101,40 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
       # 自動將資料庫所需匯入的表單匯入到資料庫
       initContainers:
-        - name: initializing-a-new-instance
+        - name: "clone-repo-{{ .Values.git.repoName }}-{{ include "numericSafe" .Values.git.branch }}-{{ include "numericSafe" .Values.git.commitID }}"
           image: alpine/git
-          command: ['sh', '-c', 'git clone --branch ${git_branch} http://root:${git_token}@${git_host}/root/${git_repo}.git ; ls; mv -v ${git_repo}/db/* /initdb-data/; cd /initdb-data; ls; chmod -R 777 /initdb-data']
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - >-
+              cd /initdb-data;
+              export se="//";
+              export url="${git_url/$se*/$se}${git_username}:${git_token}@${git_url/*$se}";
+              git clone --branch ${git_branch} ${url} .;
+              rm -rf .git;
+              chmod -R 777 .;
           env:
-            - name: git_host
-              value: {{ .Values.git.host }}
-            - name: git_repo
-              value: {{ .Values.git.repoName }}
+            - name: git_url
+              value: {{ .Values.git.url }}
             - name: git_branch
-              value: {{ include "numericSafe" .Values.git.branch }}
+              value: {{ include "numericSafe" .Values.git.branch | quote }}
             - name: git_token
               valueFrom:
                 secretKeyRef:
                   name: gitlab-bot
                   key: git-token
+            # nexus username = gitlab username of BOT to clone
+            - name: git_username
+              valueFrom:
+                secretKeyRef:
+                  name: nexus-bot
+                  key: username
           volumeMounts:
             - mountPath: /initdb-data
               name: initdb
       volumes:
         - name: initdb
           emptyDir: {}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+  backoffLimit: 2

@@ -1,35 +1,28 @@
-# 部屬資料庫管理網頁(如果使用者有說明需要的話)
 {{ if and (eq .Values.db.enabled true) (eq .Values.db.gui true) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .Release.Name }}-{{ .Values.db.type }}-gui"
+  name: "{{ .Release.Name }}-gui"
   labels:
-    #{{- include "db.labels" . | nindent 4 }}
-    app: "{{ .Release.Name }}-{{ .Values.db.type }}-gui"
+    app: "{{ .Release.Name }}-gui"
+    {{- include "iiidevops.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
-      #{{- include "db.selectorLabels" . | nindent 6 }}
-      app: "{{ .Release.Name }}-{{ .Values.db.type }}-gui"
+      app: "{{ .Release.Name }}-gui"
+      {{- include "iiidevops.labels" . | nindent 6 }}
+      iiidevops.org/pod_type: db-gui
   template:
     metadata:
       labels:
-        #{{- include "db.selectorLabels" . | nindent 8 }}
-        app: "{{ .Release.Name }}-{{ .Values.db.type }}-gui"
+        app: "{{ .Release.Name }}-gui"
+        {{- include "iiidevops.labels" . | nindent 8 }}
+        iiidevops.org/pod_type: db-gui
     spec:
-    {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
-      serviceAccountName: {{ include "db.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Values.db.name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+        - name: {{ .Values.db.type }}-gui
+          imagePullPolicy: IfNotPresent
         # 按照使用者要求的資料庫去配置對應的網頁管理鏡像，基本上除了mongodb獨特，其他都可以用adminer
         {{- if eq .Values.db.type "mariadb" }}
           image: "bitnami/phpmyadmin"
@@ -38,7 +31,6 @@ spec:
         {{- else }}
           image: "adminer"
         {{- end }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: dbgui
             {{- if eq .Values.db.type "mysql" }}
@@ -55,17 +47,17 @@ spec:
         # 先保留給予後續鏡像環境設定時候使用
         {{- if eq .Values.db.type "mysql" }}
           - name: ADMINER_DEFAULT_SERVER
-            value: "{{ .Release.Name }}-{{ .Values.db.type }}-db-svc"
+            value: "{{ .Release.Name }}-svc"
           - name: MYSQL_ROOT_PASSWORD
             value: {{ .Values.db.rootpassword }}
         {{- else if eq .Values.db.type "mariadb" }}
           - name: DATABASE_HOST
-            value: "{{ .Release.Name }}-{{ .Values.db.type }}-db-svc"
+            value: "{{ .Release.Name }}-svc"
           - name: DATABASE_ALLOW_NO_PASSWORD
             value: "no"
         {{- else if eq .Values.db.type "postgresql" }}
           - name: ADMINER_DEFAULT_SERVER
-            value: "{{ .Release.Name }}-{{ .Values.db.type }}-db-svc"
+            value: "{{ .Release.Name }}-svc"
           - name: POSTGRESQL_USERNAME
             value: root
           - name: POSTGRESQL_PASSWORD
@@ -74,18 +66,5 @@ spec:
           - name: MONGODB_ROOT_PASSWORD
             value: {{ .Values.db.rootpassword }}
         {{- end }}
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-    {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
+  backoffLimit: 2
 {{- end }}
