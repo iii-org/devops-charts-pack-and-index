@@ -67,5 +67,4 @@ spec:
           - name: MONGODB_ROOT_PASSWORD
             value: {{ .Values.db.rootpassword }}
         {{- end }}
-  backoffLimit: 2
 {{- end }}
