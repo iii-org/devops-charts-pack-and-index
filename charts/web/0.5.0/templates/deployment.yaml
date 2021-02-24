@@ -8,6 +8,7 @@ metadata:
     {{- include "iiidevops.annotations" . | nindent 4 }}
 spec:
   replicas: 1
+  backoffLimit: 2
   selector:
     matchLabels:
       app: {{ .Release.Name }}
@@ -42,4 +43,3 @@ spec:
           ports:
             - containerPort: {{ .Values.web.port }}
               protocol: TCP
-  backoffLimit: 2
