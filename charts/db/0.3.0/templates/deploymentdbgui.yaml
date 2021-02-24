@@ -21,6 +21,7 @@ spec:
         {{- include "iiidevops.annotations" . | nindent 8 }}
         iiidevops.org/type: db-gui
     spec:
+      backoffLimit: 2
       containers:
         - name: {{ .Values.db.type }}-gui
           imagePullPolicy: IfNotPresent

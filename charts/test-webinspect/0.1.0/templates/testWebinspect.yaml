@@ -18,7 +18,7 @@ spec:
           command: ['sh', '-c', 'cd /usr/src/app; node /usr/src/app/app.js;']
           env:
             - name: web_service_name
-              value: {{ .Release.Name }}-svc
+              value: {{ .Values.web.deployName }}-svc
             - name: project_name
               value: {{ .Values.git.repoName }}
             # Indicates the tested branch name

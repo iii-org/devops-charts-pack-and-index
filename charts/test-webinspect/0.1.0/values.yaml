@@ -3,6 +3,8 @@ git:
   repoName: "project-name"
   branch: "master"
   commitID: "commit123"
+web:
+  deployName: name-branch-serv
 pipeline:
   sequence: 0
 webinspect:
