@@ -7,7 +7,7 @@ metadata:
     app: {{ .Release.Name }}-gui
   annotations:
     {{- include "iiidevops.annotations" . | nindent 4 }}
-  iiidevops.org/type: db-gui
+    iiidevops.org/type: db-gui
 spec:
   replicas: 1
   selector:
@@ -21,7 +21,7 @@ spec:
         {{- include "iiidevops.annotations" . | nindent 8 }}
         iiidevops.org/type: db-gui
     spec:
-      backoffLimit: 2
+      #backoffLimit: 2
       containers:
         - name: {{ .Values.db.type }}-gui
           imagePullPolicy: IfNotPresent
