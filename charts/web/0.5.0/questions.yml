@@ -4,13 +4,6 @@ categories:
   - Blog
   - CMS
 questions:
-# pipeline parameters
-- variable: pipeline.sequence
-  label: "Rancher pipeline 的 $CICD_EXECUTION_SEQUENCE"
-  type: int
-  required: true
-  default: 0
-  group: "Rancher pipeline 相關設定"
 ## about web
 - variable: git.url
   label: 專案所在的gitlab位置

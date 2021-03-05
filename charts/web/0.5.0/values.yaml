@@ -1,5 +1,3 @@
-pipeline:
-  sequence: 0
 harbor:
   host: "harbor.domain"
 git:

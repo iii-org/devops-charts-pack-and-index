@@ -1,7 +1,3 @@
-# Harbor information is needed for chart's runner images
-harbor:
-  host: "harbor.your.domain"
-  cache: dockerhub
 git:
   url: "http://gitlab.your.domain/project.git"
   repoName: "project"
@@ -10,4 +6,4 @@ git:
 pipeline:
   sequence: 0
 sonarqube:
-  runnerVersion: latest
+  runnerVersion: 0.0.1

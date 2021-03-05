@@ -1,7 +1,9 @@
-{{- define "iiidevops.labels" -}}
+{{- define "iiidevops.annotations" -}}
 iiidevops.org/project_name: {{ .Values.git.repoName }}
 iiidevops.org/branch: {{ include "numericSafe" .Values.git.branch | quote }}
-{{- end -}}
+iiidevops.org/commit_id: {{ include "numericSafe" .Values.git.commitID | quote }}
+iiidevops.org/type: scan-sonarqube
+{{- end }}
 
 {{- define "numericSafe" -}}
 {{- if . | toString | contains "e+" -}}

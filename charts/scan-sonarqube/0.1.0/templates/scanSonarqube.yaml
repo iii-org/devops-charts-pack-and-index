@@ -1,18 +1,21 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "{{ .Release.Name }}-sonarqube-{{ .Values.pipeline.sequence }}"
+  name: {{ .Release.Name }}-{{ .Values.pipeline.sequence }}
+  annotations:
+    {{- include "iiidevops.annotations" . | nindent 4 }}
 spec:
   ttlSecondsAfterFinished: 0
   template:
     metadata:
-      name: "{{ .Release.Name }}-sonarqube-{{ .Values.pipeline.sequence }}"
+      name: {{ .Release.Name }}-{{ .Values.pipeline.sequence }}
       annotations:
         {{- include "iiidevops.annotations" . | nindent 8 }}
     spec:
       containers:
-        - name: "sonarqube-scan-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
-          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/iiiorg/sonarqube-runner:{{ .Values.sonarqube.runnerVersion }}"
+        - name: sonarqube-scan-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}
+          image: iiiorg/sonarqube-runner:{{ .Values.sonarqube.runnerVersion }}
+          imagePullPolicy: IfNotPresent
           command:
             - /bin/sh
             - -c
@@ -49,7 +52,8 @@ spec:
       # clone git repo and mount the code
       initContainers:
         - name: "clone-repo-{{ .Values.git.repoName }}-{{ include "numericSafe" .Values.git.branch }}-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
-          image: "{{ .Values.harbor.host }}/{{ .Values.harbor.cache }}/alpine/git"
+          image: alpine/git
+          imagePullPolicy: IfNotPresent
           command:
             - /bin/sh
             - -c
