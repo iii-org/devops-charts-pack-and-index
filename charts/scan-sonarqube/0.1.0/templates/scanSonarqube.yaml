@@ -24,7 +24,7 @@ spec:
               /usr/bin/setup.sh;
               cat /usr/src/sonar-project.properties;
               ls /usr/src;
-              /usr/bin/entrypoint.sh sonar-scanner | /usr/bin/after.sh;
+              /usr/bin/entrypoint.sh sonar-scanner;
           env:
             # Sonarqube's URL
             - name: SONAR_HOST_URL
