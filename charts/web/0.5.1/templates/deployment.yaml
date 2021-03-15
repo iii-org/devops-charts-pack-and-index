@@ -45,4 +45,4 @@ spec:
               protocol: TCP
           envFrom:
           - configMapRef:
-              name: {{ .Values.git.repoName }}-{{ include "numericSafe" .Values.git.branch | quote }}-env
+              name: {{ .Values.git.repoName }}-{{ .Values.git.branch | quote }}-env
