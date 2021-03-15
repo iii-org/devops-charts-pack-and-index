@@ -6,4 +6,4 @@ git:
 pipeline:
   sequence: 0
 sonarqube:
-  runnerVersion: 0.0.2
+  runnerVersion: 0.0.3
