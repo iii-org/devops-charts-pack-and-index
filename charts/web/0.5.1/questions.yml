@@ -1,0 +1,49 @@
+rancher_max_version: 2.4.5
+rancher_min_version: 2.4.5
+categories:
+  - Blog
+  - CMS
+questions:
+## about web
+- variable: git.url
+  label: 專案所在的gitlab位置
+  description: "請輸入專案的git repo URL"
+  type: string
+  required: true
+  default: "http://gitlab.your.domain/project.git"
+  group: "專案Git相關設定"
+- variable: git.repoName
+  label: 專案名稱設定
+  description: "請輸入您git的專案名稱 例如:flask-app-tempalte"
+  type: string
+  required: true
+  default: "flask-app-tempalte"
+  group: "專案Git相關設定"
+- variable: git.branch
+  default: "master"
+  description: "選擇您專案的分支，預設採用master"
+  label: 請輸入要部屬的專案分支
+  type: enum
+  options:
+    - master
+    - main
+    - developer
+    - bear
+    - test
+    - fire
+    - static
+  group: "專案Git相關設定"
+- variable: git.commitID
+  label: 專案commit名稱
+  description: "請輸入您專案的commit名稱 這個主要用於提供checkmarx掃描時需要"
+  type: string
+  required: true
+  default: "I am bear"
+  group: "專案Git相關設定"
+## about web
+- variable: web.port
+  default: 80
+  description: "網頁伺服器聆聽的埠號"
+  label: 請輸入網頁伺服器聆聽的埠號
+  type: int
+  group: "應用程式部屬設定"
