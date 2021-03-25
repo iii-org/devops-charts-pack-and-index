@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-svc
+  labels:
+    app: {{ .Release.Name }}
+  annotations:
+    {{- include "iiidevops.annotations" . | nindent 4 }}
+    iiidevops.org/type: db-server
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+  # 判斷使用者要求使用甚麼資料庫，並以此決定要讓哪一個PORT透過Service對外
+  {{- if eq .Values.db.type "mysql" }}
+    - port: 3306
+  {{- else if eq .Values.db.type "mariadb" }}
+    - port: 3306
+  {{- else if eq .Values.db.type "postgresql" }}
+    - port: 5432
+  {{- else if eq .Values.db.type "mongodb" }}
+    - port: 27017
+  {{- end }}
+      targetPort: db
+      protocol: TCP
+      name: db
+  selector:
+    app: {{ .Release.Name }}

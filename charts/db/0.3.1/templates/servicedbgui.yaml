@@ -1,0 +1,30 @@
+# 資料庫的服務Service(如果使用者有說明需要資料庫的話)
+{{ if and (eq .Values.db.enabled true) (eq .Values.db.gui true) -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-gui-svc
+  labels:
+    app: {{ .Release.Name }}-gui
+  annotations:
+    {{- include "iiidevops.annotations" . | nindent 4 }}
+    iiidevops.org/type: db-gui
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+  # 判斷使用者要求使用甚麼資料庫，並以此決定要讓哪一個PORT透過Service對外
+  {{- if eq .Values.db.type "mysql" }}
+    - port: 8080
+  {{- else if eq .Values.db.type "mariadb" }}
+    - port: 8080
+  {{- else if eq .Values.db.type "postgresql" }}
+    - port: 8080
+  {{- else if eq .Values.db.type "mongodb" }}
+    - port: 8081
+  {{- end }}
+      targetPort: dbgui
+      protocol: TCP
+      name: dbgui
+  selector:
+    app: {{ .Release.Name }}-gui
+{{- end }}
