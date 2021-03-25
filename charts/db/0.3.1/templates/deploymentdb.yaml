@@ -103,7 +103,7 @@ spec:
             value: {{ .Values.db.name }}
         {{- end }}
         # MongoDB掛載會自動將全部東西匯入(導致異常, 目前版本尚未確認)
-        {{- if not eq .Values.db.type "mongodb" }}
+        {{- if not (eq .Values.db.type "mongodb") }}
           volumeMounts:
             - mountPath: /docker-entrypoint-initdb.d
               name: initdb
