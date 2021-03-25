@@ -94,7 +94,7 @@ spec:
             value: {{ .Values.db.name }}
         {{- else if eq .Values.db.type "mongodb" }}
           - name: MONGODB_ROOT_PASSWORD
-            value: {{ .Values.db.rootpassword }}
+            value: {{ .Values.db.password }}
           - name: MONGODB_USERNAME
             value: {{ .Values.db.username }}
           - name: MONGODB_PASSWORD
