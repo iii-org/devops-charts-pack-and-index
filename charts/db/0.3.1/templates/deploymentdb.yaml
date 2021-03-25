@@ -102,9 +102,12 @@ spec:
           - name: MONGODB_DATABASE
             value: {{ .Values.db.name }}
         {{- end }}
+        # MongoDB掛載會自動將全部東西匯入(導致異常, 目前版本尚未確認)
+        {{- if not .Values.db.type "mongodb" }}
           volumeMounts:
             - mountPath: /docker-entrypoint-initdb.d
               name: initdb
+        {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       # 自動將資料庫所需匯入的表單匯入到資料庫
