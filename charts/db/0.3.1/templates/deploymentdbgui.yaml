@@ -65,10 +65,12 @@ spec:
           - name: POSTGRESQL_PASSWORD
             value: {{ .Values.db.rootpassword }}
         {{- else if eq .Values.db.type "mongodb" }}
+          - name: ME_CONFIG_MONGODB_SERVER
+            value: "{{ .Release.Name }}-svc"
           - name: ME_CONFIG_MONGODB_ENABLE_ADMIN
             value: 'false'
           - name: ME_CONFIG_MONGODB_AUTH_DATABASE
-            value: "{{ .Release.Name }}-svc"
+            value: {{ .Values.db.name }}
           - name: ME_CONFIG_MONGODB_AUTH_USERNAME
             value: {{ .Values.db.username }}
           - name: ME_CONFIG_MONGODB_AUTH_PASSWORD
