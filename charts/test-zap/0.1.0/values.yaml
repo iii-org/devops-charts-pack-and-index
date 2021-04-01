@@ -3,6 +3,8 @@ git:
   repoName: "project"
   branch: "master"
   commitID: "abc1234"
+pipeline:
+  sequence: 0
 web:
   deployName: ""
   port: 80
