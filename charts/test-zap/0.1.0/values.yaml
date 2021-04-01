@@ -1,0 +1,9 @@
+git:
+  url: "http://gitlab.your.domain/project.git"
+  repoName: "project"
+  branch: "master"
+  commitID: "abc1234"
+pipeline:
+  sequence: 0
+zap:
+  runnerVersion: 0.0.1
