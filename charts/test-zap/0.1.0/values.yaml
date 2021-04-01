@@ -5,5 +5,6 @@ git:
   commitID: "abc1234"
 web:
   deployName: ""
+  port: 80
 zap:
   runnerVersion: 0.0.1
