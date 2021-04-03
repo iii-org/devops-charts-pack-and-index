@@ -1,9 +1,0 @@
-git:
-  url: "http://gitlab.your.domain/project.git"
-  repoName: "project"
-  branch: "master"
-  commitID: "abc1234"
-pipeline:
-  sequence: 0
-checkmarx:
-  runnerVersion: 2.0.0
