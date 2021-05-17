@@ -3,7 +3,7 @@ entries:
   db:
   - apiVersion: v1
     appVersion: 0.1.0
-    created: "2021-05-17T06:56:03.712438979Z"
+    created: "2021-05-17T07:07:33.212757994Z"
     description: simple web service for mysql mariadb postgresql, any db, but only
       support in iiiorg
     digest: f7f1b655af274bb9c1915ac7ba001166d874835a9bc8b887928c6326d000a44f
@@ -15,7 +15,7 @@ entries:
     version: 0.3.1
   - apiVersion: v1
     appVersion: 0.1.0
-    created: "2021-05-17T06:56:03.711543707Z"
+    created: "2021-05-17T07:07:33.211771095Z"
     description: simple web service for mysql mariadb postgresql, any db, but only
       support in iiiorg
     digest: 55a87c3aa91daec9443388757c60a80102f67e966d3d1d85e635799b30e4d5f1
@@ -27,7 +27,7 @@ entries:
     version: 0.3.0
   - apiVersion: v1
     appVersion: 0.1.0
-    created: "2021-05-17T06:56:03.710782425Z"
+    created: "2021-05-17T07:07:33.210911074Z"
     description: simple web service for mysql mariadb postgresql, any db, but only
       support in iiiorg
     digest: cf40312fd1e44a1d34f17e0a894a5bac944547ad1d5f31f66e908583e4bb3765
@@ -39,7 +39,7 @@ entries:
     version: 0.2.1
   - apiVersion: v1
     appVersion: 1.17.0
-    created: "2021-05-17T06:56:03.709786605Z"
+    created: "2021-05-17T07:07:33.209945503Z"
     description: simple web service for mysql mariadb postgresql, any db, but only
       support in iiiorg
     digest: 26a3f7a444a67366ce6b4f5199a082da1b6738daa08136de4c628378e651110c
@@ -52,7 +52,7 @@ entries:
   devops-cronjob:
   - apiVersion: v1
     appVersion: 1.16.0
-    created: "2021-05-17T06:56:03.716836024Z"
+    created: "2021-05-17T07:07:33.216842746Z"
     description: devops cronjob in system
     digest: 2897e14a8660a601fc9d8000f674380bed7a258355c948debb7fbb10c5a605ab
     name: devops-cronjob
@@ -63,7 +63,7 @@ entries:
   devops-install:
   - apiVersion: v1
     appVersion: 1.16.0
-    created: "2021-05-17T06:56:03.717757585Z"
+    created: "2021-05-17T07:07:33.217724727Z"
     description: A Helm chart for Kubernetes
     digest: ef89231768c14ab084b80a2d42cf94c6d7612a7d67abaac82aab686bed013e60
     name: devops-install
@@ -74,7 +74,7 @@ entries:
   mssql-server:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2021-05-17T06:56:03.718746281Z"
+    created: "2021-05-17T07:07:33.22014114Z"
     description: Official images for Microsoft SQL Server on Linux for Docker Engine.
     digest: 5cf52530856bd47c360a0b07e2c70c6e09413a8b8de2ab959f6d90fe0f0f66a7
     name: mssql-server
@@ -85,7 +85,7 @@ entries:
   scan-checkmarx:
   - apiVersion: v1
     appVersion: 0.1.1
-    created: "2021-05-17T06:56:03.719221176Z"
+    created: "2021-05-17T07:07:33.220596631Z"
     description: Source code scan chart
     digest: 91e93d8b492a1829540335b3a3eab12debcc7d69aa3ab5beab5d5444873aba48
     name: scan-checkmarx
@@ -96,7 +96,7 @@ entries:
   scan-sonarqube:
   - apiVersion: v1
     appVersion: 0.1.0
-    created: "2021-05-17T06:56:03.719689623Z"
+    created: "2021-05-17T07:07:33.221058157Z"
     description: Source code scan chart
     digest: 8a5972bff4035b82b19032b0eec6215ae495245b94b63deb0312c99807296709
     name: scan-sonarqube
@@ -107,7 +107,7 @@ entries:
   test-postman:
   - apiVersion: v1
     appVersion: 0.1.1
-    created: "2021-05-17T06:56:03.721840508Z"
+    created: "2021-05-17T07:07:33.221876393Z"
     description: Deploy a web server and can run tests on it.
     digest: ec9dc4b622b0557a92c30c202a866a7c5843eade4c72b29b9c449267555a3585
     name: test-postman
@@ -117,7 +117,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: 0.1.0
-    created: "2021-05-17T06:56:03.721023961Z"
+    created: "2021-05-17T07:07:33.22147605Z"
     description: Deploy a web server and can run tests on it.
     digest: e295b55660e21501cbab2fc4f8c3871c24fac227c4024f559a819a108074504e
     name: test-postman
@@ -125,10 +125,21 @@ entries:
     urls:
     - test-postman-0.1.0.tgz
     version: 0.1.0
+  test-sideex:
+  - apiVersion: v1
+    appVersion: 0.1.0
+    created: "2021-05-17T07:07:33.222266086Z"
+    description: Use Sideex to do UI test
+    digest: 39937a696f796e1e912f35b8b205df9c7904836580830e7062ec6d4860c86bd6
+    name: test-sideex
+    type: application
+    urls:
+    - test-sideex-0.1.1.tgz
+    version: 0.1.1
   test-webinspect:
   - apiVersion: v1
     appVersion: 0.1.0
-    created: "2021-05-17T06:56:03.722559762Z"
+    created: "2021-05-17T07:07:33.222707752Z"
     description: Deploy a web server and can run tests on it.
     digest: 58b2ea06e5bb127b294ce7d0d934e4ef796e12b9378302cef3e9f3efd2f19cc1
     name: test-webinspect
@@ -139,7 +150,7 @@ entries:
   test-zap:
   - apiVersion: v1
     appVersion: 0.1.1
-    created: "2021-05-17T06:56:03.723650176Z"
+    created: "2021-05-17T07:07:33.223572736Z"
     description: Source code scan chart
     digest: 7e2b430963e9dca0327cc84975058fe923b99897e6c80d90e1e5cc5910d3a38d
     name: test-zap
@@ -149,7 +160,7 @@ entries:
     version: 0.1.1
   - apiVersion: v1
     appVersion: 0.1.0
-    created: "2021-05-17T06:56:03.723255858Z"
+    created: "2021-05-17T07:07:33.223149688Z"
     description: Source code scan chart
     digest: 1f7761c4beb23c6df0bae8d2c10c3aaf264d5452ccd814b64a90b9ab964600b9
     name: test-zap
@@ -160,7 +171,7 @@ entries:
   web:
   - apiVersion: v1
     appVersion: 0.1.0
-    created: "2021-05-17T06:56:03.726346488Z"
+    created: "2021-05-17T07:07:33.226350987Z"
     description: Deploy a web server and can run tests on it.
     digest: cb9db95739e1dfc92305bdf6cf90d98629dbd3b201a0126d4908e77a461f2d5e
     name: web
@@ -170,7 +181,7 @@ entries:
     version: 0.5.1
   - apiVersion: v1
     appVersion: 0.1.0
-    created: "2021-05-17T06:56:03.725823057Z"
+    created: "2021-05-17T07:07:33.225853412Z"
     description: Deploy a web server and can run tests on it.
     digest: 5872e7bc38256dbd5e8243e684655c0c7601e4436df9f0af778ed0f266095be9
     name: web
@@ -180,7 +191,7 @@ entries:
     version: 0.5.0
   - apiVersion: v1
     appVersion: 1.16.0
-    created: "2021-05-17T06:56:03.725314312Z"
+    created: "2021-05-17T07:07:33.225346503Z"
     description: Deploy a web server and can run tests on it.
     digest: f7b761711d3ffbee681bca271f03a471e3101af0113084be096cae288951be02
     name: web
@@ -190,7 +201,7 @@ entries:
     version: 0.4.0
   - apiVersion: v1
     appVersion: 1.16.0
-    created: "2021-05-17T06:56:03.72454086Z"
+    created: "2021-05-17T07:07:33.224579166Z"
     description: Deploy a web server and can run tests on it.
     digest: 723d16e17e4df8085ccfc06693cb3f79a75f7fc368a7a89c157b34c54916f7d3
     name: web
@@ -198,4 +209,4 @@ entries:
     urls:
     - web-0.3.0.tgz
     version: 0.3.0
-generated: "2021-05-17T06:56:03.708478142Z"
+generated: "2021-05-17T07:07:33.20860989Z"
