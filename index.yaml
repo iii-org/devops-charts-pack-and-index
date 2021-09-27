@@ -3,12 +3,22 @@ entries:
   test-sideex:
   - apiVersion: v1
     appVersion: 0.1.0
-    created: "2021-09-24T16:36:50.879584535+08:00"
+    created: "2021-09-27T11:55:49.797591946+08:00"
     description: Use Sideex to do UI test
-    digest: 58812b1bff891b495a32967bb24bdc4f98e30f61aba3f3cd5b2391e8eb5ee856
+    digest: 0950b5338fadf1eebce7626f4e541a2246b2a0623654329d80c11c45045e6591
+    name: test-sideex
+    type: application
+    urls:
+    - test-sideex-9.9.9.tgz
+    version: 9.9.9
+  - apiVersion: v1
+    appVersion: 0.1.0
+    created: "2021-09-27T11:55:49.796655968+08:00"
+    description: Use Sideex to do UI test
+    digest: 9e8e330e4339d1254a1db1642e26f4afbb9d12a8da312dbb246c14b5dd81121e
     name: test-sideex
     type: application
     urls:
     - test-sideex-0.3.1.tgz
     version: 0.3.1
-generated: "2021-09-24T16:36:50.877648861+08:00"
+generated: "2021-09-27T11:55:49.795456599+08:00"
